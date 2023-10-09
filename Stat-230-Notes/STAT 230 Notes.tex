@@ -1,0 +1,500 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm,enumerate,nicefrac,fancyhdr,hyperref,graphicx,adjustbox}
+\hypersetup{colorlinks=true,urlcolor=blue,citecolor=blue,linkcolor=blue}
+\usepackage[left=2.6cm, right=2.6cm, top=1.5cm, includehead, includefoot]{geometry}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[d]{esvect}
+
+%% commands
+%% useful macros [add to them as needed]
+% sets
+\newcommand{\C}{{\mathbb{C}}} 
+\newcommand{\N}{{\mathbb{N}}}
+\newcommand{\Q}{{\mathbb{Q}}}
+\newcommand{\R}{{\mathbb{R}}}
+\newcommand{\Z}{{\mathbb{Z}}}
+\newcommand{\F}{{\mathbb{F}}}
+
+% bases
+\newcommand{\mA}{\mathcal{A}}
+\newcommand{\mB}{\mathcal{B}}
+\newcommand{\mC}{\mathcal{C}}
+\newcommand{\mD}{\mathcal{D}}
+\newcommand{\mE}{\mathcal{E}}
+\newcommand{\mL}{\mathcal{L}}
+\newcommand{\mM}{\mathcal{M}}
+\newcommand{\mO}{\mathcal{O}}
+\newcommand{\mP}{\mathcal{P}}
+\newcommand{\mS}{\mathcal{S}}
+\newcommand{\mT}{\mathcal{T}}
+
+% linear algebra
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\adj}{\operatorname{adj}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\spn}{\operatorname{Span}}
+\newcommand{\proj}{\operatorname{proj}}
+\newcommand{\prp}{\operatorname{perp}}
+\newcommand{\refl}{\operatorname{refl}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\nul}{\operatorname{Null}}
+\newcommand{\nully}{\operatorname{nullity}}
+\newcommand{\range}{\operatorname{Range}}
+\renewcommand{\ker}{\operatorname{Ker}}
+\newcommand{\col}{\operatorname{Col}}
+\newcommand{\row}{\operatorname{Row}}
+\newcommand{\cof}{\operatorname{cof}}
+\newcommand{\Num}{\operatorname{Num}}
+\newcommand{\Id}{\operatorname{Id}}
+\newcommand{\ipb}{\langle \thinspace, \rangle}
+\newcommand{\ip}[2]{\left\langle #1, #2\right\rangle} % inner products
+\newcommand{\M}[2]{M_{#1\times #2}(\F)}
+\newcommand{\RREF}{\operatorname{RREF}}
+\newcommand{\cv}[1]{\begin{bmatrix} #1 \end{bmatrix}}
+\newenvironment{amatrix}[1]{\left[\begin{array}{@{}*{\numexpr#1-1}{c}|c@{}}}{\end{array}\right]}
+\newcommand{\am}[2]{\begin{amatrix}{#1} #2 \end{amatrix}}
+
+% vectors
+\newcommand{\vzero}{\vv{0}}
+\newcommand{\va}{\vv{a}}
+\newcommand{\vb}{\vv{b}}
+\newcommand{\vc}{\vv{c}}
+\newcommand{\vd}{\vv{d}}
+\newcommand{\ve}{\vv{e}}
+\newcommand{\vf}{\vv{f}}
+\newcommand{\vg}{\vv{g}}
+\newcommand{\vh}{\vv{h}}
+\newcommand{\vl}{\vv{\ell}}
+\newcommand{\vm}{\vv{m}}
+\newcommand{\vn}{\vv{n}}
+\newcommand{\vp}{\vv{p}}
+\newcommand{\vq}{\vv{q}}
+\newcommand{\vr}{\vv{r}}
+\newcommand{\vs}{\vv{s}}
+\newcommand{\vt}{\vv{t}}
+\newcommand{\vu}{\vv{u}}
+\newcommand{\vvv}{{\vv{v}}}
+\newcommand{\vw}{\vv{w}}
+\newcommand{\vx}{\vv{x}}
+\newcommand{\vy}{\vv{y}}
+\newcommand{\vz}{\vv{z}}
+
+% display
+\newcommand{\ds}{\displaystyle}
+\newcommand{\qand}{\quad\text{and}}
+\newcommand{\qandq}{\quad\text{and}\quad}
+\newcommand{\hint}{\textbf{Hint: }}
+
+% misc
+\newcommand{\area}{\operatorname{area}}
+\newcommand{\vol}{\operatorname{vol}}
+\newcommand{\red}[1]{{\color{red} #1}}
+\newcommand{\rc}{\red{\checkmark}}
+
+\title{STAT 230 Notes / Definition}
+\author{Thomas Liu}
+\begin{document}
+\maketitle
+\tableofcontents
+
+\newpage 
+
+\section{Chapter 1}
+\subsection{Sample Space}
+The set of all possible distinct outcomes to a random experiemnt or process, with the property that in a single trial, one and only one of these outtimes occurs
+\subsection{Classical Probability}
+The probability of some event is \[\frac{\text{number of ways the event can occur}}{\text{number of outcomes in S}}\]
+provided all points in the sample space $S$ are equally likely
+\subsection{Relative Frequency}
+The probability of an event is the (limiting) proposition (or fraction) of times the event occurs in a very long series of repetitions of an experiemnt or process
+\subsection{Subjective Probability}
+The probability of an event is a measure of how sure the person making the statement is that the event will happen
+
+\section{Chapter 2}
+\subsection{Simple Event / Compound Event}
+Simple event if the event is indivisible so it contains only one point \\
+Compound event if an event $A$ made up of two or more simple events
+\subsection{Probability}
+Let $S=\{a_1, a_2, \cdots\}$ be a discrete sample space. Assign numbers (probabilities) $P(a_i)$, $i=1,2,\cdots$ to the $a_i$'s such that 
+\begin{enumerate}
+    \item $0\leq P(a_i)\leq 1$
+    \item $\displaystyle\sum_{\text{all }i}P(a_i) = 1$
+\end{enumerate}
+The set of probabilities $\{P(a_i), i=1,2,\cdots\}$ is called a probability distribution on $S$
+\subsection{Odds in Favour / Odds Against }
+The odds in favour of an event $A$ is the probability the event occurs divided by the probability it does not occur, $\dfrac{P(A)}{1-P(A)}$ \\
+The odds against the event is the reciprocal, $\dfrac{1-P(A)}{P(A)}$
+
+\section{Chapter 3}
+\subsection{Addition Rule}
+Suppose we can do job 1 in $p$ ways and job 2 in $q$ ways. Then we can do either job 1 \textbf{OR} job 2 (not both), in $p+q$ ways
+\subsection{Multiplication Rule}
+Suppose we can do job 1 in $p$ ways and, for each of these ways, we can do job 2 in $q$ ways. Then we can do both job 1 \textbf{AND} job 2 in $p\times q$ ways 
+\subsection{Permutation}
+The sample space is a set of arrangements or sequences, called permutations \[n^{(k)} \text{(n to k factors)} = \frac{n!}{(n-k)!}\]
+\subsection{Combination}
+The combinatorial symbol $\binom{n}{k}$ (n choose k) is used to denote the number of subsets of size $k$ that can be selected from a set of $n$ 
+objects \[{\binom{n}{k}} = \frac{n^{(k)}}{k!}\]
+Properties:
+\begin{enumerate}
+    \item $n^{(k)} = \dfrac{n!}{(n-k)!} = n(n-1)^{(k-1)}$ for $k\geq1$
+    \item ${\binom{n}{k}} = \dfrac{n!}{k!(n-k)!} = \dfrac{n^{(k)}}{k!}$
+    \item ${\binom{n}{k}} = {\binom{n}{n-k}}$ for all $k=0,1,\cdots,n$
+    \item If we define $0!=1$, then the formulas hold with ${\binom{n}{0}} = {\binom{n}{n}} = 1$
+    \item ${n\choose k} = {n-1\choose k-1} + {n-1\choose k}$
+    \item Binomial Theorem: $(1+x)^n = {n\choose0} + {n\choose1}x + {n\choose2}x^2 + \cdots + {n\choose n}x^n$
+\end{enumerate}
+\subsection{Number of arrangements when symbols are repeated}
+If we have $n_i$ symbols of type $i$, $i=1,2,\cdots,k$ with $n_1+n_2+\cdots+n_k=n$, then the number of arrangements using all of the symbols is 
+\begin{align*}
+    &{n\choose n_1}{n-n_1\choose n_2}{n-n_1-n_2\choose n_3}\cdots{n_k\choose n_k} \\
+    = &\dfrac{n!}{n_1!n_2!\cdots n_k!}
+\end{align*}
+\subsection{Useful Series and Sums}
+\subsubsection{Geometric Series}
+\[\sum_{i=0}^{n-1}t^i = 1+t+t^2+\cdots+t^{n-1} = \frac{1-t^n}{1-t}\text{ for } t\neq1\]
+If $|t|<1$, then 
+\[\sum_{x=0}^{\infty}t^x = 1+t+t^2+\cdots=\frac{1}{1-t}\]
+Differentiate:
+\[\frac{d}{dt}\sum_{x=0}^{\infty}t^x = \frac{d}{dt}(\frac{1}{1-t})\]
+or 
+\[\sum_{x=0}^{\infty}xt^{x-1} = \frac{1}{(1-t)^2}\text{ for }|t|<1\]
+\subsubsection{Binomial Thoerem}
+\[(1+t)^n = 1 + {n\choose1}t + {n\choose2}t^2 + \cdots + {n\choose n}t^n = \sum_{x=0}^{n}{n\choose x}t^2\]
+\subsubsection{Multinomial Theorem}
+\[(t_1+t_2+\cdots+t_k)^n = \sum\frac{n!}{x_1!x_2!\cdots x_k!}t_1^{x_1}t_2^{x_2}\cdots t_k^{x_k}\]
+\subsubsection{Hypergeometric Identity}
+\[\sum_{x=0}^{\infty}{a\choose x}{b\choose n-x} = {a+b\choose n}\]
+\subsubsection{Exponential Series}
+\[e^t = \frac{t^0}{0!}+\frac{t^1}{1!}+\cdots = \sum_{n=0}^{\infty}\frac{t^n}{n!} \text{ for all } t\in\R\]
+\[e^t = \lim_{n\rightarrow\infty}(1+\frac{t}{n})^n \text{ for all } t\in\R\]
+\subsubsection{Special series}
+\[1+2+3+\cdots+n = \frac{n(n+1)}{2}\]
+\[1^2+2^2+3^2+\cdots+n^2 = \frac{n(n+1)(2n+1)}{6}\]
+\[1^3+2^3+3^3+\cdots+n^3 = [\frac{n(n+1)}{2}]^2\]
+
+\section{Chapter 4}
+\subsection{De Morgan's Laws}
+\begin{enumerate}
+    \item $\overline{A\cup B} = \overline{A}\cap\overline{B}$
+    \item $\overline{A\cap B} = \overline{A}\cup\overline{B}$
+\end{enumerate}
+\subsection{Addition Law of Probability of the Union of $n$ Events}
+\subsubsection{Two Events}
+\[P(A\cup B) = P(A)+P(B)-P(A\cap B)\]
+\subsubsection{Three Events}
+\[P(A\cup B\cup C) = P(A)+P(B)+P(C) - P(AB)-P(AC)-P(BC) + P(ABC)\]
+\subsubsection{$n$ events}
+\begin{align*}
+    P(A_1\cup A_2\cup A_3\cup\cdots\cup A_n) &= \sum_{i}P(A_i) - \sum_{i<j}P(A_iA_j) + \sum_{i<j<k}P(A_iA_jA_k) \\
+                                             &- \sum_{i<j<k<l}P(A_iA_jA_kA_l) + \cdots 
+\end{align*}
+\subsection{Mutually Exclusive}
+Events A and B are mutually exclusive if $A\cap B = \emptyset$
+\subsection{Probability of the Union of Mutually Exclusive Events}
+\subsubsection{Two Events}
+\[P(A\cup B) = P(A) + P(B)\]
+\subsubsection{$n$ Events}
+\[P(A_1\cup A_2\cup \cdots \cup A_n) = \sum_{i=1}^{n}P(A_i)\]
+\subsection{Complement}
+Probability of the complement of an event \[P(A) = 1-P(\overline{A})\]
+\subsection{Independent / Dependent Events}
+Events $A$ and $B$ are \textbf{independent events} if and only if $P(A\cap B) = P(A)P(B)$ \\
+If the events are not independent, the events are \textbf{dependent} \\
+The events $A_1, A_2, \cdots, A_n$ are mutually independent if and only if 
+\[P(A_{i1}\cap A_{i2}\cap\cdots\cap A_{ik}) = P(A_{i1})P(A_{i2})\cdots P(A_{ik})\]
+\subsection{Conditional Probability}
+The \textbf{conditional probability} of event $A$, given event $B$, is \[P(A|B) = \frac{P(A\cap B)}{P(B)}\text{ provided }P(B)>0\]
+$A$ and $B$ are independent events if and only if \[P(A|B) = P(A) \text{ or } P(B|A) = P(B)\]
+\subsection{Product Rule}
+Let $A,B,C,D,\cdots$ be arbitrary events in a sample space. Assume that $P(A)>0$, $P(A\cap B)>0$, and $P(A\cap B\cap C) > 0$. Then 
+\begin{align*}
+    P(AB) &= P(A)P(B|A) \\
+    P(ABC) &= P(A)P(B|A)P(C|AB) \\
+    P(ABCD) &= P(A)P(B|A)P(C|AB)P(D|ABC)
+\end{align*}
+and so on 
+\subsection{Law of Total Probability}
+Let $A_1, A_2, \cdots, A_k$ be a partition of the sample space $S$ into disjoint (mutually exclusive) events 
+\[A_1\cup A_2\cup \cdots\cup A_k = S\text{ and }A_i\cap A_j = \emptyset\text{ if }i\neq j\]
+Let $B$ be an arbitrary event in $S$ 
+\begin{align*}
+    P(B) &= P(BA_1) + P(BA_2) + \cdots + P(BA_k) \\
+         &= \sum_{i=1}^{k}P(B|A_i)P(A_i)
+\end{align*}
+\subsection{Baye's Theorem}
+Suppose $A$ and $B$ are events defined on a sample space $S$. Suppose $P(B)>0$
+\[P(A|B) = \frac{P(B|A)P(A)}{P(B)} = \frac{P(B|A)P(A)}{P(B|\overline{A})P(\overline{A}) + P(B|A)P(A)}\]
+
+\section{Chapter 5}
+\subsection{Range}
+The set of possible values for the variable
+\subsection{Random Variable}
+A \textbf{random variable} is a function that assigns a real number to each point in a sample space $S$
+\subsection{Discrete Random Variables}
+Take integer values or, values in a countable set 
+\subsection{Continuous Random Variables}
+Tae values in some interval of real numbers like $(0,1)$ or $(0,\infty)$ or $(-\infty, \infty)$ 
+\subsection{Probability Function}
+Let $X$ be a discrete random variable with $range(X) = A$. The \textbf{probability function} of $X$ is the function 
+\[f(x) = P(X=x), \text{ defined for all }x\in A\]
+The set of pairs $\{(x,f(x)):x\in A\}$ is called the \textbf{probability distribution} of $X$ 
+\begin{enumerate}
+    \item $f(x)\geq 0$ for all $x\in A$
+    \item $\displaystyle\sum_{\text{all }x\in A}f(x) = 1$
+\end{enumerate}
+\subsection{Cumulative Distribution Function (CDF)}
+The \textbf{cumulative distribution function (CDF)} of $X$ is the function denoted by $F(x)$
+\[F(x) = P(X\leq x)\text{ defined for all }x\in\R\]
+\subsection{Discrete Uniform Distribution}
+\subsubsection{Physical Setup}
+Suppose the range of $X$ is $\{a,a+1,\cdots, b\}$ where $a$ and $b$ are integers and suppose all values are equally probable. Then $X$ has a Discrete Uniform distribution on the set $\{a,a+1,\cdots,b\}$. The variables $a$ and $b$ are called the parameters of the distribution 
+\subsubsection{Probability Function}
+There are $b-a+1$ values in the set $\{a, a+1, \cdots, b\}$ so the probability of each value must be $\frac{1}{b-a+1}$ in order that $\displaystyle\sum_{x=a}^{b}f(x) = 1$
+\[f(x) = P(X= x) =
+\begin{cases}
+    \frac{1}{b-a+1} &\text{for }x=a,a+1,\cdots,b \\
+    0 &\text{otherwise}
+\end{cases}\]
+\subsection{Hypergeometric Distribution}
+\subsubsection{Physical Setup}
+We have a collection of $N$ objects which can be classified into two distinct types. Call on type 'success' ($S$) and the other type 'failure' ($F$). There are $r$ success and $N-r$ failures. Pick $n$ objects at random without replacement. Let $X$ be the number of successes obtained. Then $X$ has a Hypergeometric distribution. The parameters of the distribution are $N$, $r$ and $n$
+\subsubsection{Probability Function}
+Using counting techniques we note there are $N\choose n$ points in the sample space $S$ if we don't consider order of selection. There are $r\choose x$ ways to 
+choose the $x$ success objects from the $r$ available and ${N-r}\choose {n-x}$ ways to choose the remaining $(n-x)$ objects from the $(N-r)$ failures. 
+\[f(x) = P(X=x) = \frac{{r\choose x}{{N-r}\choose{n-x}}}{{N\choose n}}\]
+The range of values for $x$ is somewhat complicated. Of course, $x\geq 0$. However if the number, $n$, picked exceeds the number $N-r$, of failures, the difference, $n-(N-r)$ must be successes. So $x\geq max(0, n-N+r)$. Also $x\leq r$ since we can't get more successes than the number available. But 
+$x\leq n$, since we can't get more successes than the number of objects chosen. Therefore $x\leq min(r,n)$
+\subsection{Binomial Distribution}
+\subsubsection{Physical Setup}
+Suppose an experiemnt has two types of distinct outcomes. Call these types 'success' ($S$) and 'failur' ($F$). Let $P(S) = p$ and $P(F) = 1-p$. Repeat the experiemnt $n$ independent times. Let $X$ be the number of successes obtained. Then 
+$X$ has what is called a Binomial distribution. The parameters of the distribution are $n$ and $p$. We write $X \sim binomial(n,p)$ as a shorthand for '$X$ is distributed according to a Binomial distribution with $n$ repetitions and probability $p$ of success' or '$X$ has a Binomial
+distribution with parameters $n$ and $p$'. The $n$ individual experiemnts in the process just described are often called 'trials' or 'Bernoulli trials' and the process is called a Bernoulli process or a Binomial process 
+\subsubsection{Probability Function}
+There are $\frac{n!}{x!(n-x)!} = n\choose x$ different arrangements of $x$ $S$'s and $(n-x)$ $F$'s over the $n$ trials. The probability for each of these arrangements has $p$ multiplied together $x$ times 
+and $(1-p)$ multiplied $(n-x)$ times, in some order, since the trials are independent. So each arrangement has probability $p^x(1-p)^{n-x}$
+\[f(x) = P(X=x) = {n\choose x}p^x(1-p)^{n-x} \quad \text{for } x=0,1,\cdots,n \text{ and }0<p<1\]
+\subsection{Negative Binomial Distribution}
+\subsubsection{Physical Setup}
+The setup for this distribution is almost the same for Binomial; that is, an experiemnt (trial) has two dinstinct types of outcome, $S$ and $F$, and is repeated independently 
+with $P(S)=p$ on each trial. Continue doing the experiemnt until a specified number, $k$, of successes have been obtained. Let $X$ be the number of failures obtained before the $k$th success.
+Then $X$ has a Negative Binomial distribution. Write $X\sim Negative\text{ }Binomial(k,p)$ to denote this. The parameters of the distribution are $k$ and $p$
+\subsubsection{Probability Function}
+In all there will be $x+k$ trials ($x$ $F$'s and $k$ $S$'s) and the last trial must be a success. In the first $x+k-1$ trials we therefore need $x$ failures and $(k-1)$ successes, in any order.
+There are $\frac{(x+k-1)!}{x!(k-1)!} = {{x+k-1}\choose{x}}$ different orders. Each order will have probability $p^k(1-p)^x$ since there must be $x$ trials which are failures and $k$ which are success
+\[f(x) = P(X=x) = {{x+k-1}\choose x} p^k(1-p)^x \text{ for } x=0,1,\cdots \text{ and }0<p<1\]
+\subsection{Geometric Distribution}
+\subsubsection{Physical Setup}
+Conside the Negative Binomial distribution with $k=1$. In this case we repeat independent Bernoulli trials with two types of outcome, $S$ and $F$, and $P(S) = p$ each time until we obtain the first success. 
+Let $X$ be the number of failures obtained before the first success. We write $X\sim Geometric(p)$. The parameter of the distribution is $p$
+\subsubsection{Probability Function}
+There is only the one arrangement with $x$ failures followed by $1$ success. This arrangement has probability 
+\[f(x) = P(X=x) = (1-p)^xp\text{ for } x=0,1,\cdots\text{ and } 0<p<1\]
+\subsection{Piosson Distribution}
+\begin{itemize}
+    \item The random variable $X$ represents the number of events of some type
+    \item The events occur according to some rate, denoted by $\mu$, $\mu>0$
+    \item Write $X\sim Poisson(\mu)$
+\end{itemize}
+\subsubsection{Probability Function}
+\[f(x) = \frac{e^{-\mu}\mu^x}{x!}\text{ for }x=0,1,2,\cdots\]
+\[\mu = np\]
+Let this be the rate of success. That is the number of trials $n$-however many there are-multiplied by the chance of success $p$ for each of those trials
+\subsection{Two ways to interpret Poisson distribution}
+\begin{enumerate}
+    \item limiting case of binomial distribution, when you fix $\lambda=np$, and let $n\rightarrow\infty$ and $p\rightarrow 0$
+    \item Poisson Process
+\end{enumerate}
+\subsection{Poisson Process}
+Suppose the events you are counting satisfy the following assumption:
+\begin{enumerate}
+    \item Independence: the number of occurences in non-overlapping intervals are independent
+    \item Individuality: for sufficiently short time periods of length $\Delta t$, the probability of 2 or more events occuring in the intervals is close to zero
+    \[\dfrac{P(2\ or\ more\ events\ in\ (t, t+\Delta_t))}{\Delta_t}\rightarrow0,\ \Delta_t\rightarrow0\]
+    \item Homogeneity or Uniformity: events occur at a uniform or homogeneous rate $\lambda$ and propositional to time interval $\Delta_t$, 
+    \[\dfrac{P(one\ event\ in\ (t, t+\Delta_t)) - \lambda\Delta_t}{\Delta_t}\rightarrow0\]
+\end{enumerate}
+If $X = $ occurences in a time period of length $t$, then \[X\sim Poi(\lambda t)\]
+\subsubsection{Definition}
+A process that satisfies the prior conditions on the occurrence of events is often called Poisson Process. More precisely, if $X_t$, for $t\geq0$, (a random variable for each $t$) denotes the number of events that have occurred up to time $t$, then $X_t$ is called a Poisson process
+
+\section{Chapter 7}
+\subsection{Sample Mean}
+Let $x_1, x_2,\cdots, x_n$ be $n$ outcomes for a random variable $X$ (such a set is called sample). Then its sample mean is defined as \[\overline{x} = \frac{\sum_{i=1}^{n}x_i}{n}\]
+\subsection{Median \& Mode}
+\subsubsection{Median}
+A value such that half of the results are below it and the other half above it, when the sample is arranged in numerical order 
+\subsubsection{Mode}
+The most frequency-occuring value in a sample. (can have more than one mode in a sample)
+\subsection{Expected Value}
+Suppose $X$ is a discrete random variable with probability function $f_X(x)$. Then $E(X)$ is called the expected value of $X$, defined by 
+\[E(X)=\sum_{x\in X(S)}x\cdot f_X(x)\]
+The expected value of $X$ is sometimes referred to as the mean of $X$ or the first moment of $X$
+\subsection{Linearity Properties of Expectation}
+For constants $a$ and $b$ \[E[ag(X)+b] = aE[g(X)]+b\]
+\subsection{Variance}
+The variance of a random variable $X$, denoted by $Var(X)$ or by $\sigma^2$, is \[\sigma^2=Var(X)=E[(X-\mu)^2]\]
+The variance is the average square of the distance from the mean \[Var(X) = E(X^2)-[E(X)]^2=E(X^2)-\mu^2\]\[Var(X)=E[X(X-1)]+E(X)-[E(X)]^2 = E[X(X-1)]+\mu-\mu^2\]
+\subsection{Standard Deviation}
+The standard deviation of a random variable $X$ is \[\sigma=sd(X)=\sqrt{Var(X)} = \sqrt{E[(X-\mu)^2]}\]
+
+\section{Chapter 8}
+\subsection{Probability Density Function}
+$f(x)$ for a continuous random variable $X$ is the derivative \[f(x) = \dfrac{dF(x)}{dx}\] where $F(x)$ is the cumulative distribution function for $X$
+\subsection{Properties of a probability density function}
+\begin{enumerate}
+    \item $\displaystyle P(a\leq X\leq b) = F(b) - F(a) = \int_{a}^{b}f(x)dx$
+    \item $f(x)\geq 0$
+    \item $\displaystyle\int_{-\infty}^{\infty}f(x)dx = \int_{all x}f(x)dx = 1$ ($P(-\infty\leq X\leq\infty) = 1$)
+    \item $F(x) = \displaystyle\int_{-\infty}^{x}f(u)du$
+\end{enumerate}
+\subsection{Expectation, Mean, and Variance for Continuous Random Variable}
+When $X$ is a continuous random variable we define \[E[g(X)] = \int_{-\infty}^{\infty}g(x)f(x)dx\]
+For $\mu = E(x)$ \[\sigma^2 = Var(X) = E[(X-\mu)^2] = E(X^2) - \mu^2 = E(X^2) - [E(X)]^2\]
+\subsection{Continuous Uniform Distribution}
+Write $X\sim Unifrom(a,b)$ \\
+Probability density function: \[f(x) = \begin{cases}
+    \dfrac{1}{b-a} &a\leq x\leq b \\0 &otherwise
+\end{cases}\]
+Cumulative distribution function: \[F(x) = \begin{cases}
+    0 &x<a \\\displaystyle\int_{a}^{x}\dfrac{1}{b-a}dx &a\leq x\leq b \\1&x>b
+\end{cases}\]
+$E(X) = \dfrac{a+b}{2}$ and $Var(X) = \dfrac{(b-a)^2}{12}$
+\subsection{Exponential Distribution}
+In a Poisson process for events in time, let $X$ be the length of time until the first event occur, show $X$ has exponential distribution\\
+Probability density function: \[f(x) = \begin{cases}
+    \lambda e^{-\lambda x} &x>0 \\0 &x\leq 0
+\end{cases}\]
+Cumulative distribution function: \[F(x) = \begin{cases}
+    1-\dfrac{(\lambda x)^0e^{-\lambda x}}{0!} = 1-e^{-\lambda x} &x>0 \\0 &x\leq 0
+\end{cases}\]
+Or let $\theta = \dfrac{1}{\lambda}$, $\theta = E(X)$ \\
+Probability density function: \[f(x) = \begin{cases}
+    \dfrac{1}{\theta} e^{-\dfrac{x}{\theta}} &x>0 \\0 &x\leq 0
+\end{cases}\]
+Cumulative distribution function: \[F(x) = \begin{cases}
+    1-e^{-\dfrac{x}{\theta}} &x>0 \\0 &x\leq 0
+\end{cases}\]
+$E(X) = \theta$ and $Var(X) = \theta^2$
+\subsection{Gamma Function}
+\[\Gamma(\alpha) = \displaystyle\int_{0}^{\infty}y^{\alpha-1}e^{-y}dy\]
+\subsection{Memoryless Property of the Exponential Distribution}
+\[P(X>c+b|X>b) = P(X>c)\]
+\subsection{Normal Distribution}
+\subsubsection{Physical Setup}A
+A random variable $X$ has a Normal distribution if it has probability density function of the form 
+\[f(x) = \dfrac{1}{\sqrt{2\pi}\sigma}e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2}\quad x\in\R\]
+where $\mu\in\R$ and $\sigma\in\R^+$ are parameters of the distribution. It turns out that $E(X)=\mu$ and $Var(X)=\sigma^2$ 
+for this distributionl that is why its probability density function is written using the symbols $\mu$ and $\sigma^2$ \\
+We write $X\sim N(\mu, \sigma^2)$ to denote that $X$ has a Normal distribution with mean $\mu$ and variance $\sigma^2$
+\subsubsection{Cumulative distribution function}
+The cumulative distribution function of the NOrmal distribution $N(\mu, \sigma^2)$ is 
+\[F(x) = \int_{-\infty}^{x}\dfrac{1}{\sqrt{2\pi}\sigma}e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2}dy\quad x\in\R\]
+\subsection{Theorem}
+Let $X\sim N(\mu, \sigma^2)$ and define $Z=\dfrac{X-\mu}{\sigma}$. Then $Z\sim N(0,1)$ and 
+\[P(X\leq x) = P(Z\leq \dfrac{x-\mu}{\sigma})\]
+
+\section{Chapter 9}
+\subsection{Joint Probability Function}
+Suppose there are two discrete random variables $X$ and $Y$, define function 
+\[f(x,y) = P(X=x, Y=y)\]
+Call $f(x,y)$ the joint probability function of $(X,Y)$ \\
+$f(x,y)\geq 0$, $\displaystyle\sum_{all(x,y)}f(x,y) = 1$
+\subsection{Independent Random Variables}
+$X$ and $Y$ are independent random variables if $f(x,y) = f_1(x)f_2(y)$ for all values $(x,y)$
+\subsection{Conditional Probability Functions}
+The conditional probability function of $X$ given $Y=y$ is 
+\[f_1(x|y) = \dfrac{f(x,y)}{f_2(y)},\ f_2(y)>0\]
+$Y$ given $X=x$ is 
+\[f_2(y|x) = \dfrac{f(x,y)}{f_1(x)},\ f_1(x)>0\]
+\subsection{Poisson}
+If $X\sim Poisson(\mu_1)$ and $Y\sim Poisson(\mu_2)$ independently then 
+\[T = X+Y\sim Poisson(\mu_1 + \mu_2)\]
+\subsection{Binomial}
+If $X\sim Binomial(n,p)$ and $Y\sim Binomial(m,p)$ independently then 
+\[T = X+Y\sim Binomial(n+m, p)\]
+\subsection{Joint Probability Function}
+The joint probability function of $X_1, X_2,\cdots, X_k$ is given by extending the argument in the sprinters example from $k=3$ to general $k$.
+There are $\dfrac{n!}{x_1!x_2!\cdots x_k!}$ different outcomes of the $n$ trials in which $x_1$ are of the $1^{st}$ type, $x_2$ are of $2^{nd}$
+type, etc. Each of these arrangements has probability $p_1^{x_1}p_2^{x_2}\cdots p_k^{x_k}$ since $p_1$ is multiplied $x_1$ times in some order, etc. 
+\[f(x_1, x_2,\cdots, x_k) = \dfrac{n!}{x_1!x_2!\cdots x_k!}p_1^{x_1}p_2^{x_2}\cdots p_k^{x_k}\]
+\subsection{Expectation for Multivariate Distributions: Covariance and Correlation}
+\subsubsection{Expected Value}
+\[E[g(X,Y)] = \sum_{all(x,y)}g(x,y)f(x,y)\]
+and 
+\[E[g(X_1,X_2,\cdots,X_n)] = \sum_{all(x_1,x_2,\cdots,x_n)}g(x_1,x_2,\cdots,x_n)f(x_1,x_2,\cdots,x_n)\]
+\subsubsection{Property of Multivariate Expectation}
+\[E[ag_1(X,Y) + bg_2(X,Y)] = aE[g_1(X,Y)] + bE[g_2(X,Y)]\]
+\subsection{Covariance}
+The covariance of $X$ and $Y$, denoted $Cov(X,Y)$ or $\sigma_{XY}$
+\[Cov(X,Y) = E[(X-\mu_X)(Y-\mu_Y)] = E(XY)-E(X)E(Y)\]
+If $X$ and $Y$ are independent, $Cov(X,Y) = 0$, $E[g_1(X)g_2(Y)] = E[g_1(X)]E[g_2(Y)]$
+\subsection{Correlation Coefficient}
+The correlation coefficient of $X$ and $Y$ is 
+\[\rho = \dfrac{Cov(X,Y)}{\sigma_X\sigma_Y}\]
+\subsection{Results for Means}
+\begin{itemize}
+    \item $E(aX+bY) = aE(x) + bE(Y) = a\mu_X + b\mu_Y$
+    \item $E(\displaystyle\sum_{i=1}^{n}a_iX_i) = \sum_{i=1}^{n}a_i\mu_i$, $E(\displaystyle\sum_{i=1}^{n}X_i) = \sum_{i=1}^{n}E(X_i)$
+    \item let $X_1,X_2,\cdots,X_n$ be random variables with mean $\mu$, the sample mean is $\overline{X} = \frac{1}{n}\displaystyle\sum_{i=1}^{n}X_i$, $E(\overline{X})=\mu$
+\end{itemize}
+\subsection{Results for Covariance}
+\begin{itemize}
+    \item $Cov(X,X) = E[(X-\mu_X)(X-\mu_X)] = E[(X-\mu)^2] = Var(X)$
+    \item $Cov(aX+bY, cU+dV) = acCov(X,U)+adCov(X,V)+bcCov(Y,U)+bdCov(Y,V)$
+\end{itemize}
+\subsection{Results for Variance}
+\begin{itemize}
+    \item $Var(aX+bY)=a^2Var(X)+b^2Var(Y)+2abCov(X,Y)$
+    \item let $X$ and $Y$ be independent, since $Cov(X,Y)=0$, result gives 
+    \[Var(X+Y)=\sigma_X^2+\sigma_Y^2\]
+    for independent variables, the variance of a sum is the sum of the variances
+    \[Var(X-Y)=\sigma_X^2+(-1)^2\sigma_Y^2 = \sigma_X^2+\sigma_Y^2\]
+    for independent variables, the variance of a difference is the sum of the variances 
+    \item let $a_i$ be constants and $Var(X_i)=\sigma_i^2$
+    \[Var(\sum_{i=1}^{n}a_iX_i) = \sum_{i=1}^{n}a_i^2\sigma_i^2 + 2\sum_{i=1}^{n}\sum_{j=i+1}^{n}a_ia_jCov(X_i,X_j)\]
+\end{itemize}
+\subsection{Linear Combinations of Independent Normal Random Variables}
+\begin{itemize}
+    \item let $X\sim N(\mu,\sigma^2)$, $Y=aX+b$ where $a$ and $b$ are constant real number 
+    \[Y\sim N(a\mu+b,a^2\sigma^2)\]
+    \item let $X\sim N(\mu_1,\sigma_1^2)$ and $Y\sim N(\mu_2,\sigma_2^2)$ independently, let $a$ and $b$ be constants 
+    \[aX+bY\sim N(a\mu_1+b\mu_2, a^2\sigma_1^2+b^2\sigma_2^2)\]
+    \item let $X_1,X_2,\cdots,X_n$ be independent $N(\mu,\sigma^2)$ random variables
+    \[\sum_{i=1}^{n}X_i\sim N(n\mu,n\sigma^2)\]
+    \[\overline{X}\sim N(\mu,\sigma^2/n)\]
+\end{itemize}
+
+\section{Chpater 10}
+\subsection{Central Limit Theorem}
+If $X_1,X_2,\cdots,X_n$ are independent random variables all having the same distribution, with mean $\mu$ and variance $\sigma^2$, then as $n\rightarrow\infty$, the cumulative distribution function of the random variable 
+\[\displaystyle\frac{\sum_{i=1}^{n}X_i-n\mu}{\sigma\sqrt{n}} = \frac{S_n-n\mu}{\sigma\sqrt{n}}\]
+approacges the $N(0,1)$ cumulative distribution function. Similarly, the cumulative distribution function of 
+\[\frac{\overline{X}-\mu}{\sigma/\sqrt{n}}\]
+approaches the $N(0,1)$ cumulative distribution function
+\subsection{Normal Approximation to Poisson}
+Suppose $X\sim Poisson(\mu)$. Then the cumulative distribution function of the standardized random variable 
+\[Z=\frac{X-\mu}{\sqrt{\mu}}\]
+approaches that of a standard Normal random variable as $\mu\rightarrow\infty$
+\subsection{Normal Approximation to Binomial}
+Suppose $X\sim Binomial(n,p)$. Then for $n$ large, the random variable 
+\[W = \frac{X-np}{\sqrt{np(1-p)}}\]
+has approximately a $N(0,1)$ distribution
+\subsection{Moment Generating Function (m.g.f.)}
+Consider a discrete random variable $X$ with probability function $f(x)$. The moment generating function (m.g.f.) of $X$ is defined as 
+\[M(t) = E(e^{tX}) = \sum_{all\ x}e^{tx}f(x)\]
+We will assume that the moment generating function is defined and finite for values of $t$ in an interval around $0$
+\subsection{}
+Suppose the random variable has moment generating function $M(t)$ defined for all $t\in[-a,a]$ for some $a>0$
+\[E(X^k) = M^{(k)}(0)\ for\ k=1,2,\cdots\]
+where 
+\[M^{(k)}(0) = \frac{d^k}{dt^k}M(t)|_{t=0}\ for\ k=1,2,\cdots\]
+\subsection{Uniqueness Theorem for Moment Generating Functions}
+Suppose that random variables $X$ and $Y$ have moment generating functions $M_X(t)$ and $M_Y(t)$ respectively. If $M_X(t) = M_Y(t)$
+for all $t$ then $X$ and $Y$ have the same distribution
+\subsection{m.g.f. of a Continuous Random Variable}
+Consider a continuous random variable $X$ with probability density function $f(x)$. The m.g.f. of $X$ is defined as 
+\[M(t) = E(e^{{tX}}) = \int_{-\infty}^{\infty}e^{tx}f(x)dx\]
+
+
+\end{document}
