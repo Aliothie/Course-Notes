@@ -1,0 +1,569 @@
+\documentclass[12pt, letterpaper]{article}
+\usepackage{amsmath,amssymb,amsthm,enumerate,nicefrac,fancyhdr,graphicx,adjustbox,titlesec}
+\title{Math 137 Notes}
+\author{Thomas Liu}
+\begin{document}
+\maketitle
+\tableofcontents
+
+\newpage
+
+\section{Sequence and Convergence}
+\subsection{Absolute Value and Distance}
+\subsubsection*{Definition 1}
+For a real number $x$, the absolute value of $x$, denoted $|x|$ is defined by
+$$|x| =
+\begin{cases}
+    x \text{ if } x \geq 0 \\
+    -x \text{ if } x < 0
+\end{cases}$$
+\subsubsection*{Proposition 2}
+For all real number $x$, $|x| = |-x|$
+\subsubsection*{Proposition 3}
+For all real nubers $u$ and $v$, the distance from $u$ and $v$ is $|u - v|$
+\subsubsection*{Theorem 5 (Triangle Inequality I)}
+For all real numbers, $x$ $y$ and $z$, $|x -z| \leq |x - y| + |y - z|$
+\subsubsection*{Theorem 7 (Triangle Inequality II)}
+For all real numbers $a$ and $b$, $|a+b| \leq |a| + |b|$
+\subsubsection*{Definition 9}
+The symbol $\cup$ means "union" and roughly correspond to "or" \\
+The symbol $\cap$ means "intersect" and roughly represent "and"
+\subsubsection*{Fact 11}
+If $a < b$, then $a \leq b$ \\
+$a < b$, $c > 0$, $ac < bc$ \\
+$a < b$, $c < 0$, $ac > bc$ \\
+$a < a < b$, then $0 < \frac{1}{b} < \frac{1}{a}$ \\
+$|ac| = |a||c|$, $|ac+bc| = |c||a+b|$
+\subsection{Sequence}
+\subsubsection*{Definition 13}
+An infinite sequence is an infinite ordered list of numbers 
+\subsubsection*{Notation}
+$\{a_n\}^\infty _{n = 1}$ the term indexing starts at 1 \\
+$\{a_n\}^\infty _{n = 5}$ $a_n = ln(n-4)$ \\
+$\{a_n\}$ the starting point either doesn't matter or is clear from context \\
+$\{a_1, a_2, a_3, a_4, \cdots\} \iff (a_1, a_2, a_3, a_4, \cdots)$
+\subsubsection*{Definition 16}
+Let $A = (a_1, a_2, a_3, a_4, \cdots)$ be a sequence
+\begin{enumerate}
+    \item If $n_1, n_2, n_3, \cdots$ is a sequence of positive integers, then $a_{n_1}, a_{n_2}, a_{n_3}, \cdots$ is a subsequence of $A$, $(n_1 < n_2 < n_3 < \cdots)$
+    \item A tail of $A$ is a subsequence of the form $a_k, a_{k+1}, a_{k+2}, \cdots$
+\end{enumerate}
+\subsubsection*{Definition 18}
+The sequence $A = (a_1, a_2, a_3, a_4, \cdots)$converges to $L$ if for any error (positive number),
+there is a tail of the sequence, each term of which within that error of $L$
+\subsubsection*{Definition 19}
+Let $A = \{a_n\}$ be s sequence. We say taht $A$ converges to $L$ and write $\displaystyle\lim_{n\to\infty} {a_n} = L$
+of for every number $\epsilon > 0$, there exists $N \in \mathbb{N}$ such that for all $n \geq N$, 
+$|a_n - L| = \epsilon$, $a_n \in (L-\epsilon, L+\epsilon)$
+\subsubsection*{Proposition 20}
+The harmonic sequence converges, eg: $1, \frac{1}{2}, \frac{1}{3}, \frac{1}{4}, \cdots$
+\subsubsection*{Proposition 21}
+The sequence $(-1, 1, -1, 1, \cdots)$ does not converge $a_n = (-1)^n$
+\subsubsection*{Example 22}
+Show that $\{a_n\}$ with $a_n = \dfrac{n+1}{2n+3}$ converges and finds the limit \\
+Guess $L = \frac{1}{2}$, want $|a_n - \frac{1}{2}| < \epsilon$ \\
+$|a_n - \frac{1}{2}| = |\frac{n+1}{2n+3} - \frac{1}{2}| = |\frac{-1}{4n+6}| = \frac{1}{4n+6} < \frac{1}{4n}$ \\
+$|a_n - \frac{1}{2}| < \frac{1}{4n} < \epsilon$, choose $N$ such that $\frac{1}{4N} < \epsilon \iff \frac{1}{4\epsilon} < N$ \\
+$n \geq N$, $\frac{1}{4n} \leq \frac{1}{4N}$ \\
+Proof: \\
+Let $\epsilon > 0$ be arbitrary and set $N = \lceil\frac{1}{4\epsilon}\rceil + 1$ so that $N > \frac{1}{4\epsilon}$ 
+which implies $\frac{1}{4N} < \epsilon$ \\
+For any $n \geq N$, $\frac{1}{4n} \leq \frac{1}{4N}$ \\
+$|a_n - \frac{1}{2}| = |\frac{n+1}{2n+3} - \frac{1}{2}| = \frac{1}{4n+6} < \frac{1}{4n} \leq \frac{1}{4N} < \epsilon$ \\
+so $\displaystyle\lim_{n\to\infty} \frac{n+1}{2n+3} = \frac{1}{2}$
+\subsubsection*{Theorem 23}
+A sequence has at most one limit
+\subsubsection*{Definition 24}
+A sequence is said to diverge if it does not converge 
+\subsubsection*{Definition 25}
+Let $\{a_n\}$ be a sequence. We say that $\{a_n\}$ diverges to infinity and write 
+$\displaystyle\lim_{n\to\infty} a_n = \infty$ if for every real number $M > 0$, there 
+exists $N \in \mathbb{N}$ such that if $n\geq N$, $a_n > M$ \\
+$\ast$ $\displaystyle\lim_{n\to\infty} a_n = \infty$ DOES NOT mean the sequence "converge to $\infty$"
+\subsubsection*{Theorem 27 (Arithmetic of limits)}
+Let $\{a_n\}$ and $\{b_n\}$ be sequence with limits $L$ and $M$ respectively
+\begin{enumerate}
+    \item For any $c \in \mathbb{R}$, if $a_n = c$ for all $n$, $L = c$
+    \item For any $c \in \mathbb{R}$, $\displaystyle\lim_{n\to\infty} c$ $a_n = cL$
+    \item $\displaystyle\lim_{n\to\infty} a_n + b_n = L + M$
+    \item $\displaystyle\lim_{n\to\infty} a_n b_n = LM$
+    \item $\displaystyle\lim_{n\to\infty} \dfrac{a_n}{b_n} = \dfrac{L}{M}, M\neq 0$
+    \item If $a_n > 0$ for all $n$ and $a > 0$, $\displaystyle\lim_{n\to\infty} a_n^x = L^x$
+    \item For any $k \in \mathbb{N}$, $\displaystyle\lim_{n\to\infty} a_{n+k} = L$
+    \item If $a > 0$, then $\displaystyle\lim_{n\to\infty} n^a = \infty$
+    \item If $a < 0$, then $\displaystyle\lim_{n\to\infty} n^a = 0$
+\end{enumerate}
+\subsubsection*{Theorem 30}
+Suppose $\displaystyle\lim_{n\to\infty} b_n = 0$ and $b_n \neq 0$ for all $n$. If 
+$\displaystyle\lim_{n\to\infty} \frac{a_n}{b_n}$ exists, then $\displaystyle\lim_{n\to\infty} a_n = 0$
+\subsubsection*{Fact}
+If $a_n \geq 0$ for all $n$ and $\displaystyle\lim_{n\to\infty} a_n = L$, then $L \geq 0$
+\subsubsection*{Theorem 33 (Squeeze theorem for sequence)}
+Suppose $\{a_n\}$, $\{b_n\}$, and $\{c_n\}$ are sequences with $\displaystyle\lim_{n\to\infty} a_n = \displaystyle\lim_{n\to\infty} c_n = L$, and 
+$a_n \leq b_n \leq c_n$ for all but finite $n$, then $\displaystyle\lim_{n\to\infty} b_n = L$
+\subsubsection*{Definition 37}
+We say $\{a_n\}$ is 
+\begin{enumerate}
+    \item increasing if $a_n < a_{n+1}$ for all n
+    \item non-decreasing if $a_n \leq a_{n+1}$ for all n
+    \item decreasing if $a_n > a_{n+1}$ for all n
+    \item non-increasing if $a_n \geq a_{n+1}$ for all n
+    \item monotonic if either non-increasing or non-decreasing
+\end{enumerate}
+\subsection{Monotone Convergence Theorem}
+\subsubsection*{Definition 38}
+Let $S \subseteq \mathbb{R}$, $S$ is 
+\begin{enumerate}
+    \item bounded above if $\exists\alpha\in\mathbb{R}$ such that $\forall a \in S$, $a \leq \alpha$, called "upper bound"
+    \item bounded below if $\exists\beta\in\mathbb{R}$ such that $\forall a \in S$, $a \geq \beta$, called "lower bound"
+\end{enumerate}
+We say $S$ is bounded if $S$ is bounded above AND bounded below
+\subsubsection*{Fact}
+Any finite subset of $\mathbb{R}$ is bounded 
+\subsubsection*{Definition 39}
+Let $S \subseteq \mathbb{R}$ then $\alpha$ is a lowest upper bound if: 
+\begin{enumerate}
+    \item $\alpha$ is a upper bound
+    \item $\alpha \leq k$ for every $k \in \mathbb{R}$ that is also an upper bound 
+\end{enumerate}
+\subsubsection*{Definition 40}
+Greatest Lower Bound (GLB) is called the $inf(S)$ (unique) \\
+Lowest Upper Bound (LUB) is called the $sup(S)$ (unique)
+\subsubsection*{Definition 41}
+Let $\{a_n\}^\infty_{n=0}$ be a non-decreasing sequence in $\mathbb{R}$, then 
+\begin{enumerate}
+    \item if $\{a_n\}^\infty_{n=0}$ is bounded above, then $\displaystyle\lim_{n\to\infty} a_n = sup(A)$
+    \item if $\{a_n\}^\infty_{n=0}$ is not bounded above, then $\displaystyle\lim_{n\to\infty} a_n = \infty$
+\end{enumerate}
+
+
+\section{Limits and Continuity}
+\subsection{Limits of Functions}
+\subsubsection*{Definition 48}
+Let $f(x)$ be a function and $a$ be a real number. We say that the limits as $x$ approaches $a$ of $f(x)$ is
+$L$ and write $\displaystyle\lim_{x\to a} f(x) = L$ if for every $\epsilon > 0$, there exists $\delta > 0$ such that 
+$0 < |x-a| < \delta$ implies $|f(x) - L| < \epsilon$
+\subsubsection*{Fact}
+The value and existence of $\displaystyle\lim_{x\to a}f(x)$ has nothing to do with $f(a)$. In fact, 
+$f(a)$ need not exist to talk about $\displaystyle\lim_{x\to a}f(x)$
+\subsubsection*{Example}
+Prove $\displaystyle\lim_{x\to 3} 3x+1 = 10$\\
+$|3x+1-10| < \epsilon$ \\
+$|3x-9| < \epsilon$ \\
+$3|x-3| < \epsilon$ \\
+$|x-3| < \frac{\epsilon}{3}$ \\
+$0 < |x-3| < \delta$ \\
+So $\delta = \frac{\epsilon}{3}$ \\
+Proof: \\
+Let $\epsilon > 0$ be arbitrary and choose $\delta = \frac{\epsilon}{3}$. Suppose $0 < |x-3| < \delta$. 
+Then $|3x+1-10| = |3x-9| = 3|x-3| < 3\delta = \epsilon$ \\
+$\therefore$ $\displaystyle\lim_{x\to 3} 3x+1 = 10$
+\subsubsection*{Theorem 53}
+Suppose $f(x)$ is defined on some open interval containing $a$, but possibly not at $a$. The following are equivalent: 
+\begin{enumerate}
+    \item $\displaystyle\lim_{x\to a} f(x) = L$
+    \item For any sequence $\{a_n\}_{n=1}^\infty$ with $\displaystyle\lim_{n\to\infty} x_n = a$ and $x_n = a$ for all $n$, $\displaystyle\lim_{n\to\infty} f(x_n) = L$
+\end{enumerate}
+\subsubsection*{Sequential Characterization of Limits}
+Useful for showing that limits do not exist if you can construct $\{x_n\}$ and $\{y_n\}$ so that $x_n \neq a$ and $y_n \neq a$ for 
+all $n$, $\displaystyle\lim_{n\to\infty} x_n = \displaystyle\lim_{n\to\infty} y_n = a$, but 
+$\displaystyle\lim_{n\to\infty} f(x_n) \neq \displaystyle\lim_{n\to\infty} f(y_n)$, then 
+$\displaystyle\lim_{x\to a} f(x)$ DNE
+\subsubsection*{Theorem 57}
+Let $f(x)$ be a function and $a\in\mathbb{R}$. If $\displaystyle\lim_{x\to a} f(x) = L$ and $\displaystyle\lim_{x\to a} f(x) = M$, then $L = M$
+\subsubsection*{Theorem 58 (arithmetic of limits)}
+Let $f(x)$ and $g(x)$ be functions and $a\in\mathbb{R}$. Assume $\displaystyle\lim_{x\to a} f(x) = L$ and $\displaystyle\lim_{x\to a} g(x) = M$
+\begin{enumerate}
+    \item If $f(x) = c$ for all $x\in\mathbb{R}$, then $c = L$ ($\displaystyle\lim_{x\to a} c = c$)
+    \item For any $c\in\mathbb{R}$, $\displaystyle\lim_{x\to a} cf(x) = cL$
+    \item $\displaystyle\lim_{x\to a} (f(x) + g(x)) = L+M$
+    \item $\displaystyle\lim_{x\to a} f(x) g(x) = LM$
+    \item If $M \neq 0$, $\displaystyle\lim_{x\to a} \frac{f(x)}{g(x)} = \frac{L}{M}$
+    \item If $L > 0$, then $\displaystyle\lim_{x\to a} (f(x))^\alpha = L^\alpha$
+\end{enumerate}
+\subsubsection*{Theorem 59}
+Suppose $\displaystyle\lim_{x\to a} g(x) = 0$ and $\displaystyle\lim_{x\to a} \frac{f(x)}{g(x)}$ exists, then $\displaystyle\lim_{x\to a} f(x) = 0$
+\subsubsection*{Theorem 60}
+If $p(x)$ is a polynomial then $\displaystyle\lim_{x\to a} p(x) = p(a)$
+\subsubsection*{Theorem 61}
+If $p(x)$ and $q(x)$ are polynomials with $q(a) \neq 0$, then $\displaystyle\lim_{x\to a} \frac{p(x)}{q(x)} = \frac{p(a)}{q(a)}$
+\subsubsection*{Definition 63}
+Let $f(x)$ be a function and $a\in\mathbb{R}$. We say that the limit as $x$ approaches $a$ from the left of $f(x)$ equals $L$
+and write $\displaystyle\lim_{x\to a^-} f(x) = L$ if for every $\epsilon > 0$ there exists $\delta > 0$ such that if $0 < a-x < \delta$
+then $|f(x) - L| < \epsilon$. \\
+The "limit" from the right, denoted $\displaystyle\lim_{x\to a^+} f(x) = L$ is defined similarly
+\subsubsection*{Fact}
+The arithmetic rule for limits apply to one sided limit
+\subsubsection*{Theorem 67 (The sequeeze theorem for functions)}
+Let $f(x), g(x)$, and $h(x)$ be functions, $a\in\mathbb{R}$, and $I$ be an open interval containing $a$. Suppose $f,g$ and $h$
+are defined on $I$ except possibly at $a$. Further suppose the following: 
+\begin{enumerate}
+    \item $f(x) \leq g(x) \leq h(x)$ for all $x\in I$ (except possibly $a$)
+    \item $\displaystyle\lim_{x\to a} f(x) = \displaystyle\lim_{x\to a} h(x) = L \in \mathbb{R}$
+\end{enumerate}
+Then $\displaystyle\lim_{x\to a} g(x) = L$ as well \\
+This holds for one-sided limits as well
+\subsubsection*{Theorem 69}
+The fundamental trig limit \[ \displaystyle\lim_{x\to 0} \frac{\sin x}{x} = 1 \]
+\subsection{Infinite limits}
+\subsubsection*{Definition 71}
+Let $f(x)$ be a function and $L \in \mathbb{R}$. We say that the limit as $x$ approaches $\infty$ of $f(x)$
+equals $L$ and write $\displaystyle\lim_{x\to\infty} f(x) = L$ if for every $\epsilon > 0$, there exists $N \in \mathbb{R}$
+such that $x > N$ implies $|f(x) - L| < \epsilon$ \\
+Similarly, we can define $\displaystyle\lim_{x\to -\infty} f(x) = L$
+\subsubsection*{Definition 72}
+Let $f(x)$ be a function and $L \in \mathbb{R}$. We say that the line with equation $y=L$ is a horizontal asymptote of $f(x)$
+if $\displaystyle\lim_{x\to \infty} f(x) = L$ or $\displaystyle\lim_{x\to -\infty} f(x) = L$
+\subsubsection*{Definition 74}
+Let $f(x)$ be a function. We say that $f(x)$ approaches infinity as $x$ approaches $\infty$ if for every $M\in\mathbb{R}$ there 
+exists $N\in\mathbb{R}$ such that if $x>N$ then $f(x) > M$. We write $\displaystyle\lim_{x\to \infty} f(x) = \infty$ \\
+Similarly for $\displaystyle\lim_{x\to \infty} f(x) = -\infty$, $\displaystyle\lim_{x\to -\infty} f(x) = \infty$, $\displaystyle\lim_{x\to -\infty} f(x) = -\infty$
+\subsubsection*{Fact}
+\begin{enumerate}
+    \item $\displaystyle\lim_{x\to \infty} x^\alpha = \infty$ if $\alpha >0$ and equals 0 if $\alpha < 0$
+    \item Suppose $p(x)$ and $q(x)$ are polynomials of degree $m$ and $n$ respectively
+    \begin{itemize}
+        \item if $n > m$, then $\displaystyle\lim_{x\to \infty} \frac{p(x)}{g(x)} = \displaystyle\lim_{x\to -\infty} \frac{p(x)}{g(x)} = 0$
+        \item if $m < n$, then $\displaystyle\lim_{x\to \infty} \frac{p(x)}{g(x)} = \pm\infty$, $\displaystyle\lim_{x\to -\infty} \frac{p(x)}{g(x)} = \pm\infty$
+        \begin{description}
+            \item[] To determine the sign, you need to consider the signs of the leading coefficients 
+        \end{description}
+        \item if $m = n$, then $\displaystyle\lim_{x\to \infty} \frac{p(x)}{g(x)}$ and $\displaystyle\lim_{x\to -\infty} \frac{p(x)}{g(x)}$ are both equal to the ratio of the leading coefficients
+    \end{itemize}
+\end{enumerate}
+\subsubsection*{Theorem 78 Fundamental log limit}
+$\displaystyle\lim_{x\to \infty} \frac{\ln x}{x} = 0$, $\ln x < x$
+\subsubsection*{Fact}
+\begin{enumerate}
+    \item $\displaystyle\lim_{x\to \infty} \frac{\ln x}{x^p} = 0$ for all $p>0$
+    \item $\displaystyle\lim_{x\to \infty} \frac{\ln x^p}{x} = 0$ for all $p \in \mathbb{R}$
+\end{enumerate}
+\subsubsection*{Definition 82}
+Let $f(x)$ be a function and $a\in\mathbb{R}$
+\begin{enumerate}
+    \item We say that $f$ approaches infinity as $x$ approaches $a$ from the right and write $\displaystyle\lim_{x\to a^+} f(x) = \infty$ if for every $M>0$, there exists $\epsilon>0$ such taht if $0<x-a<\epsilon$, then $f(x) > M$
+    \item We can similarly define $\displaystyle\lim_{x\to a^-} f(x) = \infty$, $\displaystyle\lim_{x\to a^+} f(x) = -\infty$, $\displaystyle\lim_{x\to a^-} f(x) = -\infty$
+    \item We say that $\displaystyle\lim_{x\to a} f(x) = \infty$ if both $\displaystyle\lim_{x\to a^+} f(x) = \infty$ and $\displaystyle\lim_{x\to a^-} f(x) = \infty$
+    \item Similarly, we define $\displaystyle\lim_{x\to a} f(x) = -\infty$
+\end{enumerate}
+\subsubsection*{Definition 83}
+We say that $f(x)$ has a vertical asymptote at $x=a$ if any of $\displaystyle\lim_{x\to a} f(x) = \pm\infty$, 
+$\displaystyle\lim_{x\to a^+} f(x) = \pm\infty$, and $\displaystyle\lim_{x\to a^-} f(x) = \pm\infty$ are true
+\subsection{Continuity}
+\subsubsection*{Definition 87}
+Let $f(x)$ be a function and $a\in\mathbb{R}$ such that $f(a)$ is defined \\
+We say that $f$ is continuous at $x=a$ if 
+\begin{enumerate}
+    \item $\displaystyle\lim_{x\to a} f(x)$ exists
+    \item $\displaystyle\lim_{x\to a} f(x) = f(a)$
+\end{enumerate}
+\subsubsection*{Definition 88}
+Let $f(x)$ be a function and $a\in\mathbb{R}$ such that $f(a)$ is defined. We say that $f(x)$ is continuous
+at $x=a$ if for every $\epsilon>0$, there exists $\delta>0$ such that if $|x-a| < \delta$ then $|f(x) - f(a)| < \epsilon$
+\subsubsection*{Theorem 89 (Sequential Characterization of Continuity)}
+Let $f(x)$ be a function and $a\in\mathbb{R}$. $f(x)$ is continuous at $x=a$ if and only if for every sequence $\{x_n\}$
+with $\displaystyle\lim_{n\to\infty} x_n = a$, we have $\displaystyle\lim_{n\to\infty} f(x_n) = f(a)$
+\subsubsection*{Theorem 90}
+Suppose $f(x)$ and $g(x)$ are continuous at $x=a$
+\begin{enumerate}
+    \item $f(x) + g(x)$ is continuous at $x=a$
+    \item $f(x)g(x)$ is continuous at $x=a$
+    \item If $g(x) \neq 0$, then $\dfrac{f(x)}{g(x)}$ is continuous at $x=a$
+\end{enumerate}
+\subsubsection*{Theorem 91}
+The following are continuous at $x=a$ for all $a$ in the domain
+\begin{enumerate}
+    \item polynomial
+    \item rational function 
+    \item $\sin x$ and $\cos x$
+    \item $e^x$ and $\ln x$
+\end{enumerate}
+\subsubsection*{Fact}
+$f(x)$ is continuous at $x=a$ iff $\displaystyle\lim_{h\to 0} f(a+h) = f(a)$
+\subsubsection*{Theorem 93}
+Suppose $g(x)$ is the inverse of $f(x)$ and that $f$ is continuous at $x=a$. Then $g(x)$ is continuous at $x=f(a)$
+\subsubsection*{Theorem 94}
+If $f(x)$ is continuous at $x=a$ and $g(x)$ is continuous at $x=f(a)$, then $g(f(x))$ is continuous at $x=a$
+\subsubsection*{Definition 95}
+We say that $f$ is continuous on the open interval $I$ if $f$ is continuous at $x=a$ for every $a\in I$. If $I\in\mathbb{R}$, 
+we might sometimes say "$f$ is continuous"
+\subsubsection*{Definition 97}
+We say that $f(x)$ is continuous on $[a,b]$ if 
+\begin{enumerate}
+    \item $f(x)$ is continuous on $(a,b)$
+    \item $\displaystyle\lim_{x\to a^+} f(x) = f(a)$
+    \item $\displaystyle\lim_{x\to b^-} f(x) = f(b)$
+\end{enumerate}
+\subsubsection*{Theorem 99 (The Intermediate Value Theorem)}
+Suppose $f(x)$ is a function that is continuous on a closed interval $[a,b]$. If there is $\alpha\in\mathbb{R}$ such that 
+$f(a) < \alpha < f(b)$ or $f(b) < \alpha < f(a)$, then there exists $c\in(a,b)$ such that $f(c) = \alpha$
+
+
+\section{Derivatives}
+\subsection{Extreme Value Theorem}
+\subsubsection*{Definition 103}
+Suppose $f(x)$ is a function that is defined on an interval $I$
+\begin{enumerate}
+    \item We say that $f(x)$ has a global max on $I$ at $c\in I$ if $f(x) \leq f(c)$ for all $x\in I$
+    \item We say that $f(x)$ has a global min on $I$ at $c\in I$ if $f(x) \geq f(c)$ for all $x\in I$
+    \item We say that $f(x)$ has a global extremum on $I$ at $c\in I$ if $f$ has a global max or min at c
+\end{enumerate}
+\subsubsection*{Theorem 104 (Extreme Value Theorem)}
+Let $f(x)$ be function that is continuous on the closed interval $[a,b]$. Then $f$ has a global min and a global max
+on $[a,b]$. In symbols, there exists $c_1, c_2 \in [a,b]$ such that $f(c_1) \leq f(x) \leq f(c_2)$ for all $x\in[a,b]$
+\subsection{Instantaneous Velocity}
+Imagine some object has position $f(t)$ at time $t$ \\ 
+We can compute the average velocity from time $t_1$ to time $t_2$, as $\dfrac{f(t_2) - f(t_1)}{t_2 - t_1}$
+\subsubsection*{Definition 110}
+Let $f(x)$ be a function and $a\in\mathbb{R}$. We say $f(x)$ is differentiable at $x=a$ if $\displaystyle\lim_{h\to 0} \frac{f(a+h) - f(a)}{h}$
+exists. If it exists, we denote $f'(x)$ and call it the derivatives of $f$ at $a$
+\subsubsection*{Theorem 111}
+$f(x)$ is differentiable at $x=a$ iff $\displaystyle\lim_{x\to a} \frac{f(x) - f(a)}{x-a}$ exists. If it does
+exist, then the limit equals $f'(a)$
+\subsubsection*{Definition 113}
+Suppose $f(x)$ is differentiable at $x=a$. We define the tangent line to the (graph of) $f(x)$ at $(a, f(a))$ to be the
+line with equation $y=f'(a)(x-a) + f(a)$. This is precisely the line through $(a,f(a))$ with slope $f'(a)$
+\subsection{Differentiability vs. Continuity}
+\subsubsection*{Theorem 116}
+If $f(x)$ is differentiable at $x=a$ then it is continuous at $x=a$
+\subsubsection*{Definition 117}
+Let $f(x)$ be a function defined on an open interval $I$. We say that $f(x)$ is differentiable on $I$ if it is differentiable
+at $x=a$ for each $a\in I$. In this case, we define a function $f'(x)$ called derivative of $f(x)$ by 
+$f'(a) = \displaystyle\lim_{h\to 0} \frac{f(a+h) - f(a)}{h}$
+\subsection{Higher Derivatives and some Basic Derivatives}
+\subsubsection*{Definition 118}
+If $f(x)$ is differentiable at $x=a$ for $a\in\mathbb{R}$, we say that $f$ is differentiable
+\subsubsection*{Leibniz Notation}
+Sometimes we denote $f'(x)$ by $\frac{d}{dx} f(x)$ or $\frac{df}{dx}$
+\subsubsection*{Definition 119}
+Let $f(x)$ be a function that is differentiable on an open interval $I$
+\begin{enumerate}
+    \item If $f'(x)$ is differentiable on $I$, then its derivative is called the second derivative of $f(x)$ on $I$. It is denoted $f''(x), f^(2)(x), \frac{d}{dx} f(x), \frac{d^2f}{d^2x}$
+    \item Inductively, if the $(n-1)$ derivative of $f(x)$ is differentiable on $I$, the $n$ derivative of $f(x)$ is the derivative of the $(n-1)$ derivative, $\frac{d}{dx} f^{(n-1)}(x) = f^{(n)}(x)$
+\end{enumerate}
+\subsubsection*{Some common derivatives}
+\begin{enumerate}
+    \item Let $c\in\mathbb{R}$ and $f(x) = c$ be a constant function. $f'(x)$ is the constant $0$ function
+    \item Let $m,b \in\mathbb{R}$ with $m\neq 0$ and set $f(x) = mx+b$. $f'(x)$ of a non-vertical line is always its slope
+    \item Power rule: $\frac{d}{dx} x^n = nx^{n-1}$
+    \item Let $f(x) = \sin x$, then $f'(x) = \cos x$
+\end{enumerate}
+\subsection{More derivatives and differentiation Rules}
+\subsubsection*{Fact}
+\begin{enumerate}
+    \item With $f(x) = \cos x$, $f'(x) = -\sin x$
+    \item If $a>0$, $\frac{d}{dx}a^x = \ln(a)a^x$. In particular, if $a=e$, $\ln e = 1$, so $\frac{d}{dx} e^x = e^x$
+\end{enumerate}
+\subsubsection*{Fact}
+\begin{itemize}
+    \item $f(x)$ is differentiable at $x=0$, and hence differentiable everywhere
+    \item The derivative is a scalar multiple of $f(x)$ and that scale is $f'(0)$ which happens to be $\ln a$
+\end{itemize}
+\subsubsection*{Theorem 128 (Differentiation Rule)}
+Suppose $f(x)$ and $g(x)$ are differentiable at $x=a$
+\begin{enumerate}
+    \item Let $w(x) = cf(x)$ for some $c\in\mathbb{R}$. Then $w(x)$ is differentiable at $x=a$ and $w'(a) = cf'(a)$
+    \item Let $w(x) = f(x) + g(x)$. Then $w$ is differentiable at $x=a$ and $w'(a) = f'(a) + g'(a)$
+    \item Product Rule: Let $w(x) = f(x)g(x)$. Then $w$ is differentiable at $x=a$ and $w'(a) = f'(a)g(a) + f(a)g'(a)$
+    \item Let $w(x) = \dfrac{1}{f(x)}$. Then if $f(a) \neq 0$, then $w$ is differentiable at $x=a$ and $w'(a) = \dfrac{-f'(a)}{(f(a))^2}$
+    \item Quotient Rule: Let $w(x) = \dfrac{f(x)}{g(x)}$. Then if $g(a) \neq 0$, $w$ is differentiable at $x=a$ and $w'(a) = \dfrac{f'(a)g(a) - f(a)g'(a)}{(g(a))^2}$
+\end{enumerate}
+\subsection{More derivatives and the chain rule}
+Using the power rule when $n\in\mathbb{R}$
+\subsubsection*{Fact}
+\begin{enumerate}
+    \item Polynomials and rational functions are differentiable on their domains. In particular, if $p(x) = a_nx^n + a_{n-1}x^{n-1} + \cdots + a_2x^2 + a_1x + a_0$, then $p'(x) = na_nx^{n-1} + (n-1)a_{n-1}x^{n-2} + \cdots + 2a_2 + a_1$
+    \item $\tan x$ is differentiable on its domain, which is all $x\in\mathbb{R}$ except $\{\frac{\pi}{2}+2\pi k : k\in\mathbb{Z}\}$. $\frac{d}{dx}\tan x = \sec^2 x$
+    \item $\sec x$ is differentiable on its domain, which is the same as $\tan x$. $\frac{d}{dx} \sec x = \sec x \cdot \tan x$
+\end{enumerate}
+\subsubsection*{Chain Rule}
+Suppose $f(x)$ is differentiable at $x=a$ and $g(x)$ is differentiable at $x=f(a)$. Then the composition $gof$ is differentiable at $x=a$ with $[gof]'(a) = g'(f(a))f'(a)$
+\subsubsection*{Logarithmic Differentiation}
+Let $g(x) = \ln(f(x))$ where $f(x)$ is some positive function. Then $g'(x) = \dfrac{f'(x)}{f(x)}$
+\subsection{Linear Approximation}
+$\displaystyle\lim_{x\to a} \frac{f(x) - f(a)}{x-a} = f'(a)$ where $|x-a|$ is small $\dfrac{f(x) - f(a)}{x-a} \approx f'(a) \Rightarrow f(x)-f(a)\approx f'(a)(x-a)$
+if $|x-a|$ is small, then $f(x)\approx f'(a)(x-a) + f(a)$
+\subsubsection*{Definition 137}
+Let $f(x)$ be differentiable at $x=a$. The linear approximation or linearization of $f(x)$ at $x=a$ is the line with equation 
+$L^f_a(x) = f'(a)(x-a) + f(a)$
+\begin{itemize}
+    \item a tangent line
+    \item superscript $f$ will often be omitted
+\end{itemize}
+\subsubsection*{Definition 140}
+Let $f(x)$ be a function that is differentiable at $x=a$ and $L_a(x)$ be its linearization at $x=a$. The error in approximating
+$f(x)$ be $L_a(x)$ at $x$ is $|f(x) - L_a(x)|$
+\subsubsection*{Theorem 141 (Error in linear approximation)}
+Suppose $f(x)$ is twice differentiable on some interval $I$, $a\in I$, and $L_a(x)$ is the linearization of $f$ at $x=a$. If $M$ is a constant such that 
+$|f''(x)| \leq M$ for all $x\in I$, then $|f(x) - L_a(x)|\leq \frac{M}{a}(x-a)^2$
+\subsection{Newton's Method}
+Need a formula for the root of $L_a(x)$
+\begin{align*}
+    0 &= f'(a)(x-a) + f(a) \\
+    -f(a) &= f'(a)(x-a) \\
+    x &= a - \frac{f(a)}{f'(a)}
+\end{align*}
+\subsection{Algorithm (Newton-RHapson Method for approximating root)}
+Given $f(x)$ differentiable on an interval $I$ and have a root on $I$
+\begin{enumerate}
+    \item choose $x_0$ in $I$ as an initial estimate
+    \item recursively compute for $n\geq 0$
+\end{enumerate}
+a new estimate $x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}$
+\subsection{Inverse Functions and their derivatives}
+\subsubsection*{Theorem 146 (Inverse function theorem)}
+Suppose $f(x)$ is continuous and inversible on $[c,d]$ (this is the domain). Let $g(x)$ be its inverse and suppose $a\in[c,d]$ is such that
+$f$ is differentiable at $x=a$. Then $g(x)$ is differentiable at $b=f(a)$ and $g'(b) = \frac{1}{f'(a)}$. Moreover, 
+$(L^f_a(x))^{-1} = L^g_b(x)$
+\subsection{Implicit Differentiation}
+\subsubsection*{Example 153}
+Find the slope of tangent to curve with equation $x^2 + y^3 + 2xy + x + y = 0$ at $(0,0)$ \\
+Differentiate both side: $y=y(x)$
+\begin{align*}
+    2x + 3y^2y' + 2y + 2xy' + 1 + y' &= 0 \\
+    y'(3y^2 + 2x + 1) &= -2x - 2y - 1 \\
+    y' &= \frac{-2x - 2y - 1}{3y^2 + 2x + 1} \\
+    x &= y = 0 \\
+    y' &= -1
+\end{align*}
+\subsection{Extreme Value}
+\subsubsection*{Theorem 155}
+Suppose $f(x)$ is a positive differentiable function. Then $\frac{d}{dx}\ln f(x) = \frac{f'(x)}{f(x)}$ (logarithmic differentiation)
+\subsubsection*{Definition 157}
+Suppose $f(x)$ is a function with domain $D$. We say that $f$ has a local min/max at $a=c$ if there exists 
+an open interval $(a,b)$ such that $c\in{a,b}\subseteq D$ satisfying $f(x) \geq f(c)$ or $f(x) \leq f(c)$ for 
+all $x\in(a,b)$. If $f$ has a local min/max at $x=c$, then we say it has a local extrema at $x=c$
+\subsubsection*{Fact}
+Suppose $f(x)$ is defined on $[a,b]$ and has a globa max at $c$ with $c\in(a,b)$. Then $f$ has a local max at $x=c$. 
+Similar for global/local min
+\subsubsection*{Theorem 159}
+Suppose $f(x)$ is a function with local extrema at $x=c$. If $f'(c)$ exists, then $f'(c) = 0$
+\subsubsection*{Definition 162}
+Let $f(x)$ be a function. We say that a point $c$ in the domain of $f$ is a critical point if $f'(c) = 0$ or $f'(c)$ DNE
+\subsubsection*{Fact}
+Suppose $f(x)$ is a function that is continuous on $[a,b]$. If $f(x)$ has an extreme value at $x=c$, then
+$c=a$, $c=b$ or $c$ is a critical point
+
+
+\section{The Mean Value Theorem}
+\subsubsection*{Theorem 166 (Rolle's Theorem)}
+Suppose $f(x)$ is continuous on $[a,b]$, differentiable on $(a,b)$ and $f(a) = f(b) = 0$. Then there 
+is $c\in(a,b)$ such that $f'(c) = 0$
+\subsubsection*{Theorem 167 (Mean Value Theorem)}
+Suppose $f(x)$ is continuous on $[a,b]$ and differentiable on $(a,b)$. Then there is $c\in(a,b)$ such that
+$f'(c) = \dfrac{f(b) - f(a)}{b-a}$
+\subsubsection*{Theorem 168 (Constant Function Theorem)}
+Suppose $f(x)$ is differentiable on an open interval $I$ and that $f'(x) = 0$ for all $x\in I$. Then $f$ is a constant on $I$
+\subsubsection*{Definition 170}
+Suppose $f(x)$ and $F(x)$ are defined on interval $I$. We say that $F(x)$ is an anti-derivatives of $f(x)$ on $I$ if $F'(x) = f(x)$ for all $x\in I$
+\subsubsection*{Theorem 171 (The Anti-Derivative Theorem)}
+Suppose $f'(x) = g'(x)$ for all $x\in I$ where $I$ is open interval. Then there exists $c\in \mathbb{R}$ such that 
+$f(x) = g'(x)+c$ for all $x\in I$ 
+\subsubsection*{Definition 172}
+Suppose $f(x)$ is defined on an interval $I$
+\begin{enumerate}
+    \item if $x_1 < x_2 \Rightarrow f(x_1) < f(x_2)$ for all $x_1, x_2\in I$, we say $f(x)$ is increasing on $I$
+    \item if $x_1 < x_2 \Rightarrow f(x_1) \leq f(x_2)$ for all $x_1, x_2\in I$, we say $f(x)$ is non-decreasing on $I$
+    \item if $x_1 < x_2 \Rightarrow f(x_1) > f(x_2)$ for all $x_1, x_2\in I$, we say $f(x)$ is decreasing on $I$
+    \item if $x_1 < x_2 \Rightarrow f(x_1) \geq f(x_2)$ for all $x_1, x_2\in I$, we say $f(x)$ is non-increasing on $I$
+\end{enumerate}
+\subsubsection*{Theorem 173}
+Suppose $f(x)$ is differentiable on an open interval $I$
+\begin{enumerate}
+    \item if $f'(x) > 0$ for all $x\in I$, then $f$ is increasing on $I$
+    \item if $f'(x) \geq 0$ for all $x\in I$, then $f$ is non-decreasing on $I$
+    \item if $f'(x) < 0$ for all $x\in I$, then $f$ is decreasing on $I$
+    \item if $f'(x) \leq 0$ for all $x\in I$, then $f$ is non-increasing on $I$
+\end{enumerate}
+\subsection{Functions of bounded derivative}
+\subsubsection*{Theorem 175 (Bounded Derivative Theorem)}
+Suppose $f(x)$ is continuous on $[a,b]$ and differentiable on $(a,b)$. Also suppose there are $m,M\in\mathbb{R}$
+such that $m \leq f'(x) \leq M$ for all $x\in(a,b)$. Then, $f(a) + m(x-a) \leq f(x) \leq f(a) + M(x-a)$ for all $x\in(a,b)$
+\subsubsection*{Theorem 177}
+Suppose $f$ and $g$ are continuous at $x=a$ and $f(a) = g(a)$
+\begin{enumerate}
+    \item If $f$ and $g$ are differentiable on $(a, \infty)$ and $f'(x) \leq g'(x)$ for all $x\in(a,\infty)$, then $f(x)\leq g(x)$ for all $x\in(a,\infty)$
+    \item If $f$ and $g$ are differentiable on $(-\infty, a)$ and $f'(x) \leq g'(x)$ for all $x\in(-\infty, a)$, then $f(x)\geq g(x)$ for all $x\in(-\infty, a)$
+\end{enumerate}
+\subsection{L'H$\hat{o}$pital's Rule}
+\subsubsection*{Theorem 179 (L'H$\hat{o}$pital's Rule)}
+Suppose $f(x)$ and $g(x)$ differentiable in some open interval containing $a$ and that $g'(x)\neq 0$ for all $x$ in 
+the interval, with possible exception of $x=a$. If $\displaystyle\lim_{x\to a}\frac{f(x)}{g(x)}$ is indeterminate of type
+$\frac{0}{0}$ or $\frac{\infty}{\infty}$ and $\displaystyle\lim_{x\to a}\frac{f'(x)}{g'(x)}$ exists or equal $\pm\infty$, then 
+$\displaystyle\lim_{x\to a}\frac{f(x)}{g(x)} = \displaystyle\lim_{x\to a}\frac{f'(x)}{g'(x)}$. This works when $a=\infty$, for one-sided limits
+\subsection{The Second Derivatives}
+\subsubsection*{Definition 185}
+Suppose $f(x)$ is defined on some interval $I$. We say that
+\begin{enumerate}
+    \item $f$ is concave up on $I$ if for any $a,b\in I$, the line segement connecting $a,f(a)$ to $(b,f(b))$ lies above the graph of $f$ on $(a,b)$
+    \item $f$ is concave down on $I$ if for any $a,b\in I$, the line segement connecting $a,f(a)$ to $(b,f(b))$ lies below the graph of $f$ on $(a,b)$
+\end{enumerate}
+\subsubsection*{Theorem 187 (Second Derivative Test for Concavity)}
+Suppose $f(x)$ is twice differentiable on an open interval $I$
+\begin{enumerate}
+    \item if $f''(x) < 0$ for all $x\in I$, then $f$ is concave down on $I$
+    \item if $f''(x) > 0$ for all $x\in I$, then $f$ is concave up on $I$
+\end{enumerate}
+\subsubsection*{Definition 190}
+Suppose $f(x)$ is continuous on $x=c$. The point $(c,f(c))$ is called inflection point for $f$ if the concavity
+of $f$ change at $x=c$
+\subsubsection*{Theorem 191}
+If $f''(x)$ is continuous at $x=c$ and $(c,f(c))$ is an inflection popint for $f$, then $f''(c) = 0$
+\subsection{Curve Sketching}
+\subsubsection*{Theorem 194}
+Assume that $f$ has a cv at $x=c$
+\begin{enumerate}
+    \item If there is an interval $(a,b)$ containing $c$ such that $f'(x) < 0$ on $(a,c)$ and $f'(x) > 0$ on $(c,b)$, then $c$ has a local min at $x=c$
+    \item similar for local max
+\end{enumerate}
+\subsubsection*{Theorem 195}
+Suppose $f'(c) = 0$ and that $f''(x)$ is continuous at $x=c$
+\begin{enumerate}
+    \item If $f''(c) < 0$, then $f$ has a local max at $x=c$
+    \item If $f''(c) > 0$, then $f$ has a local min at $x=c$
+\end{enumerate}
+\subsubsection*{Curve Sketching Checklist}
+\begin{enumerate}
+    \item Domain 
+    \item Intercepts (x and y)
+    \item Asymptotes (vertical and horizontal)
+    \item The first derivatives, critical values, local extrema
+    \item The second derivatives, inflection points
+    \item Intervals of increase/decrease, concavity
+    \item label stuff from 2, 3, 4, 5
+\end{enumerate}
+
+
+\section{Taylor Polynomials and Taylor's Theorem}
+\subsubsection*{Fact}
+The $n^{th}$ degree Taylor polynomial for $e^x$ centered at 0 is 
+\begin{align*}
+    T_{n,0}(x) &= 1 + x + \frac{x^2}{2} + \frac{x^3}{3!} + \frac{x^4}{4!} + \cdots + \frac{x^n}{n!} \\
+               &= \sum_{k=0}^n \frac{x^k}{k!}
+\end{align*}
+The $n^{th}$ degree Taylor polynomial of $\ln x$ centered at $x=1$ is 
+\begin{align*}
+    T_{n,1}(x) = (x-1) - \dfrac{(x-1)^2}{2} + \dfrac{(x-1)^3}{3} + \cdots + (-1)^{n-1}\dfrac{(x-1)^n}{n}
+\end{align*}
+\subsubsection*{Definition 202}
+Suppose $f(x)$ is $n$ times differentiable at $x=a$. The $n^{th}$ degree Taylor polynomial centered at $x=a$ is 
+\begin{align*}
+    T_{n,a}(x) = & f(a) + f'(a)(x-a) + \dfrac{f''(a)}{2}(x-a)^2 + \dfrac{f^(3)(a)}{3!}(x-a)^3 + \cdots \\
+                 & + \dfrac{f^(k)(a)}{k!}(x-a)^k + \cdots + \dfrac{f^(n)(a)}{n!}(x-a)^n \\
+    \text{or}\\
+    T_{n,a}(x) = & a_0 + a_1(x-a) + a_2(x-a)^2 + \cdots + a_n(x-a)^n \text{ where } a_k = \dfrac{f^(k)(a)}{k!}
+\end{align*}
+\subsubsection*{Definition 206}
+Suppose $f(x)$ is $n$ times differentiable on an interval $I$ containing $a$. The $n^{th}$ degree Taylor polynomial
+remainder centered at $a$ is $R_{n,a}(x) = f(x) - T_{n,a}(x)$, $x \in I$
+\subsubsection*{Theorem 207 (Taylor's Remainder Theorem)}
+Suppose $f(x)$ is $n+1$ times differentiable on an interval $I$ containing $a$. For any $x \in I$, there
+exists $c$ between $x$ and $a$ such that 
+\[ R_{n,a}(x) = \dfrac{f^{(n+1)}(c)}{(n+1)!}(x-a)^{(n+1)} \]
+\subsubsection*{Theorem 208}
+Suppose $f(x)$ is $n+1$ times differentiable on an interval $I$ containing $a$. Suppose $f^(n+1)(x)$ is continuous on $I$. 
+For any $x_0 \in I$, if $M$ is a constant/real satisfying $|f^(n+1)(x)| \leq M$ for all $x$ between $x$, and $a$, then 
+\[ |R_{n,a}(x_a)| \leq \dfrac{M}{(n+1)!}|x_0 - a|^{n+1} \]
+
+
+\end{document}
