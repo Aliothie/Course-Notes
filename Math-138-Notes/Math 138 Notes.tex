@@ -1,0 +1,660 @@
+\documentclass[12pt, letterpaper]{article}
+\usepackage{amsmath,amssymb,amsthm,enumerate,nicefrac,fancyhdr,graphicx,adjustbox,titlesec}
+\title{Math 138 Notes}
+\author{Thomas Liu}
+\begin{document}
+\maketitle
+\tableofcontents
+
+\newpage
+
+% Week 1
+\section{Week 1}
+\subsection{Lecture 1 - Riemann Sums and Area}
+\subsubsection{Areas under a curve}
+Approximate the area under the curve by a bunch of rectangles \\
+Example: $f(x) = x^2$ from 0 to 1
+\begin{itemize}
+    \item 1 rectangle: $1 \times 1 = 1$
+    \item 2 rectangles (same width): $\frac{1}{2} + \frac{1}{2}\times\frac{1}{4} = \frac{5}{8}$
+    \item 3 rectangles: $\frac{1}{3}\times\frac{1}{9} + \frac{1}{3}\times\frac{4}{9} + \frac{1}{3}\times 1 = \frac{14}{27}$
+    \item n rectangles: base $\times$ height
+    \begin{itemize}
+        \item base: $\frac{1}{n}$
+        \item height: $(\frac{i}{n})^2$
+        \item $A_i = \frac{1}{n}\cdot(\frac{i}{n})^2$
+        \item approximate area under $f(x)$: $R_n = A_1 + A_2 + \cdots + A_n = \displaystyle\sum_{i=1}^{n}A_i = \sum_{i=1}^{n}\frac{i^2}{n^3}$
+    \end{itemize} 
+\end{itemize}
+Area under $f(x) = x^2$ from 0 to 1: $R_n = \displaystyle\sum_{i=1}^{n} f(c_i)\Delta t_i$
+\begin{itemize}
+    \item $\Delta t_i$ is the width of the $i^{th}$ rectangle, $\Delta t_i = \frac{1}{n}$
+    \item $c_i$ is the right end point of the $i^{th}$ rectangle, making $f(c_i)$ the height of the rectangle, $c_i = \frac{i}{n}$
+    \item $f(c_i)\Delta t_i$ is the area of the $i^{th}$ rectangle
+\end{itemize}
+\subsubsection{Riemann sums}
+Let $f$ be a bounded function on $[a,b]$
+\begin{enumerate}
+    \item divide the interval $[a,b]$ into $n$ segments
+    \begin{itemize}
+        \item $a = t_0 < t_1 < t_2 < \cdots < t_n = b$
+        \item set of points $\{t_i\}$ is called a \textbf{partition} $P$
+        \item $\Delta t_i = t_i - t_{i-1}$, width of the subinterval $[t_{i-1}, t_i]$
+        \item width of the largest subinterval is called the \textbf{norm of the partition}, $||P|| = \displaystyle\max_i \{\Delta t_i\}$
+    \end{itemize}
+    \item determine the height of the rectangles
+    \begin{itemize}
+        \item for each $i = 1, 2, \cdots, n$ choose a point $c_i \in [t_{i-1}, t_i]$
+        \item height of the $i^{th}$ rectangle if $f(c_i)$, can be negative
+    \end{itemize}
+\end{enumerate}
+The \textbf{Riemann sum} is defined as $S_n = \displaystyle\sum_{i=1}^{n} f(c_i)\Delta t_i$ \\
+The value of the sum depends on 
+\begin{itemize}
+    \item partition (how many subintervals, the choice of $t_i$)
+    \item choice of $c_i$ within each subinterval
+\end{itemize}
+Terminology:
+\begin{itemize}
+    \item if all the widths of the $n$-subintervals are the same, call it a \textbf{regular n-partition} of $[a,b]$
+    \begin{itemize}
+        \item width: $\Delta t_i = \Delta t = \frac{b-a}{n}$
+        \item $t_i = a + i\Delta t$
+    \end{itemize}
+    \item choose $c_i = t_i$ for all $i$, call it a \textbf{right hand Riemann sum}, denoted $R_n$
+    \item choose $c_i = t_{i-1}$ for all $i$, call it a \textbf{left hand Riemann sum}, denoted $L_n$
+\end{itemize}
+\subsubsection{The Definite Integral}
+Let $f$ be a bounded function on $[a,b]$
+\begin{itemize}
+    \item $f$ is called \textbf{integrable on [a,b]} if there is a unique $I\in\mathbb{R}$ such that if for any sequence of partitions $P_n$ with $\displaystyle\lim_{n\to\infty} ||P_n||$, the sequence of Riemann sums $S_n$ corresponding to $P_n$ to I, $\displaystyle\lim_{n\to\infty} S_n = I$
+    \item $I$ is called the \textbf{integral of $f$ from a to b}, $I = \int_{a}^{b} f(t) dt$
+    \item if a sequence of partitions $P_n$ for which $S_n$ does not converge, then it shows the function is not integrable 
+    \item if two sequence of partitions $P_n$ and $Q_n$ where respective Riemann sums converge to different values, the function is not integrable
+\end{itemize}
+\textbf{Theorem}: \\
+Let $f$ be continuous (or be bounded and have finitely many discontinuities) on $[a,b]$. Then 
+$f$ is integrable on $[a,b]$ and $\int_{a}^{b} f(t)dt = \displaystyle\lim_{n\to\infty} \displaystyle\sum_{i=1}^{n} f(c_i)\Delta t_i$
+where the right hand side is the limit of the Riemann sum with any regular n-partition \\
+In particular, $\int_{a}^{b} f(t)dt = \displaystyle\lim_{n\to\infty}R_n = \displaystyle\lim_{n\to\infty}L_n$ \\
+\textbf{Theorem: Integrability Theorem for Continuous Functions} \\
+Let $f$ be continuous on $[a,b]$. Then $f$ is integrable on $[a,b]$ \\
+\textbf{Definition: Regular n-partition} \\
+When for the interval $[a,b]$ the partition has $n$ subintervals of equal length. That is, $\Delta t = \frac{b-a}{n}$ and $t_i = t_0 + i\Delta t$ \\
+\textbf{Definition: Regular Right Hand Riemann Sum} \\
+We take $c_i = t_i$ for all $i$: 
+\begin{align*}
+    S_n = \displaystyle\sum_{i=1}^{n} f(t_i)\Delta t_i = \sum_{i=1}^{n} f(c_i)\Delta t = \sum_{i=1}^{n} f(t_i)\frac{b-a}{n}
+\end{align*}
+We can also define LHRS similarly
+\begin{align*}
+    S_n = \displaystyle\sum_{i=1}^{n} f(t_{i-1})\Delta t_i = \sum_{i=1}^{n} f(t_{i-1})\Delta t = \sum_{i=1}^{n} f(t_{i-1})\frac{b-a}{n}
+\end{align*}
+Put the ideas together
+\begin{align*}
+    \int_{a}^{b}f(x)dx = \displaystyle\lim_{n\to\infty}\sum_{i=1}^{n}f(t_i)\frac{b-a}{n}
+\end{align*}
+\subsection{Lecture 2}
+\subsubsection*{Note}
+\begin{itemize}
+    \item The integrability theorem also holds for functions that are bounded and have finitely many discontinuous
+    \item Since a definite integral is the limit of a sequence, many limit laws will hold
+\end{itemize}
+\subsubsection{Theorem: Properties of Integrals}
+If $f$ is integrable on $[a,b]$, then
+\begin{enumerate}
+    \item For $c\in\mathbb{R}$, $\displaystyle\int_{a}^{b}cf(x)dx = c\int_{a}^{b}f(x)dx$
+    \item $\displaystyle\int_{a}^{b}(f+g)(x)dx = \int_{a}^{b}f(x)dx + \int_{a}^{b}g(x)dx$
+    \item If $m\leq f(x)\leq M$ for $x\in[a,b]$, then $m(b-a) \leq \displaystyle\int_{a}^{b}f(x)dx \leq M(b-a)$
+    \item If $0\leq f(x)$ for $x\in[a,b]$, then $0\leq \displaystyle\int_{a}^{b}f(x)dx$
+    \item If $f(x)\leq g(x)$ for $x\in[a,b]$, then $\displaystyle\int_{a}^{b}f(x)dx \leq \int_{a}^{b}g(x)dx$
+    \item $|f|$ is integrable on $[a,b]$ and $\displaystyle|\int_{a}^{b}f(x)dx|\leq \int_{a}^{b}|f(x)|dx$
+\end{enumerate}
+\subsubsection{Definition: Additional Properties of Integrals}
+\begin{enumerate}
+    \item If $f(a)$ is defined, then $\displaystyle\int_{a}^{a}f(x)dx = 0$
+    \item If $f$ is integrable on $[a,b]$, then $\displaystyle\int_{a}^{b}f(x)dx = -\int_{b}^{a}f(x)dx$
+    \item Theorem: If $f$ is integrable on an interval $I$ containing $a$, $b$, and $c$, then $\displaystyle\int_{a}^{b}f(x)dx = \int_{a}^{c}f(x)dx + \int_{c}^{b}f(x)dx$
+    \item[*] $c$ does NOT need to be between $a$ $\&$ $b$
+\end{enumerate}
+\subsubsection{Geometric Interpretation of the Integral}
+We note that $\displaystyle\int_{a}^{b}f(x)dx$ returns the signed area between $f$ and the x-axis. That is,
+if $f(x)\leq 0$, then $\displaystyle\int_{a}^{b}f(x)dx \leq 0$ \\
+That is, in general, $\displaystyle\int_{a}^{b}f(x)dx$ is the unsigned area under $f$ that lies above the x-axis \underline{minus}
+your unsigned area above the graph $\&$ under the x-axis
+\subsection{Lecture 3 - Average Value of a Function}
+\subsubsection{Definition: Average Value of Function on $[a,b]$}
+If $f$ is continuous on $[a,b]$, the average value of $f$ on $[a,b]$ is $\frac{1}{b-a}\displaystyle\int_{a}^{b}f(x)dx$ \\
+\textbf{A Geometric Interpretation} \\
+If $f$ is continuous on $[a,b]$, EVT says there exists $m,M\in\mathbb{R}$ such that $m\leq f(x)\leq M$ for $x\in[a,b]$
+and $f(c_1)=m$, $f(c_2)=M$ for some $c_1, c_2\in[a,b]$
+\begin{align*}
+    m(b-a) \leq \displaystyle&\int_{a}^{b}f(x)dx \leq M(b-a) \\
+    m \leq &\frac{1}{b-a}\displaystyle\int_{a}^{b}f(x)dx \leq M \\
+    f(c_1) \leq &\frac{1}{b-a}\displaystyle\int_{a}^{b}f(x)dx \leq f(c_2)
+\end{align*}
+IVT says there exists $c$ between $c_1$ and $c_2$ such that $f(c) = \frac{1}{b-a}\displaystyle\int_{a}^{b}f(x)dx$
+\subsubsection{Theorem: Average Value Theorem / MVT for Integrals}
+Assume $f$ is continuous on $[a,b]$. There exists $c\in[a,b]$ such that
+\begin{align*}
+    f(c) = \frac{1}{b-a}\displaystyle\int_{a}^{b}f(x)dx
+\end{align*}
+\textbf{Note}: the theorem also holds even if $b < a$
+\begin{align*}
+    f(c) &= \frac{1}{a-b}\displaystyle\int_{b}^{a}f(x)dx \\
+         &= \frac{1}{a-b}(-\displaystyle\int_{a}^{b}f(x)dx) \\
+         &= \frac{1}{b-a}\displaystyle\int_{a}^{b}f(x)dx
+\end{align*}
+
+% Week 2
+\section{Week 2}
+\subsection{Lecture 4}
+\subsubsection{Integral Function}
+Let $f$ be continuous on $[a,b]$ \\
+Define $G(x) = \displaystyle\int_{a}^{x}f(t)dt$ for $x\in[a,b]$
+\begin{itemize}
+    \item $G(x)$ is the function  that returns the signed area under $f$ from $a$ to $x$
+\end{itemize}
+\subsubsection{Theorem: Fundamental Theorem of Calculus (Part I)}
+If $f$ is continuous on an open interval $I$ containing $x=a$ and if \[G(x) = \displaystyle\int_{a}^{x}f(t)dt\]
+Then $G(x)$ is differentiable for all $x\in I$ and \[G'(x)=f(x)\] That is \[\frac{d}{dx}\displaystyle\int_{a}^{x}f(t)dt = f(x)\]
+\subsubsection{Definition: Anti-Derivative}
+Given a function $f$, an anti-derivative of $f$ is a function $F$ such that $F'(x)=f(x)$ \\
+*Note: Anti-derivative are \underline{not} unique \\
+The collection of all anti-derivatives of $f(x)$ is denoted by $\displaystyle\int f(x)dx = F(x)+c$
+where $c\in\mathbb{R}$ and $F$ is any anti-derivative. This is called an indefinite integral (no bounds) \\
+*Note: by the Anti-Derivative Theorem, any two anti-derivatives of $f$ differe by a constant
+\subsubsection*{A bunch of anti-derivatives}
+\begin{itemize}
+    \item $\displaystyle\int x^n dx = \frac{x^{n+1}}{n+1} + c$, if $n\neq-1$
+    \item $\displaystyle\int \frac{1}{x}dx = \ln|x|+c$
+    \item $\displaystyle\int e^x = e^x+c$
+    \item $\displaystyle\int \sin(x)dx = -\cos(x)+c$, $\displaystyle\int \cos(x)dx = \sin(x)+c$
+    \item $\displaystyle\int \sec^2(x)dx = \tan(x)+c$
+    \item $\displaystyle\int \frac{1}{1+x^2}dx = \arctan(x)+c$
+    \item $\displaystyle\int \frac{1}{\sqrt{1-x^2}}dx = \arcsin(x)+c$, $\displaystyle\int \frac{-1}{\sqrt{1-x^2}}dx = \arccos(x)+c$
+    \item $\displaystyle\int \sec(x)\tan(x)dx = \sec(x)+c$
+    \item $\displaystyle\int a^x dx = \frac{a^x}{\ln (a)} + c$, for $a>0, a\neq 1$
+\end{itemize}
+\subsection{Lecture 5}
+\subsubsection{Theorem: Fundamental Theorem of Calculus II (FTC2)}
+If $f$ is continuous on $[a,b]$ and $F$ is any anti-derivative of $f$, then \[\displaystyle\int_{a}^{b}f(x)dx = F(b)-F(a) = [F(x)]_a^b\]
+\subsubsection{Corollary: Extended Version of FTC}
+If $f$ is continuous and $g$ \& $h$ and differentiable, then: 
+\[\displaystyle\frac{d}{dx}[\int_{g(x)}^{f(x)}f(t)dt] = f(h(x))h'(x) - f(g(x))g'(x)\]
+Also known as Leibniz Formula
+\subsubsection{U-Substitution}
+This technique is in essen a reverse chain-rule
+\[\displaystyle\int f(g(x))g'(x)dx = \int f(u)du\]
+Good time for u-substitution: when the function and its anti-derivative are presented
+\subsection{Lecture 6}
+\subsubsection{Theorem: Change of Variable}
+\[\displaystyle\int_{x=a}^{x=b}f(g(x))g'(x)dx = \int_{u=g(a)}^{u=g(b)}f(u)du\]
+
+% Week 3
+\section{Week 3}
+\subsection{Lecture 7}
+\subsubsection{Trignometry Substitution}
+There are 3 situations where this technique is useful
+\begin{center}
+\begin{tabular}{l|l|l}
+    If you see                               & Trig substitution                                & Range for $\theta$ \\ 
+    $\sqrt{a^2 - x^2}$                       & $x = a\sin\theta$                                & $-\frac{\pi}{2} < \theta < \frac{\pi}{2}$ \\
+    $\sqrt{a^2 + x^2}$                       & $x = a\tan\theta$                                & $-\frac{\pi}{2} < \theta < \frac{\pi}{2}$ \\
+    $\sqrt{x^2 - a^2}$                       & $x = a\sec\theta$                                & $0 \leq \theta \leq \frac{\pi}{2}$ or $\pi \leq \theta \leq \frac{3\pi}{2}$
+\end{tabular}
+\end{center}
+\subsubsection*{Notes}
+\begin{itemize}
+    \item The range of $\theta$ is key so that that $\sin / \tan / \sec$ are invertible
+    \item You don't have to state the restriction when you saw a trig substitution
+    \item Remember: \begin{itemize}
+        \item[] $a^2 - a^2\sin^2\theta = a^2\cos^2\theta$
+        \item[] $a^2 + a^2\tan^2\theta = a^2\sec^2\theta$
+        \item[] $a^2\sec^2\theta - a^2 = a^2\tan^2\theta$
+    \end{itemize}
+\end{itemize}
+\subsection{Lecture 8}
+\subsubsection{Integration By Part (IBP)}
+Integration by part is related to product rule \\
+Product Rule: \[\frac{d}{dx}[u(x)v(x)] =  u'(x)v(x) + u(x)v'(x)\]
+Integrate both sides: \[\int\frac{d}{dx}[u(x)v(x)]dx = \int u'(x)v(x)dx + \int u(x)v'(x)dx\]
+By FTC: \[u(x)v(x) = \int u'(x)v(x)dx + \int u(x)v'(x)dx\]
+Rearrange: 
+\begin{align*}
+    \int u(x)v'(x)dx &= u(x)v(x) - \int u'(x)v(x)dx \\
+    \int udv &= uv - \int vdu \\
+    &\text{(Integration By Parts Formula)}
+\end{align*}
+\subsubsection{IBP Rule of Thumb}
+Let $u$ be whatever shows up first in the acronym
+\begin{align*}
+    &\text{L I A T E} \\
+    &\text{L: log} \\
+    &\text{I: inverse trig} \\
+    &\text{A: algebric (polynomials, etc.)} \\
+    &\text{T: trig} \\
+    &\text{E: exponent}
+\end{align*}
+\subsubsection*{Note}
+For definite integral: 
+\begin{itemize}
+    \item find indefinite integral first, and sub in the bounds after
+    \item do the bounds as you go along
+\end{itemize}
+\[\int_{a}^{b}udv = [uv]_a^b - \int_{a}^{b}vdu\]
+\[[uv]_a^b = u(b)v(b) - u(a)v(a)\]
+\subsection{Letcture 9}
+\subsubsection{Integration By Partial Functions}
+This is used when integrating rational functions \[\int\frac{p(x)}{q(x)}dx\] when $p$ \& $q$ are polynomials \\
+Specifically when $deg(p) < deg(p)$, if $deg(p) \geq deg(q)$, we have to do long division (or synthetic devision) first \\
+We need to decompose $\frac{p}{q}$ into partial fractions \\
+The first step is to ensure that $q$ is in fully factored form \\
+Once we are in a form when $deg(p) < deg(q)$ and $q$ is fully factored, we decompose on the factors we see in $q$
+\begin{center}
+\begin{tabular}{c|c|c}
+    Name                         &Appearance                        &Split \\ \hline
+    Dintinct Linear              &$(5x+1)(x-3)\cdots$               &$\dfrac{A}{5x+1}+\dfrac{B}{x-3}+\cdots$ \\ \hline
+    Repeated Linear              &$(5x+1)^7$                        &$\dfrac{A}{5x+1}+\dfrac{B}{(5x+1)^2}+$ \\ 
+                                 &                                  &$\cdots+\dfrac{G}{(5x+1)^7}$ \\ \hline
+    Dintinct, Irreducible Linear &$(5x^2+3x+1)(x^2+3)\cdots$        &$\dfrac{Ax+B}{5x^2+3x+1}+\dfrac{Cx+D}{x^2+3}+\cdots$ \\ \hline 
+    Repeated, Irreducible Linear &$(5x^2+3x+1)^7$                   &$\dfrac{Ax+B}{5x^2+3x+1}+\dfrac{Cx+D}{(5x^2+3x+1)^2}+$ \\
+                                 &                                  &$\cdots+\dfrac{Mx+N}{(5x^2+3x+1)^7}$
+\end{tabular}
+\end{center}
+Next, we'd set $\frac{p}{q}$ equal to our decomposition and solve for coefficients. Then integrate. 
+
+% Week 4
+\section{Week 4}
+\subsection*{More Integrals}
+\begin{enumerate}
+    \item Continuous functions over infinite intervals
+    \item Functions with infinite discontinuities
+\end{enumerate}
+\subsection{Lecture 10 - Continuous functions over infinite intervals}
+\subsubsection{Type I Improper Integrals: Infinite Intervals}
+Integrals of form: \[\int_{-\infty}^{a}f(x)dx, \int_{a}^{\infty}f(x)dx, \int_{-\infty}^{\infty}f(x)dx\]
+\subsubsection*{Key Idea: }
+Approach problem with limits
+\subsubsection{Type I Solution:}
+\begin{itemize}
+    \item $\displaystyle\int_{-\infty}^{a}f(x)dx = \lim_{b\to-\infty}\int_{b}^{a}f(x)dx$
+    \item $\displaystyle\int_{a}^{\infty}f(x)dx = \lim_{b\to\infty}\int_{a}^{b}f(x)dx$ 
+    \item $\displaystyle\int_{-\infty}^{-\infty}f(x)dx = \lim_{b_1\to-\infty}\int_{b_1}^{0}f(x)dx + \lim_{b_2\to\infty}\int_{0}^{b_2}f(x)dx$
+    \item[*] Do not try to say $\displaystyle\int_{-\infty}^{-\infty}f(x)dx = \lim_{b\to\infty}\int_{-b}^{b}f(x)dx$
+\end{itemize}
+We say an improper integral converges if all of the limits exist (and are finite). The integral \underline{diverges} 
+if \underline{any} limit fails to exist (include: $\pm\infty$)
+\subsubsection{Theorem: P-Test for Type I Integrals}
+$\displaystyle\int_{1}^{\infty}\frac{1}{x^p}dx$ converges if and only if $p>1$ \\
+If $p > 1$, $\displaystyle\int_{1}^{\infty}\frac{1}{x^p}dx = \frac{1}{p-1}$
+\subsubsection{Properties of Type I Integrals}
+Suppose $\displaystyle\int_{a}^{\infty}f(x)dx$ \& $\displaystyle\int_{a}^{\infty}g(x)dx$ converges 
+\begin{enumerate}
+    \item $\displaystyle\int_{a}^{\infty}cf(x)dx$ converges for any $c\in\mathbb{R}$, and $\displaystyle\int_{a}^{\infty}cf(x)dx = c\int_{a}^{\infty}f(x)dx$
+    \item $\displaystyle\int_{a}^{\infty}[f(x)+g(x)]dx$ converges and $\displaystyle\int_{a}^{\infty}[f(x)+g(x)]dx = \int_{a}^{\infty}f(x)dx + \int_{a}^{\infty}g(x)dx$
+    \item If $f(x) \leq g(x)$ for all $x\geq a$, then $\displaystyle\int_{a}^{\infty}f(x)dx \leq \int_{a}^{\infty}g(x)dx$
+    \item If $a<c<\infty$, then $\displaystyle\int_{c}^{\infty}f(x)dx$ converges and $\displaystyle\int_{a}^{\infty}f(x)dx = \int_{a}^{c}f(x)dx + \int_{c}^{\infty}f(x)dx$
+\end{enumerate}
+In general, finding the value an integral converges to (if in fact it does) can become quite difficult. We do however have a way of 
+comparing a more complex improper integral to a simpler one 
+\subsubsection{Theorem: Comparison Theorem (For Type I)}
+Supppose $f$ \& $g$ are continuous functions where $0\leq g(x)\leq f(x)$ for $x\geq a$
+\begin{enumerate}
+    \item If $\displaystyle\int_{a}^{\infty}f(x)dx$ converges, then $\displaystyle\int_{a}^{\infty}g(x)dx$ converges too 
+    \item If $\displaystyle\int_{a}^{\infty}g(x)dx$ diverges, then $\displaystyle\int_{a}^{\infty}f(x)dx$ diverges too 
+\end{enumerate}
+\subsection{Lecture 11}
+\subsubsection{Definition: Absolute Convergence}
+Let $f$ be integrable on $[a,b]$ for all $b\geq a$ \\
+We say that $\displaystyle\int_{a}^{\infty}f(x)dx$ converges absolutely if $\displaystyle\int_{a}^{\infty}|f(x)|dx$ converges
+\subsubsection{Theorem: Absolute Converges Theorems (ACT)}
+Let $f$ be integrable on $[a,b]$ for all $b\geq a$ \\
+Then $|f|$ is integrable on $[a,b]$ for all $b\geq a$, and if $\displaystyle\int_{a}^{\infty}|f(x)|dx$ converges, then 
+so does $\displaystyle\int_{a}^{\infty}f(x)dx$ \\
+In particular, if $|f(x)| \leq g(x)$ for $x\geq a$, and if $\displaystyle\int_{a}^{\infty}g(x)dx$ converges, so does $\displaystyle\int_{a}^{\infty}f(x)dx$
+\subsubsection{Type II: Improper Integrals}
+Consider $\displaystyle\int_{a}^{b}f(x)dx$: 
+\begin{itemize}
+    \item If $f$ has an infinite discontinuities at $x=a$, then $\displaystyle\int_{a}^{b}f(x)dx = \lim_{t\to a^+}\int_{t}^{b}f(x)dx$
+    \item If $f$ has an infinite discontinuities at $x=a$, then $\displaystyle\int_{a}^{b}f(x)dx = \lim_{t\to b^-}\int_{a}^{t}f(x)dx$
+    \item If $f$ is not continuous at $c$, $a<c<b$, then $\displaystyle\int_{a}^{b}f(x)dx = \int_{a}^{c}f(x)dx + \int_{c}^{b}f(x)dx$ and use two previous points to replace problem bounds with limits 
+\end{itemize}
+Again, if all limits exist, we say the integral converges \\
+If any limit fials to exist, we say the integral diverges 
+\subsection{Lecture 12}
+\subsubsection{Theorem: P-Test for Type II}
+$\displaystyle\int_{0}^{1}\frac{1}{x^p}dx$ converges if and only if $p<1$, $\displaystyle\int_{0}^{1}\frac{1}{x^p}dx = \frac{1}{1-p}$
+\subsubsection{Area between two curves}
+Suppose we want to calculate the are between two curves, $f\& g$ \\
+This is the area under $f(x)$ minus the area $g(x)$ \\
+Using all of the same idea as before, we divide the area into infinitely many thin rectangles, and integrate \\
+So for $f\geq g$, the area bounded by $f\&g$ from $x=a$ to $x=b$ is 
+\[\int_{a}^{b}f(x)-g(x)dx \text{       top - bottom}\]
+\subsubsection*{Actual Formula}
+Area between $f\&g$ from $x=a$ to $x=b$ is \[\int_{a}^{b}|f(x)-g(x)|dx\]
+So, to deal with this we just split the integral where top/bottom switch \\
+We can use the same idea to compute areas where $x$ is a function of $y$, "right - left"
+
+% Week 5
+\section{Week 5}
+\subsection{Lecture 13}
+\subsubsection{Disk Method}
+\[V=\int_{a}^{b}\pi[R(x)]^2dx\] $R(x)$ is the radius at each x-value
+\subsubsection{Washers Method}
+\[V=\int_{a}^{b}\pi([R(x)]^2 - [r(x)]^2)dx\] $R(x)$ is the radius of the outer circle, $r(x)$ is the radius of the inner circle
+\subsection{Lecture 14}
+\subsubsection{Method: Cylindrical Shells}
+Imagine a 3D shape created by rotation (around y-axis) \\
+We can build the shape from the inside out by building concentric cylindrical shells of thickness $\Delta x(dx)$
+\[V_{shell} = 2\pi r\Delta x = \int_{a}^{b}2\pi rh dx\]
+\subsection{Lecture 15}
+\begin{center}
+\begin{tabular}{c|c|c}
+                                    &functions of $x$                   &functions of $y$ \\ \hline
+    rotate around a vertical line   &shells                             &washers / disks  \\ \hline
+    rotate around a horizontal line &washers / disks                    &shells
+\end{tabular}
+\end{center}
+\begin{itemize}
+    \item If you go down one path, and meet restriction (region split or nasty integral) then reframe the problem 
+    \begin{itemize}
+        \item change the function to be in other variables
+    \end{itemize}
+\end{itemize}
+\subsubsection{Differentiable Equations (DEs)}
+\subsubsection*{Definition: Ordinary Differential Equations (ODE)}
+An equation containing derivatives of a dependent variable (ie. function) $y=f(x)$ is called an ordinary differential equation \\
+(To contrast: partial DEs (PDE) are multivariable functions)
+\subsubsection*{Definition: Order}
+The order of a DE is the highest derivative present 
+\subsubsection*{Definition: Linear}
+An ODE is called linear if it only contains linear functions of $y$ ($y, y', y''$, etc.)
+\subsubsection*{Definition: General Solution}
+The general solution of an ODE is the collection of all possible functions that solve the ODE, including arbitrary constants
+\subsubsection*{Definition: Particular Solution}
+A solution in which all arbitrary constants have been determined
+\subsubsection*{Definition: Initial Condition (IC)}
+Extra information about y and/or its derivatives at specific points that allow us to find a particular solution 
+\subsubsection*{Definition: Initial Value Problem (IVP)}
+An DE with IC(s)
+\subsubsection*{Definition: Constant Solution / Equilibrium Solution}
+A solution to a DE which is a constant function
+\subsubsection*{Definition: Direction Field}
+For ODEs of form \[\frac{dy}{dx} = f(x,y)\] we can create a visualization called a direction field \\
+The direction field shows the family of curves (general solution) satisfying the DE. An IC would be point,
+and te particular solution follows the field through the point
+
+% Week 6
+\section{Week 6}
+\subsection{Lecture 16}
+\subsubsection{Definition: Separable DE}
+A separable ODE is a first order DE that can be written as \[\frac{dy}{dx} = g(y)h(x)\]
+that is, we can factor the RHS into a product of a function of y and a function of x 
+\subsection*{Solving Technique}
+\begin{align*}
+    \frac{dy}{dx} &= g(y)h(x) \\
+    \frac{1}{g(y)}\frac{dy}{dx} &= h(x) \\
+    \int\frac{1}{g(y)}\frac{dy}{dx}dx &= \int h(x)dx \\
+    \int\frac{1}{g(f(x))}f'(x)dx &= \int h(x)dx \\
+    \int\frac{1}{g(y)}dy &= \int h(x)dx
+\end{align*}
+\subsection{Lecture 17}
+\subsubsection{Definition: First Order Linear DE (FOLDE)}
+A DE of form: \[A(x)y' + B(x)y = C(x) \text{ where } A(x)\neq0\]
+that can be written as: \[y' + P(x)y = Q(x)\]
+is a FOLDE \\
+Solve such DE using an "integrating factor" \\
+our FOLDE algorithm:
+\begin{enumerate}
+    \item Write in form $\dfrac{dy}{dx} + P(x)y = Q(x)$
+    \item Find $\mu(x) = e^{\int P(x)dx}$
+    \item Multiply both sides by $\mu(x)$, collapse the LHS by product rule 
+    \item Integrate both sides (+C !) and solve for $y$
+\end{enumerate}
+\subsubsection{Formula for FOLDE solution}
+\[y = \frac{1}{\mu(x)}[\int\mu(x)Q(x)dx]\text{, where } \mu(x) = e^{\int P(x)dx}\]
+\subsubsection{Newton's Law for Cooling}
+\[\frac{dT}{dt} = -k(T-T_{room}) \quad k>0\]
+\begin{itemize}
+    \item $\dfrac{dT}{dt}$ rate of change in temp
+    \item $k$ constant 
+    \item $T$ temperature function 
+    \item $T_{room}$ srround room temperature
+\end{itemize}
+\[T(t) = Ce^{-kt} + T_{room} \quad \text{For $c,k\in\mathbb{R}$}\]
+\subsection{Lecture 18}
+\subsubsection{Population Growth}
+\begin{enumerate}
+    \item Expoential / Natural Growth 
+    \[\frac{dP}{dt} = kP\]
+    \item Logistic Model
+    \[\frac{dP}{dt} = kP(1-\frac{P}{M})\]
+    \begin{itemize}
+        \item $k>0$
+        \item $M$ carrying capacity
+    \end{itemize}
+\end{enumerate}
+
+% Week 7
+\section{Week 7}
+\subsection{Lecture 19}
+\subsubsection{Definition: Infinite Series}
+Let $\{a_n\}_{n=1}^\infty$ be a sequence. An infinite series is an expression of the form 
+\[a_1 + a_2 + a_3 + \cdots = \sum_{n=1}^{\infty}a_n\]
+\subsubsection{Definition: Sequence of Partial Sum}
+If $\displaystyle\sum_{n=1}^{\infty}a_n$ is a series, we define its sequence of partial sums $\{S_n\}$ as:
+\[S_n = a_1 + a_2 + \cdots + a_{n-1} + a_n\]
+\subsubsection{Defintion: Convergence / Divergence of Series}
+A series $\displaystyle\sum_{n=1}^{\infty}a_n$ $(\sum a_n)$ converges to $S\in\mathbb{R}$ if $\displaystyle\lim_{n\to\infty}S_n = S$.
+Here $S$ is called the sum of the series. \\
+If $\{S_n\}$ diverges, we say the series diverges
+\subsubsection{Geometric Series}
+A geometric series is of form $\displaystyle\sum_{n=0}^{\infty}r^n = 1 + r + r^2 + \cdots + r^n + \cdots$ for some $r\in\mathbb{R}$ \\
+$\displaystyle\sum_{n=0}^{\infty}r^n = \frac{1}{1-r}$ if $|r|<1$ and diverges otherwise 
+\subsubsection*{A common other version for Geometric Series}
+\[\sum_{n=k}^{\infty}ar^n = \frac{ar^k}{1-r} \quad \text{if $|r|<1$}\]
+\subsection{Lecture 20}
+\subsubsection{Theorem: Arithmetic for Series}
+Suppose $\displaystyle\sum_{n=1}^{\infty}a_n = A$ and $\displaystyle\sum_{n=1}^{\infty}b_n = B$ and $k\in\mathbb{R}$
+\begin{enumerate}
+    \item $\displaystyle\sum_{n=1}^{\infty}ka_n = kA$
+    \item $\displaystyle\sum_{n=1}^{\infty}(a_n \pm b_n) = A \pm B$
+    \item If $\displaystyle\sum_{n=1}^{\infty}a_n$ converges, then $\displaystyle\sum_{n=j}^{\infty}a_n$ also converges for each $j\geq1$
+    \item If $\displaystyle\sum_{n=j}^{\infty}a_n$ converges for some $j$, then $\displaystyle\sum_{n=1}^{\infty}a_n$ converges 
+    \item[] Convergence only depends on the tail 
+    \item[] Add or Subtract finite number terms does not affect convergence
+\end{enumerate}
+\subsection{Lecture 21 - Series Tests}
+\subsubsection{Theorem}
+If $\displaystyle\sum_{n=1}^{\infty}a_n$ converges, then $\displaystyle\lim_{n\to\infty}a_n=0$
+\subsubsection{Theorem: Divergence Test}
+If $\displaystyle\lim_{n\to\infty}a_n\neq0$ (or DNE), then $\displaystyle\sum_{n=1}^{\infty}a_n$ diverges \\
+Note:
+\begin{itemize}
+    \item always the first test to try 
+    \item only tell about divergence, not convergence 
+    \begin{itemize}
+        \item result: $\displaystyle\sum_{n=1}^{\infty}a_n$ \begin{itemize}
+            \item[] $\neq 0$, series diverges 
+            \item[] $=0$, no information  
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+% Week 8
+\section{Week 8}
+\subsection{Lecture 22}
+\subsubsection{Integral Test}
+Let $\sum a_n$ be a positive series. Suppose that $a_n = f(n)$ where $f$ is a continuous, positive, decreasing function for all $x\geq N$. Then,
+$\displaystyle\sum_{n=N}^{\infty}a_n$ and $\displaystyle\int_{N}^{\infty}f(x)dx$ either both converge or both diverge 
+\subsubsection*{Note}
+\begin{itemize}
+    \item Must always state (if a simple function) or show (complicated function) the continuous, positive, decreasing native
+    \item These qualities only need to take place beyond cutoff $N$
+    \item The integral test does not say the series converges to the integral value
+\end{itemize}
+\subsubsection{P-Series}
+$\displaystyle\sum_{n=1}^{\infty}\frac{1}{n^p}$ converges if $p>1$ and diverges if $p\leq 1$
+\subsubsection{Bounds on the Remainder (Error) in the Integral Test}
+\[\int_{n+1}^{\infty}f(x)dx \leq R_n \leq \int_{n}^{\infty}f(x)dx\text{ where $R_n = S-S_n$}\]
+We can rewrite:
+\[\int_{n+1}^{\infty}f(x)dx \leq S-S_n \leq \int_{n}^{\infty}f(x)dx\]
+\[S_n+\int_{n+1}^{\infty}f(x)dx \leq S \leq S_n+\int_{n}^{\infty}f(x)dx\]
+\subsection{Lecture 23}
+\subsubsection{Theorem: (Direct) Comparison Test}
+Assume $0\leq a_n\leq b_n$ for $n\in\mathbb{N}$ (eventually)
+\begin{enumerate}
+    \item If $\sum b_n$ converges, then $\sum a_n$ converges too 
+    \item If $\sum a_n$ diverges, then $\sum b_n$ diverges too 
+\end{enumerate}
+\subsubsection{Theorem: Limit Comparison Test (LCT)}
+If $a_n\geq 0$ and $b_n\geq 0$ for $n\in\mathbb{N}$ (eventually) and $\displaystyle\lim_{n\to\infty}\frac{a_n}{b_n} = L$, 
+$L\neq0$, $L<\infty$, then either both $a_n$ and $b_n$ converge or both diverge
+\subsubsection*{Note}
+Use LCT for:
+\begin{itemize}
+    \item $\displaystyle\sum\frac{\text{powers of n}}{\text{powers of n}} \rightarrow$ dominating terms
+    \item "almost" geometric series
+\end{itemize}
+\subsubsection{Theorem: LCT (full version)}
+If $a_n\geq 0$ and $b_n > 0$ for $n\in\mathbb{N}$ (eventually) and $\displaystyle\lim_{n\to\infty}\frac{a_n}{b_n} = L$, then:
+\begin{enumerate}
+    \item If $0<L<\infty$ then $\sum a_n$ converges iff $\sum b_n$ converges 
+    \item If $L=0$ and $\sum b_n$ converges then $\sum a_n$ converges (if $\sum a_n$ diverges then $\sum b_n$ diverges)
+    \item If $L=\infty$ and $\sum a_n$ converges then $\sum b_n$ converges (if $\sum a_n$ diverges then $\sum b_n$ diverges)
+\end{enumerate}
+\subsection{Lecture 24}
+\subsubsection{Alternating Series Test}
+Assume that 
+\begin{enumerate}
+    \item $a_n>0$ for all n 
+    \item $a_{n+1}\leq a_n$ for all n 
+    \item $\displaystyle\lim_{n\to\infty}a_n = 0$
+\end{enumerate}
+Then the alternating series $\displaystyle\sum_{n=1}^{\infty}(-1)^{n-1}a_n$ converges
+\subsubsection{Theorem: Error/Remainder Bound for Alternating Test}
+\[|R_n| = |S - S_n| \leq a_{n+1} \text{, $a_{n+1}$ is the next unused term}\]
+
+\section{Week 9}
+\subsection{Lecture 25}
+\subsubsection{Definition: Absolutely Convergent}
+A series $\displaystyle\sum_{n=1}^{\infty}a_n$ is absolutely convergent if $\displaystyle\sum_{n=1}^{\infty}|a_n|$ converges
+\subsubsection{Definition: Conditional Convergence}
+A series is conditionally convergent if it is convergent but not absolutely convergent 
+\subsubsection{Theorem: Absolute Convergence Theorem (ACT)}
+If $\displaystyle\sum_{n=1}^{\infty}|a_n|$ converges then $\displaystyle\sum_{n=1}^{\infty}a_n$ converges 
+\subsection{Lecture 26}
+\subsubsection{Theorem: Ratio Test}
+Let $\sum a_n$ be any series and suppose $\displaystyle\lim_{n\to\infty}|\frac{a_{n+1}}{a_n}| = L$ where $L\in\mathbb{R}$ or $L=\infty$ 
+\begin{enumerate}
+    \item If $L<1$, then $\sum a_n$ converges absolutely
+    \item If $L>1$ or $L=\infty$, then $\sum a_n$ diverges 
+    \item If $L=1$, inconclusive (no info)
+\end{enumerate}
+\subsubsection*{Note}
+Ratio test is good to use when 
+\begin{itemize}
+    \item factorial 
+    \item 'almost' geo series
+\end{itemize}
+\subsubsection{Theorem}
+For $x\in\mathbb{R}$, $\displaystyle\lim_{n\to\infty}\frac{x^n}{n!} = 0$
+\subsubsection{Theorem: Root Test}
+Let $\displaystyle\sum_{n=1}^{\infty}a_n$ be any series and assume $\displaystyle\lim_{n\to\infty}\sqrt[n]{|a_n|} = L$, $L\in\mathbb{R}$ or $L=\infty$
+\begin{enumerate}
+    \item If $L<1$, then $\sum a_n$ converges absolutely
+    \item If $L>1$, then $\sum a_n$ diverges 
+    \item If $L=1$, inconclusive (no info)
+\end{enumerate}
+\subsection{Lecture 27 - Practices}
+No notes
+
+\section{Week 10} 
+\subsection{Lecture 28}
+\subsubsection{Definition: Power Series}
+$\displaystyle\sum_{n=0}^{\infty}a_nx^n = a_0 + a_1x + a_2x^2 + \cdots\rightarrow$ center 0 \\
+$\displaystyle\sum_{n=0}^{\infty}a_n(x-a)^n = a_0 + a_1(x-a) + a_2(x-a)^2 + \cdots\rightarrow$ center a \\
+Where $a_i\in\mathbb{R}\forall i$ \\
+The domain of a power series is the collection of all $a\in\mathbb{R}$ for which the power series converges \\
+Domain is never empty, series always converges to $a_0$ at centre
+\subsubsection*{Convention for $\displaystyle\sum_{n=0}^{\infty}a_n(x-a)^n$}
+\begin{enumerate}
+    \item When $n=0$, the term is $a_0$ for all $x$, including $x=a$
+    \item If the first feew term are zero ($a_0=a_1=\cdots=a_k=0$), then $\displaystyle\sum_{n=0}^{\infty}a_n(x-a)^n = \sum_{n=k+1}^{\infty}a_n(x-a)^n$ (throw out term where $a_n = 0$)
+\end{enumerate}
+\subsubsection{Theorem}
+For a given power series $\displaystyle\sum_{n=0}^{\infty}a_n(x-a)^n$, there are 3 possibilities:
+\begin{enumerate}
+    \item The series converges only when $x=a$
+    \item The series converges $\forall x\in\mathbb{R}$ 
+    \item There exists $R\in\mathbb{R}$ such that the series converges absolutely for $|x-a|<R$, diverges if $|x-a|>R$ and may converge or diverge when $|x-a|=R$
+\end{enumerate}
+\subsection{Lecture 29}
+\subsubsection{Geometric Series}
+$\displaystyle\frac{1}{1-x} = \sum_{n=0}^{\infty}x^n$ for $|x| < 1$, $I = (-1, 1), R = 1$
+\subsubsection{Theorem: Abel's Theorem}
+If $f(x) = \displaystyle\sum_{n=0}^{\infty}a_n(x-a)^n$ has interval of convergence $I$, then $f$ is continuous on $I$ \\
+Let $f(x) = \displaystyle\sum_{n=0}^{\infty}a_n(x-a)^n$ \& $g(x) = \displaystyle\sum_{n=0}^{\infty}b_n(x-a)^n$ with radii of convergence $R_f$ \& $R_g$ and invervals of convergence $I_f$ \& $I_g$
+\begin{enumerate}
+    \item $f(x)\pm g(x) = \displaystyle\sum_{n=0}^{\infty}(a_n\pm b_n)(x-a)^n$ \\
+    If $R_f\neq R_g$ then the radius of convergence is $R=\{R_f, R_g\}$ and the interval of convergence is $I = I_f\cap I_g$ \\
+    If $R_f = R_g$, then $R\geq R_f$
+    \item $(x-a)^kf(x) = \displaystyle\sum_{n=0}^{\infty}a_n(x-a)^{n+k}$ \\
+    Where the radius is $R_f$ \& the interval is $I_f$ (no change)
+    \item If $c\in\mathbb{R}$, $c\neq0$, and $a=0$ (so $\displaystyle\sum_{n=0}^{\infty}a_nx^n$) \\
+    Then $f(cx^k) = \displaystyle\sum_{n=0}^{\infty}a_nc^nx^{nk}$ ||
+    Where the radius comes from solving $|cx^k|<R_f$ \\
+    If $R_f=\infty$ then $R=\infty$ \\
+    The interval is $I = \{x\in\mathbb{R} | cx^k\in I_f\}$
+\end{enumerate}
+\subsubsection{Theorem}
+If $f(x) = \displaystyle\sum_{n=0}^{\infty}a_n(x-a)^n$ with radius of convergence $R>0$, then $f(x)$ is differentiable (thus continuous, integrable) on $(a-R, a+r)$ and 
+\begin{enumerate}
+    \item $f'(x) = \displaystyle\sum_{n=1}^{\infty}na_n(x-a)^{n-1}$ (change starting index since if $n=0$, term is zero)
+    \item $\displaystyle\int f(x) = \sum_{n=0}^{\infty}(\frac{a_n(x-a)^{n+1}}{n+1})+C$
+\end{enumerate}
+\subsubsection*{Note}
+While the radius of convergence will not change via differentiate/integrate, the interval of convergence may change
+\subsection{Lecture 30}
+\subsubsection{Proposition}
+$e^x = \displaystyle\sum_{n=0}^{\infty}\frac{x^n}{n!}$ for all $x\in\mathbb{R}$
+
+\section{Week 11} 
+\subsection{Lecture 31}
+\subsubsection{Definition: $n^{th}$ degree Taylor Polynomials}
+If $f$ is n-times differentiable at $x=a$, the $n^{th}$ degree Taylor polynomials for $f$ centered $x=a$ is 
+\[T_{n,a}(X) = \sum_{k=0}^{\infty}\frac{f^{(k)}(a)}{k!}(x-a)^k\]
+\subsubsection{Definition: Remainder}
+If $f$ is n-times differentiable at $x=a$, we define the $n^{th}$ degree Taylor remainder function centered at $x=a$ to be 
+\[R_{n,a}(x) = f(x) - T_{n,a}(x)\]
+The error in using $T_{n,a}(x)$ to approximate $f(x)$ is given by Error$=|R_{n,a}(x)|$
+\subsubsection{Theorem: Taylor's Theorem}
+Assume $f$ is $(n+1)$ times differentiable on an interval $I$ containing $x=a$. Let $x\in I$. Then, there exists
+a point $c$ between $x\& a$ such that
+\[f(x)-T_{n,a}(x) = R_{n,a}(x) = \frac{f^{n+1}(c)}{(n+1)!}(x-a)^{n+1}\]
+\subsubsection{Corollary: Taylor's Inequality}
+$|R_{n,a}(x)| \leq \displaystyle\frac{M|x-a|^{n+1}}{(n+1)!}$ where $|f^{n+1}(c)|\leq M$ for all $c$ between $x\& a$
+\subsubsection{Theorem}
+If $f(x)$ has a power series representation about $x=a$, $f(x) = \displaystyle\sum_{n=0}^{\infty}a_n(x-a)^n$ for $|x-a|<R$, $R>0$ then $a_n=\displaystyle\frac{f^{n}(a)}{n!}$ \\
+That is $f(x) = \displaystyle\sum_{n=0}^{\infty}\frac{f^{n}(a)}{n!}(x-a)^n$ (The Taylor series for $f$ centered at $x=a$) \\
+Special case: $a=0$, $f(x)=\displaystyle\sum_{n=0}^{\infty}\frac{f^{n}(a)}{n!}x^n$ is called the Maclaurin series for $f$ 
+\subsubsection{Theorem: Convergence Theorem for Taylor Series}
+Assume $f$ has derivatives of all orders on an interval $I$ containing $x=a$ \\
+Assume also there exists $M\in\mathbb{R}$ such that $|f^{k}(x)|\leq M$ for all $k\in\mathbb{N}$ and $x\in I$ \\
+Then, \[f(x) = \sum_{n=0}^{\infty}\frac{f^{n}(a)}{n!}(x-a)^n\text{ for $x\in I$}\]
+\subsection{Lecture 32}
+\subsubsection{Corollary}
+$e^x = \displaystyle\sum_{n=0}^{\infty}\frac{x^n}{n!}$ for all $x\in\mathbb{R}$
+\subsubsection{Corollary}
+Both $\sin(x)$ \& $\cos(x)$ are equal to their Taylor series for all $x\in\mathbb{R}$
+\[\cos(x) = \sum_{n=0}^{\infty}\frac{(-1)^nx^{2n}}{(2n)!} \text{ for all $x\in\mathbb{R}$}\]
+\[\sin(x) = \sum_{n=0}^{\infty}\frac{(-1)^nx^{2n+1}}{(2n+1)!} \text{ for all $x\in\mathbb{R}$}\]
+\subsection{Lecture 33}
+\subsubsection{Theorem: Generalized Binomial Theorem}
+Let $k\in\mathbb{R}$. Then for all $x\in(-1, 1)$: 
+\[(1+x)^k = \sum_{n=0}^{\infty}{k\choose n}x^n \text{ where } {k\choose n} = \frac{k(k-1)\cdots(k-n+1)}{n!}\]
+${k\choose 0} = 1$
+
+
+\end{document}
