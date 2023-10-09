@@ -1,0 +1,1245 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm,enumerate,nicefrac,fancyhdr,hyperref,graphicx,adjustbox}
+\hypersetup{colorlinks=true,urlcolor=blue,citecolor=blue,linkcolor=blue}
+\usepackage[left=2.6cm, right=2.6cm, top=1.5cm, includehead, includefoot]{geometry}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[d]{esvect}
+\usepackage{pdfpages}
+
+%% commands
+%% useful macros [add to them as needed]
+% sets
+\newcommand{\C}{{\mathbb{C}}} 
+\newcommand{\N}{{\mathbb{N}}}
+\newcommand{\Q}{{\mathbb{Q}}}
+\newcommand{\R}{{\mathbb{R}}}
+\newcommand{\Z}{{\mathbb{Z}}}
+\newcommand{\F}{{\mathbb{F}}}
+
+% bases
+\newcommand{\mA}{\mathcal{A}}
+\newcommand{\mB}{\mathcal{B}}
+\newcommand{\mC}{\mathcal{C}}
+\newcommand{\mD}{\mathcal{D}}
+\newcommand{\mE}{\mathcal{E}}
+\newcommand{\mL}{\mathcal{L}}
+\newcommand{\mM}{\mathcal{M}}
+\newcommand{\mO}{\mathcal{O}}
+\newcommand{\mP}{\mathcal{P}}
+\newcommand{\mS}{\mathcal{S}}
+\newcommand{\mT}{\mathcal{T}}
+
+% linear algebra
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\adj}{\operatorname{adj}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\spn}{\operatorname{Span}}
+\newcommand{\proj}{\operatorname{proj}}
+\newcommand{\prp}{\operatorname{perp}}
+\newcommand{\refl}{\operatorname{refl}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\nul}{\operatorname{Null}}
+\newcommand{\nully}{\operatorname{nullity}}
+\newcommand{\range}{\operatorname{Range}}
+\renewcommand{\ker}{\operatorname{Ker}}
+\newcommand{\col}{\operatorname{Col}}
+\newcommand{\row}{\operatorname{Row}}
+\newcommand{\cof}{\operatorname{cof}}
+\newcommand{\Num}{\operatorname{Num}}
+\newcommand{\Id}{\operatorname{Id}}
+\newcommand{\ipb}{\langle \thinspace, \rangle}
+\newcommand{\ip}[2]{\left\langle #1, #2\right\rangle} % inner products
+\newcommand{\M}[2]{M_{#1\times #2}(\F)}
+\newcommand{\RREF}{\operatorname{RREF}}
+\newcommand{\cv}[1]{\begin{bmatrix} #1 \end{bmatrix}}
+\newenvironment{amatrix}[1]{\left[\begin{array}{@{}*{\numexpr#1-1}{c}|c@{}}}{\end{array}\right]}
+\newcommand{\am}[2]{\begin{amatrix}{#1} #2 \end{amatrix}}
+
+% vectors
+\newcommand{\vzero}{\vv{0}}
+\newcommand{\va}{\vv{a}}
+\newcommand{\vb}{\vv{b}}
+\newcommand{\vc}{\vv{c}}
+\newcommand{\vd}{\vv{d}}
+\newcommand{\ve}{\vv{e}}
+\newcommand{\vf}{\vv{f}}
+\newcommand{\vg}{\vv{g}}
+\newcommand{\vh}{\vv{h}}
+\newcommand{\vl}{\vv{\ell}}
+\newcommand{\vm}{\vv{m}}
+\newcommand{\vn}{\vv{n}}
+\newcommand{\vp}{\vv{p}}
+\newcommand{\vq}{\vv{q}}
+\newcommand{\vr}{\vv{r}}
+\newcommand{\vs}{\vv{s}}
+\newcommand{\vt}{\vv{t}}
+\newcommand{\vu}{\vv{u}}
+\newcommand{\vvv}{{\vv{v}}}
+\newcommand{\vw}{\vv{w}}
+\newcommand{\vx}{\vv{x}}
+\newcommand{\vy}{\vv{y}}
+\newcommand{\vz}{\vv{z}}
+
+% display
+\newcommand{\ds}{\displaystyle}
+\newcommand{\qand}{\quad\text{and}}
+\newcommand{\qandq}{\quad\text{and}\quad}
+\newcommand{\hint}{\textbf{Hint: }}
+
+% misc
+\newcommand{\area}{\operatorname{area}}
+\newcommand{\vol}{\operatorname{vol}}
+\newcommand{\red}[1]{{\color{red} #1}}
+\newcommand{\rc}{\red{\checkmark}}
+
+\newcommand{\vDashv}{%
+  \mathrel{%
+    \text{%
+      \ooalign{$\vDash$\cr\reflectbox{$\vDash$}\cr}%
+    }%
+  }%
+}
+
+\newcommand{\vdashv}{%
+  \mathrel{%
+    \text{%
+      \ooalign{$\vdash$\cr\reflectbox{$\vdash$}\cr}%
+    }%
+  }%
+}
+
+%% header
+\pagestyle{fancy}
+\fancyhead[L]{\bf\large CS 245 \\ Notes}
+\fancyhead[R]{\bf\large Spring 2023 \\}
+%\fancyfoot[C]{Page \thepage\ of 2}
+\setlength{\headheight}{35pt}
+
+\title{CS 245 Notes / Definition}
+\author{Thomas Liu}
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Lecture 1}
+\subsection{Propositional Logic}
+\begin{itemize}
+    \item Proposition
+    \begin{itemize}
+        \item A declarative sentence that is either true or false
+        \item Can never both/either be true or false
+    \end{itemize}
+    \item Many english sentence are \underline{not} propositions
+    \begin{itemize}
+        \item commands 
+        \item questions
+        \item paradoxes
+        \item non sensical sentence 
+        \item sentence fragments
+    \end{itemize}
+    \item A sentence must have sufficient information to determine truth to be a proposition 
+    \begin{itemize}
+        \item A sentence can be a proposition even the truth is unknown
+    \end{itemize}
+\end{itemize}
+\subsection{Logical Arguments}
+An argument is a set of propositions containing
+\begin{itemize}
+    \item $\geq 0$ premises
+    \item $1$ conclusion
+    \item often connected by therefore
+\end{itemize}
+Correctness of argument depends on form (syntax), not content \\
+The conlusion follows premises, then the argument is valid
+\subsection{Atomic vs. Compound Propositions}
+An \textbf{atomic proposition} cannot be broken down into smaller propositions
+A \textbf{compound proposition} is composed of atomics grouped by connectives
+\subsection{Logical Connectives}
+\begin{itemize}
+    \item negation $\neg$
+    \item conjunction $\land$
+    \item disjunction $\lor$
+    \item implication / conditional $\rightarrow$
+    \item equivalence / bi-conditional $\iff$
+\end{itemize}
+
+\section{Lecture 2}
+\subsection{Symbols and Expressions}
+Propositions are represented by formulas
+\begin{itemize}
+    \item Formula = a string of symbols 
+\end{itemize}
+\subsubsection{Symbols}
+\begin{itemize}
+    \item Propositional variables (atomics)
+    \begin{itemize}
+        \item $p, g, r, p_1, p_2$
+    \end{itemize}
+    \item Connectives 
+    \begin{itemize}
+        \item $\neg, \land, \lor, \rightarrow, \iff$
+    \end{itemize}
+    \item Punctuations
+    \begin{itemize}
+        \item ( )
+    \end{itemize}
+\end{itemize}
+Let $L^p$ denote the language of propositional logic 
+\subsubsection{Expressions}
+An expression in $L^p = $ finite string of symbols 
+\subsection{Well-Formed Formulas (wff)}
+\begin{itemize}
+    \item Define $Form(L^p) = $ set of all wff in $L^p$ 
+    \item Define wff in $Form(L^p)$ is inductively (recursion) as follows: \\
+    \underline{Base case: }
+    \begin{itemize}
+        \item A propositional variable $p$ is well-formed 
+    \end{itemize}
+    \underline{Inductive step: }
+    \begin{itemize}
+        \item If $\alpha$ is well-formed, then $(\neg\alpha)$ is well-formed 
+        \item If $\alpha$ and $\beta$ are well-formed, then $(\alpha\land\beta)$, $(\alpha\lor\beta)$, $(\alpha\rightarrow\beta)$, $(\alpha\iff\beta)$ are well-formed 
+    \end{itemize}
+    \underline{Restriction: }
+    \begin{itemize}
+        \item Nothing else is well-formed 
+    \end{itemize}
+\end{itemize}
+\subsection{Parse Tree}
+Visualize the structure of a wff \\
+\underline{Rules: }
+\begin{itemize}
+    \item leaves are propositional variables 
+    \item all non-leaves are logical connectives 
+    \item negation only has 1 child
+    \item binary connectives have 2 children 
+    \item start at the inner-most bracket, resolving the bracket then moving forwards
+\end{itemize}
+\subsection{Precedence Rules}
+$\neg > \land > \lor > \rightarrow > \iff$
+\subsection{English Translation in $Form(L^p)$}
+Possible for english sentence to have multiple translations in $Form(L^p)$
+
+\section{Lecture 3}
+\subsection{Meaning (Semantics) of Formulas}
+\begin{itemize}
+    \item To interpret formulas, we give meaning to its propositional variables 
+    \begin{itemize}
+        \item true/false, 1/0 for atomics
+    \end{itemize}
+    \item Definition 
+    \begin{itemize}
+        \item Let $Atom(L^p)$ be the set of all propositional variables in $L^p$
+        \item A truth valuation is a mapping for all $Atom(L^p)$ to truth values $\{0, 1\}$
+    \end{itemize}
+    \item Semantics of a formula $A\in Form(L^p)$ is the truth value of $A$ under all possible truth valuations
+    \begin{itemize}
+        \item Let $t(A)\in\{0, 1\}$ be the truth valuation of $A$ (denoted $A^t$)
+        \item Show semantics of $A$ with truth tables 
+    \end{itemize}
+\end{itemize}
+\subsection{Evaluating Formulas under Truth Valuations}
+\begin{itemize}
+    \item Let $t$ denote a truth valuation 
+    \item Every $A,B\in Form(L^p)$ has a value under $t$ (denoted $A^t$, $B^t$) recursively as follows: 
+    \begin{enumerate}
+        \item If $A$ is $p$, for $p\in Atom(L^p)$, $A^t = p^t$
+        \item 
+        \begin{equation*}
+            (\neg A)^t =
+            \begin{cases}
+                1 \text{ if } A^t = 0 \\
+                0 \text{ if } A^t = 1
+            \end{cases}
+        \end{equation*}
+        \item 
+        \begin{equation*}
+            (A\land B)^t =
+            \begin{cases}
+                1 \text{ if } A^t = B^t = 1 \\
+                0 \text{ otherwise }
+            \end{cases}
+        \end{equation*}
+        \item 
+        \begin{equation*}
+            (A\lor B)^t =
+            \begin{cases}
+                1 \text{ otherwise }  \\
+                0 \text{ if } A^t = B^t = 0
+            \end{cases}
+        \end{equation*}
+        \item 
+        \begin{equation*}
+            (A\rightarrow B)^t =
+            \begin{cases}
+                1 \text{ otherwise } \\
+                0 \text{ if } A^t = 1 \text{ and } B^t = 0
+            \end{cases}
+        \end{equation*}
+        \item 
+        \begin{equation*}
+            (A\iff B)^t =
+            \begin{cases}
+                1 \text{ if } A^t = B^t \\
+                0 \text{ otherwise }
+            \end{cases}
+        \end{equation*}
+    \end{enumerate}
+\end{itemize}
+\subsection{Satisfiability}
+\begin{itemize}
+    \item For a formula $A\in Form(L^p)$, A is satisfiable under $t$ iff $\exists t$ such that $A^t = 1$
+    \item $A$ is a contradiction under $t$ iff $\forall t$, $A^t = 0$
+    \item $A$ is tautology under $t$ iff $\forall t$, $A^t = 1$
+\end{itemize}
+
+\section{Lecture 4}
+\subsection{Satisfiability of Sets of Formulas}
+\begin{itemize}
+    \item Extend satisfiability to sets of formulas 
+    \item Let $\sum$ denote a set of well-formed formulas (wff) and $t$ as truth valuation 
+    \item 
+    \begin{equation*}
+        {\sum}^t
+        \begin{cases}
+            1 \text{ if for each } A\in\sum, A^t = 1 \\
+            0 \text{ otherwise }
+        \end{cases}
+    \end{equation*}
+    \begin{itemize}
+        \item ${\sum}^t = 1$ iff $\forall A\in\sum$, $A^t = 1$
+    \end{itemize}
+    \item For a specific $t$
+    \begin{itemize}
+        \item $\sum$ is satisfiable under $t$ if ${\sum}^t = 1$ 
+        \item $\sum$ is unsatisfiable under $t$ if ${\sum}^t = 0$
+    \end{itemize}
+    \item For genoric $t$
+    \begin{itemize}
+        \item $\sum$ is satisfiable if $\exists t$ where ${\sum}^t = 1$
+        \item $\sum$ is unsatisfiable if $\forall t$, ${\sum}^t = 0$
+    \end{itemize}
+\end{itemize}
+\subsection{Tautological Consequence}
+\subsubsection{Definition}
+\begin{itemize}
+    \item Let ${\sum}\subseteq Form(L^p)$, $A\in Form(L^p)$ ($A$ doesn't need to exist in $\sum$)
+    \item Say: 
+    \begin{itemize}
+        \item $A$ is logical consequence of $\sum$ OR 
+        \item $\sum$ entails (semantically) $A$ OR 
+        \item ${\sum}\vDash A$
+    \end{itemize}
+    If and only if: 
+    \begin{itemize}
+        \item $\forall t$, if ${\sum}^t = 1$ then also $A^t = 1$
+    \end{itemize}
+\end{itemize}
+\subsubsection{Notation}
+\begin{itemize}
+    \item ${\sum}\vDash A \Rightarrow {\sum} \text{ entails } A$
+    \item ${\sum}\nvDash A \Rightarrow {\sum} \text{ does not entail } A$
+    \begin{itemize}
+        \item $\exists t$ such that ${\sum}^t = 1$ but $A^t = 0$
+    \end{itemize}
+\end{itemize}
+\subsubsection{Remarks}
+\begin{itemize}
+    \item ${\sum}\vDash A$ says nothing about $A$ when ${\sum}^t = 0$
+    \item Claims:
+    \begin{itemize}
+        \item If $\sum$ is unsatisfiable, then ${\sum}\vDash A$, $\forall A$
+        \item $\emptyset\vDash A$ iff $A$ is a tautology, $\emptyset^t = 1$ by default
+        \item If $A$ is a tautology, then ${\sum}\vDash A$, $\forall\sum$
+    \end{itemize}
+\end{itemize}
+\begin{minipage}[t]{\linewidth}
+    \adjustbox{valign=t}{
+        \includegraphics[width=11cm, height=9cm]{Satis_Chart.png}
+    }
+\end{minipage}
+
+\section{Lecture 5}
+\subsection{Tautological Equivalence}
+\begin{itemize}
+    \item Let $A,B\in Form(L^p)$
+    \item Write \[A\vDashv B\] when $\{A\}\vDash B$ and $\{B\}\vDash A$
+    \begin{itemize}
+        \item $A$ is a tautological equivalent to $B$
+        \item Let $A^t$ and $B^t$ are identical $\forall t$
+    \end{itemize}
+\end{itemize}
+\subsubsection{Lemma}
+For $A,A',B,B'\in Form(L^p)$ \\
+If $A\vDashv A'$ and $B\vDashv B'$, then 
+\begin{itemize}
+    \item $\neg A\vDashv \neg A'$
+    \item $A\land B\vDashv A'\land B'$
+    \item $A\lor B\vDashv A'\lor B'$
+    \item $A\rightarrow B\vDashv A'\rightarrow B'$
+    \item $A\iff B\vDashv A'\iff B'$
+\end{itemize}
+\subsection{Replaceability}
+\begin{itemize}
+    \item Let $A,B,A',C\in Form(L^p)$
+    \item Let $A$ contains $\geq 1$ instances of $B$
+    \item Suppose $B\vDashv C$
+    \item Let $A'$ be $A$ with some occurence of $B$ replaced by $C$ (not necessarilly all)
+    \item Then $A\vDashv A'$
+\end{itemize}
+\subsection{Duality}
+\begin{itemize}
+    \item Suppose $A\in Form(L^p_{\neg, \lor,\land})$
+    \begin{itemize}
+        \item $A$ is constructed with only $\neg, \lor,\land, Atom(L^p)$
+    \end{itemize}
+    \item Let $\triangle(A)$ be $A$ with 
+    \begin{itemize}
+        \item all $\land$ replaced by $lor$
+        \item all $\lor$ replaced by $land$
+        \item all $p$ replaced by $\neg p$, $p\in Atom(L^p)$
+    \end{itemize}
+    \item Then $\neg A\vDashv\triangle(A)$
+\end{itemize}
+\subsection{Esstial Laws of $L^p$ (Propositional Calculus)}
+\begin{itemize}
+    \item Let 1 stand for any tautology $\in Form(L^p)$
+    \item Let 0 stand for any contradiction $\in Form(L^p)$
+\end{itemize}
+\begin{minipage}[t]{\linewidth}
+    \adjustbox{valign=t}{
+        \includegraphics[width=11cm, height=9cm]{Law_1.png}
+    }
+\end{minipage}
+\begin{minipage}[t]{\linewidth}
+    \adjustbox{valign=t}{
+        \includegraphics[width=11cm, height=9cm]{Law_2.png}
+    }
+\end{minipage}
+\subsection{Normal Forms}
+\subsubsection{Definition}
+\begin{itemize}
+    \item A formula is 
+    \begin{itemize}
+        \item literal if it is $p$ or $\neg p$ ($p\in Atom(T^p)$)
+        \item Conjunctive clause if is a conjunction $\land$ of literals ($p\land\neg p\land q\land \neg q$)
+        \item Disjunctive clause if is a disjunction $\lor$ of literals ($p\lor\neg p\land q\lor \neg q$)
+    \end{itemize}
+\end{itemize}
+\subsection{Conjunctive / Disjunctive Normal Form}
+\subsubsection{Definition}
+\begin{itemize}
+    \item A formula is 
+    \begin{itemize}
+        \item Conjunctive Normal Form (CNF) if it is $n$ conjunction of disjunctive clauses 
+        \item Disjunctive Normal Form (DNF) if it is a disjunction of conjunctive clauses 
+    \end{itemize}
+\end{itemize}
+
+\section{Lecture 6}
+\subsection{Theorem}
+Any formula in $Form(L^p)$ is equivalent to some $CNF$ \& $DNF$\\
+Normal formal forms are not always unique
+\subsection{Connectives}
+\begin{itemize}
+    \item Use letterss $f,g,f_1,f_2,\cdots$ to denote any connective, connecting formulas $A_1, \cdots, A_n\in Form(L^p)$
+    \begin{itemize}
+        \item unary: $f(A)$
+        \item binary: $f(A, B)$
+        \item ternary: $f(A,B,C)$
+    \end{itemize}
+    \item Connectives are defined by their truth tables 
+    \item two n-ary connectives are equivalent iff they have the same truth tables 
+    \item How many distinct n-ary: $2^{2^n}$
+\end{itemize}
+\subsection{Adequate Set of Connectives}
+\subsubsection{Definition}
+\begin{itemize}
+    \item A set of connectives is adequate iff it can express any n-ary truth table 
+    \item Equivalently, adequate iff every wff is $vDashv$ to a wff using only connevtives from the set 
+\end{itemize}
+\subsubsection{Lemma}
+$\{\land, \lor, \neg\}$ is an adequate set of connectives 
+\subsubsection{Lemma}
+$\{\neg, \lor\}$, $\{\neg, \land\}$ \& $\{\neg, \rightarrow\}$ are all adequate sets 
+
+\section{Lecture 7}
+\subsection{Boolean Algebra}
+\subsubsection{Definition}
+\begin{itemize}
+    \item A boolean algebra is a set $B$ containing $0$'s \& $1$'s, together with $+, \cdot \& -$
+    \begin{itemize}
+        \item $+\vDashv\lor$, $\cdot\vDashv\land$, $-\vDashv\neg$
+    \end{itemize}
+    \item Anything that is boolean algebra has the following properties 
+    \begin{itemize}
+        \item Identity law: $x+0=x$, $x\cdot1=x$
+        \item Compliment: $x+\overline{x} = 1$, $x\cdot\overline{x}=0$
+        \item Communetivity: $x+y = y+x$, $x\cdot y= y\cdot x$
+        \item Associativity: $(x+y)+z = x+(y+z)$, $(x\cdot y)\cdot z = x\cdot(y\cdot z)$
+        \item Distributivity: $x+(y\cdot z) = (x+y)\cdot(x+z)$, $x\cdot(y+z) = (x\cdot y)+(x\cdot z)$
+    \end{itemize}
+\end{itemize}
+\subsection{Digital Circuits}
+\begin{itemize}
+    \item An extension from boolean algebra 
+    \item boolean algebra models logic circuits 
+    \begin{itemize}
+        \item these circuits model a boolean function
+    \end{itemize}
+    \item logic circuits are mde up of logic gates
+    \begin{itemize}
+        \item mimic our connectives in $L^p$
+    \end{itemize}
+\end{itemize}
+\begin{minipage}[t]{\linewidth}
+    \adjustbox{valign=t}{
+        \includegraphics[width=11cm, height=7cm]{Logic_gate1.png}
+    }
+\end{minipage}
+\begin{minipage}[t]{\linewidth}
+    \adjustbox{valign=t}{
+        \includegraphics[width=11cm, height=5cm]{Logic_gate2.png}
+    }
+\end{minipage}
+\subsection{Code Analysis}
+We can use formulas in $L^p$ to analyze and determine what code blocks will be run and what code blocks are dead code
+
+\section{Lecture 8}
+\subsection{Formal Deduction (aka: Natural Deduction)}
+\subsubsection{Definition}
+\begin{itemize}
+    \item Start with a set of premises ($\sum$)
+    \item Transform these premises based on a set of rules (proof system)
+    \item Reaches a conclusion $(A)$
+\end{itemize}
+We can write \[\sum\vdash A\]
+If we can find such a proof in our proof system such that we can show $\sum$ can result in $A$ then '$\Sigma$ proves $A$'
+\begin{itemize}
+    \item Pure syntax 
+    \item Starting from our basic rules, building up an argument 
+\end{itemize}
+\subsection{Conventions}
+\begin{itemize}
+    \item $\Sigma\vdash A$ means 
+    \begin{itemize}
+        \item $\Sigma$ proves $A$
+        \item $A$ is derivable from $\Sigma$
+    \end{itemize}
+    \item We write sets as sequences
+    \begin{itemize}
+        \item If $\Sigma = \{A_1, A_2,\cdots, A_n\}$, we can write $\Sigma$ in a comma seperated format: $A_1, A_2, \cdots, A_n$
+        \item Order of premises does not matter
+        \item $\Sigma \cup\{A'\}$, where $A'\in Form(L^p)$, $\Sigma, A'\vdash$
+        \item $\Sigma \cup \Sigma'$, where $\Sigma' \subseteq Form(L^p)$, $\Sigma, \Sigma'\vdash$
+    \end{itemize}
+\end{itemize}
+\subsection{Rules of Formal Deduction}
+\begin{itemize}
+    \item Define $\Sigma\vdash A$ inductively, where $\Sigma, \Sigma'\subseteq Form(L^p)$ \& $A,B\in Form(L^p)$
+\end{itemize}
+\subsection{Proof Strategies ($\Sigma\vdash A$)}
+\begin{itemize}
+    \item Trial \& Error, good strategy: start from your conclusion 
+\end{itemize}
+\includepdf[pages=2]{refsheets.pdf}
+\includepdf[pages=3]{refsheets.pdf}
+
+\section{Lecture 9}
+\subsection{structural Induction on Proof Derivations}
+\begin{itemize}
+    \item Theorem: Finiteness of premises 
+    \begin{itemize}
+        \item Let $\Sigma\subseteq Form(L^p)$ \& $A\in Form(L^p)$ \\
+        If $\Sigma\vdash A$, then there exists a finit $\Sigma'\subseteq\Sigma$ such that $\Sigma'\vdash A$
+    \end{itemize}
+    \item Intuition: 
+    \begin{itemize}
+        \item A proof for $\Sigma\vdash A$ is finite (11 rules proof permutations)
+        \item So finetly many premises in $\Sigma$ suffice to prove $A$
+        \item We are given the assumption $\Sigma\vdash A$, thus we know it is constructed inductively using the 11 rules of $\vdash$ 
+        \begin{itemize}
+            \item Base Case: Refl (rule 1)
+            \item Inductive Step: rules 2-11 
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+\subsection{Taotological Consequence vs. Deducibility}
+\begin{itemize}
+    \item A proof in formal deduction: (syntax)
+    \begin{itemize}
+        \item Start with most basic rules 
+        \begin{itemize}
+            \item $A\vdash A$ (Refl)
+            \item $\Sigma, A\vdash A$ ($\in$)
+        \end{itemize}
+        \item Apply other rules \& theorems to create $\Sigma\vdash A$
+    \end{itemize}
+    \item A proof is purely syntaxtic
+    \item $\Sigma \vDash A$ iff $\forall t$ satisfying $\Sigma^t = 1$ implies $A^t=1$
+    \item $\vDash$ \& $\vdash$ are not the same, but both are needed to prove formal deduction is sound \& complete
+\end{itemize}
+\subsection{Soundness}
+\subsubsection{Theorem: Soundness}
+If $\Sigma\vdash A$, then $\Sigma\vDash A$
+\begin{itemize}
+    \item The conclusion of a proof is always a logical consequence of the premises 
+    \item Proof system should not be able to formally prove incorrect statements
+\end{itemize}
+\subsection{Detour: Consistency}
+\subsubsection{Definition}
+\begin{itemize}
+    \item $\Sigma$ is consistent if there does not exist $A$ such that $\Sigma\vdash A$ \& $\Sigma\vdash \neg A$
+    \begin{itemize}
+        \item Otherwise $\Sigma$ is inconsistent
+    \end{itemize}
+    \item Equivalent definition 
+    \begin{itemize}
+        \item $\Sigma$ is consistent if $\exists A$ such that $\Sigma \nvdash A$
+        \item $\Sigma$ is inconsistent if $\forall A$ $\Sigma\vdash A$
+    \end{itemize}
+\end{itemize}
+\subsection{Lemma 1}
+$\Sigma\vdash A$ iff $\Sigma\cup\{\neg A\}$ is inconsistent 
+\subsection{Lemma 2}
+$\Sigma\vDash A$ iff $\Sigma\cup\{\neg A\}$ is unsatisfiable 
+\subsection{Theorem 3}
+$\Sigma$ is consistent iff $\Sigma$ is satisfiable 
+\subsection{Completeness}
+\subsubsection{Theorem}
+\begin{itemize}
+    \item If $\Sigma\vDash A$, then $\Sigma\vdash A$
+    \begin{itemize}
+        \item Every consequence is provable
+        \item Proof system should be able to formally prove every correct statement 
+    \end{itemize}
+\end{itemize}
+\subsection{Replaceability}
+\subsubsection{Theorem}
+\begin{itemize}
+    \item Suppose $B \vdashv$
+    \item Let $A'$ be $A$ with some occurences of $B$ replaced by $C$
+    \item Then $A'\vdashv A$
+\end{itemize}
+
+\section{Lecture 10}
+\subsection{Notes on $\vdash$}
+\begin{itemize}
+    \item Prove $\Sigma\vDash A$, then we finds proof $\Sigma\vdash A$ (soundness)
+    \item Manually find $\Sigma\vdash A$
+    \begin{itemize}
+        \item 11 rules \& theorems 
+        \item many permutations 
+    \end{itemize}
+\end{itemize}
+\subsection{Automated Theorem Proving: Resolution}
+\begin{itemize}
+    \item Comprised of 2 ideas: 
+    \begin{enumerate}
+        \item Reduce argument validity to satisfiability 
+        \begin{itemize}
+            \item $\Sigma\vDash A$ iff $\Sigma\cup\{\neg A\}$ is unsatisfiable
+            \item $\Sigma\cup\{\neg A\}$ is unsatisfiable iff it can prove contradiction $(\Sigma, \neg A\vdash B\land\neg B)$
+        \end{itemize}
+        \item If all in formulas in $\Sigma\cup\{\neg A\}$ are in CNF, then $\exists$ an algorithm for manually arrive at contradiction 
+    \end{enumerate}
+    \item resolution is called a refutation system 
+    \item inputs: a set of disjunctive clauses (convert your formula $Form(L^p)$) into disj clauses 
+    \item Definition: Resolution \[C\lor p, D\lor\neg p \vdash_r C\lor D\]
+    \item Where 
+    \begin{itemize}
+        \item $C, D\in Form(L^p)$ that are disj. caluses 
+        \item $p$ is a literal ($p$ or $\neg p$, $p\in Atom(L^p)$)
+    \end{itemize}
+    \item 2 clauses can be resolved if they comain complimentary literals ($p, \neg p$)
+    \item $C\lor D$ is the resolvent 
+    \item $p, \neg p\vdash_r \{\}$
+    \begin{itemize}
+        \item $\{\}$ is a contradiction 
+        \item $\{\}\neq\O$
+    \end{itemize}
+    \item Unit Resolution: 
+    \begin{itemize}
+        \item $A\lor p, \neg p\vdash_r A$
+        \item $B\lor\neg p, p\vdash_r B$
+    \end{itemize}
+    \item To prove $\{A_1,\cdots, A_n\}\vDash C$ is valid, show $\{A_1,\cdots,A_n,\neg C\}\vdash_r \{\}$
+\end{itemize}
+\subsection{Resolution Algorithm Psuedocode}
+\begin{itemize}
+    \item Input: A set of disj. clauses $S=\{D_1, \cdots, D_n\}$
+    \item Repeat:
+    \begin{itemize}
+        \item choose 2 parent clauses such that one has $p$ \& the other has $\neg p$
+        \item resolve parent clauses over $p$, call this resolvent $D$
+        \item if $D=\{\}$, then break, else add $D$ to $S$
+    \end{itemize}
+    \item Output: $\{\}$ or remainder of $S$
+    \item Resolution proof systms are sound \& complete 
+\end{itemize}
+\subsection{Davis Putnam Procedure (DPP)}
+\begin{itemize}
+    \item let our disj. clauses be a set of literals 
+    \item let $C, D$ be non-empty sets of the sets of literals 
+    \item represent the resolvent on $p$ as \[((C\cup\{p\})\cup(D\cup\{\neg p\}))\backslash \{p, \neg p\}\]
+    \item DPP Algorithm: 
+    \begin{enumerate}
+        \item maintain a set of dis. clauses 
+        \item eliminate literals 1-by-1
+        \item eventually get 
+        \begin{itemize}
+            \item empty clauses \O 
+            \item no clauses $\{\{\}\}$
+        \end{itemize}
+    \end{enumerate}
+\end{itemize}
+
+\section{Lecture 11}
+\subsection{Davis Putnam Procedure (DPP)}
+\begin{itemize}
+    \item DPP idea:
+    \begin{itemize}
+        \item maintain a set of disjunctive clauses 
+        \item eliminate literals one-by-one with resolution 
+        \item eventually, no literals left 
+    \end{itemize}
+    \item DPP operates over disjunctive clauses, write disjunctive clauses as sets of literals 
+\end{itemize}
+\subsection*{DPP Algorithm}
+\begin{itemize}
+    \item Input: $S=$ input set of disjunctive clauses 
+    \begin{itemize}
+        \item set of set of literals ($S=\{\{p,q\},\{p\}\}$)
+        \item let $\{p_1,\cdots,p_n\}$ denote all literals in $S$
+    \end{itemize}
+    \item $S=S_1$ initial set 
+    \item for $i$ in $\{1,\cdots,n\}$: loop through all literals 
+    \begin{itemize}
+        \item $S_i'=S_i\backslash\{A\in S_i|A\text{ contains both $p_i\&\neg p_i$}\}$
+        \item $T_i=\{A\in S_i'|A\text{ contains $p_i$ or $\neg p_i$}\}$, $T_i$ is the set of parent clauses 
+        \item $U_i=\{D|D\text{ is the resolvent of $B\& C$ over $p_i$, where $B,C\in T_i\& B\neq C$}\}$, $U_i$ is the set of all possible resolvents $\vdash_r$ in $T_i$
+        \item $S_{i+1}=(S_i'\backslash T_i)\cup U_i$
+    \end{itemize}
+    \item Output $S_{n+1}$
+    \begin{itemize}
+        \item show the satisfiability of our input $S$
+    \end{itemize}
+\end{itemize}
+\subsection*{Soundness and Completeness of DPP}
+If $S$ is a set of disjunctive clauses, then 
+\begin{itemize}
+    \item $DPP(S)=\O$ iff $S$ is satisfiable
+    \item $DPP(S)=\{\{\}\}$ iff $S$ is unsatisfiable
+\end{itemize}
+\subsection{First Order Logic (FOL)}
+\begin{itemize}
+    \item propositional logic is limited
+    \item first order logic can express complex statements, generalization of propositional logic 
+\end{itemize}
+\subsection{Elements of FOL}
+\begin{itemize}
+    \item Domain(D)
+    \begin{itemize}
+        \item non-empty set of objects, representing the world
+        \item $\Z, \Q, \R, \N$, set of all people 
+        \item same statement can have different truth values under different $D$
+    \end{itemize}
+    \item Symbols 
+    \begin{itemize}
+        \item individuals / constants:
+        \begin{itemize}
+            \item concrete and fixed elements in $D$
+        \end{itemize}
+        \item variables
+        \begin{itemize}
+            \item placeholders for objects in $D$
+            \item range over $D$
+        \end{itemize}
+    \end{itemize}
+    \item Relations and Functions 
+    \begin{itemize}
+        \item represents:
+        \begin{itemize}
+            \item a property of object 
+            \item a relationship among multiple objects 
+        \end{itemize}
+        \item n-arity: $n$ elemts a relation / function takes 
+        \item relation:
+        \begin{itemize}
+            \item represented with capitals
+            \item in general: $F^{(n)}: D^n\rightarrow\{0,1\}$
+        \end{itemize}
+        \item function:
+        \begin{itemize}
+            \item represent with lower-cases 
+            \item $f^{(n)}: D^n\rightarrow D$
+        \end{itemize}
+    \end{itemize}
+    \item Quantifiers
+    \begin{itemize}
+        \item Universal $(\forall)$: statement is true for all objects in $D$
+        \item Existential $(\exists)$: statement is true for some ($\geq1$) objects in $D$ 
+        \item bound to all variables that follow 
+    \end{itemize}
+    \item Connectives 
+    \begin{itemize}
+        \item represent meaning, fixed by syntax and semantics 
+        \item $\neg, \lor, \land, \rightarrow, \iff$ used with atomic formulas, vars, etc 
+    \end{itemize}
+    \item Punctuations 
+    \begin{itemize}
+        \item sets scope and procedure 
+    \end{itemize}
+\end{itemize}
+
+\section{Lecture 12}
+\subsection{Syntax of FOL}
+\begin{itemize}
+    \item want to define recursive formulas in $L$
+    \item in $L^p$: Form($L^p$) \& Atom($L^p$)
+    \begin{itemize}
+        \item formulas in Form$(L^p)$
+        \begin{itemize}
+            \item built with: Atom($L^p$), connectives \& punctuation 
+            \item 6 formation rules $(\neg,\lor,\land,\iff,\rightarrow\& p\in\text{Atom($L^p$)})$
+        \end{itemize}
+        \item atomic formulas in Atom($L^p$), propositional variables 
+    \end{itemize}
+    \item in $L$: Form($L$), Atom($L$), Term($L$)
+    \begin{itemize}
+        \item formulas in Form($L$)
+        \begin{itemize}
+            \item built with: Atom($L$), connectives, punctuation \& quantifiers 
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+\subsection{Free vs. Bound Variables}
+\begin{itemize}
+    \item 2 types of vars in Form$(L)$:
+    \begin{itemize}
+        \item $A(u)$: formula $A$ with a free variable $u$:
+        \begin{itemize}
+            \item replaced by individuals / constant $\in D$
+        \end{itemize}
+        \item $\forall x A(x)$ \& $\exists x A(x)$: formula $A$ with a bound variable $x$
+        \begin{itemize}
+            \item $\forall x$, $\exists x$ are quantifiers
+            \item $A(x)$ is the scope of the binder 
+            \item value of $x$ depends on the quantifier
+        \end{itemize}
+    \end{itemize}
+    \item convention:
+    \begin{itemize}
+        \item $x,y,z$ for bound variables 
+        \item $u,w,v$ for free variables 
+    \end{itemize}
+    \item In $L$:
+    \begin{itemize}
+        \item atomic formulas in Atom$(L)$
+        \begin{itemize}
+            \item smallest kinds of formulas $\in$ Form($L$), produce $\{0,1\}$
+            \item built with: resolutions \& terms 
+            \item 2 formation rules 
+            \begin{itemize}
+                \item if $F$ is an n-ary relation \& $t_1, \cdots, t_n\in$ Term($L$), then $F(t_1,\cdots,t_n)\in$ Atom($L$)
+            \end{itemize}
+            \item if $t_1,t_2\in$ Term($L$), then $t_1\approx t_2\in$ Atom($L$)
+        \end{itemize}
+        \item terms in Term($L$)
+        \begin{itemize}
+            \item placeholders for objects $\in D$
+            \item built with: variables, individuals, functions 
+        \end{itemize}
+    \end{itemize}
+    \item closed terms / formulas: terms / formulas that contain no free variables
+    \item open terms / formulas: terms / formulas that contain $\geq 1$ free variables 
+\end{itemize}
+
+\section{Lecture 13}
+\subsection{FoL Parse Tree}
+\begin{itemize}
+    \item Precedence Rules: $\{\forall,\exists\}>\neg>\land>\lor>\rightarrow>\iff$
+    \item Show how $Form(L)$ was constructed 
+    \begin{itemize}
+        \item break apart by precedence 
+        \item when remove $\forall x \exists x$, unbind the var to $u,v$
+        \item leaves = $Atom(L)$
+    \end{itemize}
+\end{itemize}
+\subsection{FoL Semantics}
+\begin{itemize}
+    \item In $L^p$: truth valuation under $t$ $\forall\ Atoms(L^p)$
+    \item In $L$: A valuation $v$ consists of 
+    \begin{itemize}
+        \item a non-empty set $D$
+        \item an interpretation for 
+        \begin{itemize}
+            \item every individual symbol $a$, $a^v\in D$
+            \item free variable $u$, $u^v\in D$
+            \item function $f$, $f^v:D^v\rightarrow D$
+            \item relation $R$, $R^v\subseteq D^n$
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+\subsection{Values of Term$(L)$}
+\begin{itemize}
+    \item The value of a term $t\in Term(L)$ under valuation $v$ is defined recursively 
+    \begin{itemize}
+        \item if $t$ is an individual $a$, then $t^v = a^v\in D$
+        \item if $t$ is a free variable $a$, $t^v=a^v\in D$
+        \item if $t$ is a function $f(t_1,\cdots,t_n)$, then $t^v = f^v(t_1^v,\cdots,t_n^v)$, $f^v: D^n\rightarrow D$
+    \end{itemize}
+    \item If $t\in Term(L)$ \& $t^v$ is defined, then $t^v\in D$
+\end{itemize}
+\subsection{Values of Form(L)}
+let $v$ be a valuation over $D$, the value of $A\in Form(L)$ under $v$ $A^v$ is defined recursively
+\begin{itemize}
+    \item if $A=R(t_1,\cdots,t_n)\in Atom(L)$, then 
+    \begin{equation*}
+        A^v = R(t_1,\cdots,t_n)^v = 
+        \begin{cases}
+            1 \text{ if }(t_1^v,\cdots,t_n^v)\in R^v \\
+            0 \text{ otherwise}
+        \end{cases}
+    \end{equation*}
+    \item $A=(\neg B)$, then 
+    \begin{equation*}
+        (\neg B)^v = 
+        \begin{cases}
+            1 \text{ if }B^v = 0 \\
+            0 \text{ otherwise }
+        \end{cases}
+    \end{equation*}
+    \item $A = (B*C)$, $*: \land,\lor,\rightarrow,\iff$, then 
+    \begin{equation*}
+        (B*C)^v = 
+        \begin{cases}
+            1 \text{ inherited from} \\
+            0 \text{ Prop Logic }
+        \end{cases}
+    \end{equation*}
+    \item $A = \forall x B(x)$, then
+    \begin{equation*}
+        (\forall x B(x))^v = 
+        \begin{cases}
+            1 \text{ if }B(a)^{v(u/d)} = 0 \forall d\in D\\
+            0 \text{ otherwise }
+        \end{cases}
+    \end{equation*} 
+    $v(u/d) = $ free var $u$ interpretted as an object $d\in D$
+    \item $A = \exists x B(x)$, then 
+    \begin{equation*}
+        (\exists x B(x))^v = 
+        \begin{cases}
+            1 \text{ if }B(a)^{v(u/d)} = 0 \exists d\in D\\
+            0 \text{ otherwise }
+        \end{cases}
+    \end{equation*} 
+    \item If $A\in Form(L)$ \& $A^v$ is defined, then $A^v\in\{0,1\}$
+\end{itemize}
+\subsection{Satisfiability in FoL}
+\begin{itemize}
+    \item A is satisfiable if $\exists v$ such that $A^v = 1$
+    \item A is unsatisfiable if $\forall v$, $A^v = 0$
+    \item A is Universally valid if $\forall v$, $A^v = 1$
+\end{itemize}
+\subsection{Definition}
+$\Sigma\subseteq Form(L)$
+\begin{itemize}
+    \item 
+    \begin{equation*}
+        \Sigma^v = 
+        \begin{cases}
+            1 \text{ if } \forall A\in \Sigma, A^v = 1\\
+            0\text{ otherwise }
+        \end{cases}
+    \end{equation*}
+    \item $\Sigma$ is satisfiable if $\exists v$, $\Sigma^v = 1$
+    \item $\Sigma$ is unsatisfiable if $\forall v$, $\Sigma^v =0$
+\end{itemize}
+
+\section{Lecture 14}
+\subsection{Logical Consequence in FoL ($\vDash$)}
+\begin{itemize}
+    \item let $\Sigma\subseteq Form(L)$ \& $A\in Form(L)$
+    \item $\Sigma\vDash A$ iff for all valuation $v$
+    \begin{equation*}
+        \begin{cases}
+            \Sigma^v = 1\text{ then } A^v = 1
+            \Sigma^v = 0\text{ then } A^v\in\{0,1\}
+        \end{cases}
+    \end{equation*}
+    \item Facts:
+    \begin{itemize}
+        \item \O is valid, like a tautology 
+        \item \O $\vDash A$ iff $A$ is valid 
+        \item If $\Sigma$ is unsatisfiable, then $\Sigma\vDash A$ $\forall A\in Form(L)$
+        \item $A\vDashv B$ iff $A\vDash B$ and $B\vDash A$
+        \item $\forall x(\neg A(x))\vDashv \neg \exists x(A(x))$
+        \item $\exists x(\neg A(x))\vDashv \neg \forall x(A(x))$
+    \end{itemize}
+\end{itemize}
+\subsection{Soundness \& Completeness}
+Let $\Sigma\subseteq Form(L)$ \& $A\in Form(L)$
+\begin{itemize}
+    \item $\Sigma\vDash A$ iff $\Sigma\vdash A$
+    \item soundness: $\Sigma\vdash A\rightarrow \Sigma\vDash A$
+    \item completeness: $\Sigma\vDash A\rightarrow \Sigma\vdash A$
+\end{itemize}
+
+\section{Lecture 15}
+\subsection{Finding FoL Proofs ($\Sigma\vdash A$)}
+\begin{itemize}
+    \item Common trends
+    \begin{itemize}
+        \item want $\forall x A(x)$? try $(\forall +)$
+        \item $\exists x A(x)$? try $(\exists -)$
+        \item $\Sigma\vdash \exists x A(x)$? try $(\exists +)$
+        \item have $\Sigma\vdash \forall x A(x)$, try $(\forall -)$
+    \end{itemize}
+    \item for quantifiers:
+    \begin{itemize}
+        \item try to remove all quantifiers 
+        \item rearrannge $\Sigma\vdash A$
+        \item re-introduce all quantifiers 
+    \end{itemize}
+    \item work in reverse 
+    \item try contradiction 
+    \item proof by contrapositive
+\end{itemize}
+
+\section{Lecture 16}
+\subsection{Equality Theorems}
+\begin{itemize}
+    \item \O$\vdash t\approx t$ (Refl of Equality)
+    \item $t_1\approx t_2\vdash t_2\approx t_1$ (Symmetry of Equality)
+    \item $t_1\approx t_2, t_2\approx t_3\vdash t_1\approx t_3$ (Trans of Equality)
+\end{itemize}
+\subsection{Additional Theorems in FoL}
+\begin{itemize}
+    \item Theorem: Duality 
+    \begin{itemize}
+        \item let $A\in Form(L_{\neg,\land,\lor,\forall,\exists})$
+        \item let $\triangle(A)$ be recursively defined as 
+        \begin{enumerate}
+            \item if $A=B\in Atom(L)$ then $\triangle(A) = \neg B$
+            \item if $A=B\land C\in Atom(L)$ then $\triangle(A)=\triangle(B)\lor\triangle(C)$
+            \item if $A=B\lor C\in Atom(L)$ then $\triangle(A)=\triangle(B)\land\triangle(C)$
+            \item if $A=\forall xB(x)$ then $\triangle(A)=\exists x\triangle(B(x))$
+            \item if $A=\exists xB(x)$ then $\triangle(A)=\forall x\triangle(B(x))$
+        \end{enumerate}
+        \item $\triangle(A)\vdashv\neg A$
+    \end{itemize}
+    \item Replaceability
+    \begin{itemize}
+        \item let $A,B,C\in Form(L)$ \& $B\vdashv C$
+        \item let $A'$ be $A$ with some occurences of $B\in A$ replaced by $C$
+        \item then $A'\vdashv A$
+    \end{itemize}
+    \item Theorem: Finiteness of premises
+    \begin{itemize}
+        \item $\forall\Sigma\subseteq Form(L)$ \& $A\in Form(L)$, if $\Sigma\vdash A$ then there exists a finite $\Sigma'\subseteq\Sigma$ such that $\Sigma'\vdash A$ 
+        \item allow to get rid of unneccessary premises 
+        \item $\Sigma$ can be finite 
+    \end{itemize}
+\end{itemize}
+\subsection{Consistency}
+\begin{itemize}
+    \item let $\Sigma\subseteq Form(L)$ \& $A\in Form(L)$
+    \item $\Sigma$ is consistent if there does not exist an $A$ such that $\Sigma\vdash A$ \& $\Sigma\vdash\neg A$
+    \item else inconsistent 
+    \item $\Sigma$ is consistent iff $\Sigma$ is satisfiable
+\end{itemize}
+\subsection{Resolution in FoL}
+\begin{itemize}
+    \item Input: set of disjunctive clauses $S$, resolution tells if $S$ is satisfiable
+    \item Resolution (resolved over complementary literals)
+\end{itemize}
+\subsection*{Steps}
+\begin{enumerate}
+    \item Step 1: Convert Formulas to Prenex Normal Form \\
+    - A FoL formula $A$ is in PNF iff it has the form:
+    \[Q_1x_1Q_2x_2\cdots Q_nx_n B(x_1,x_2,\cdots,x_n)\]
+    where $Q_i\in\{\forall, \exists\}$, $n\geq 0$, $B(\cdots)$ is quantifier free 
+\end{enumerate}
+\subsection{PNF algorithm}
+Input $A\in Form(L)$, Output $A$ in PNF
+\begin{enumerate}
+    \item eliminate $\rightarrow$, $\iff$ in $A$
+    \item Move $\neg$ outside $Q_i$
+    \item standardize over variables (bound) apart 
+    \item move quantifiers to the fron of $A$
+\end{enumerate}
+
+\section{Lecture 17}
+\subsection{Steps}
+\begin{enumerate}
+    \item Step 1: convert formulas to prenex normal form 
+    \item convert the PNF to $\exists-$free PNF 
+    \item drop $\forall$-quantifiers 
+    \item obtain CNF 
+    \item resolution via unification 
+    \begin{itemize}
+        \item An instiation is an assignment to a variable $x_i$ to a quasi-term $t_i$ ($x_i:=t_i$)
+        \item two formulas in FoL unify if there are instantiation that make them identical 
+    \end{itemize}
+\end{enumerate}
+
+\section{Lecture 18}
+\subsection{Algorithm \& Models of computation}
+In $L^p$, we can prove $\forall Form(L^p)$ any statement 
+\begin{itemize}
+    \item $2^n$ truth valuation 
+    \item resolution $\rightarrow$ DPP(S)
+    \item[$\rightarrow$] Input: $A\in Form(L)$
+    \item[$\rightarrow$] Output: ``Yes'' if A is satisfiable, ``no'' otherwise 
+    \item Definition: An algorithm is a finite sequence of well-defined, computer-interpretable instructions for solving a class of problems or performing computation 
+    \item Theorem: There exists an algo that can find a resolution rpoof for any unsatisfiable formula in FoL \\
+    - there exists algos that can check if a resolution proof is correct 
+    \item There can exist problems where no algorithm exists to solve them 
+\end{itemize}
+\subsection{Halting Problem}
+\begin{itemize}
+    \item Algorithm:
+    \begin{itemize}
+        \item Input: program $P$ \& input data $I$ for $P$
+        \item Output: ``Yes'' if $P$ halts (terminates) on $I$, ``No'' if $P$ doesn't halt on $I$ (loop forever)
+    \end{itemize}
+    \item Theorem: the halting problem is unsolveable 
+    \item A program is a finite sequence of instructions, can be used as input to another program or itself 
+\end{itemize}
+\subsection{Turing Machine}
+\begin{itemize}
+    \item control unit resides on a 2-way tape of symbols, tape is divided into cells (states)
+    \item control unit can read/write any cell \& communicates with the state-transition table
+    \begin{itemize}
+        \item tells the control unit what to write \& where to go next 
+    \end{itemize}
+    \item turing machine continues to oeprate until the problem is solved 
+\end{itemize}
+\subsection{Formally: TM}
+A turing machine $T=\{S,I,f,S_0\}$ consist of 
+\begin{enumerate}
+    \item $S$: a finite set of states 
+    \item $I$: an alphabet, finite set of symbols also including a ``blank'' symbol $B$
+    \item $f$: transition function $f:S\times I\rightarrow S\times I\times\{R,L\}$
+    \item $S_0\in S$: an initial / starting state 
+\end{enumerate}
+\subsection{Running a Turing Machine TM}
+\begin{itemize}
+    \item Initially
+    \begin{itemize}
+        \item T is in state $S_0$
+        \item on all cells of the tape, there is a symbol $\in I$
+        \item only a finite number of blank cells (B)
+        \begin{itemize}
+            \item if there non-B cells: position the control unit to the left-most non-B cell 
+            \item else if the tape is all B's, start anywhere 
+        \end{itemize}
+    \end{itemize}
+    \item Repeat until $T$ halts: \\
+    Assume $T$ is in $s\in S$ \& looking at cell symbol $x\in I$
+    \begin{enumerate}
+        \item if $f(s,x)$ is undefined $\rightarrow$ $T$ halts 
+        \item otherwise $f(s,x) = (s',x',d)$
+        \begin{itemize}
+            \item T overwrite corrent symbol $x$ with $x'$
+            \item T move left / right depending on $d\in\{L,R\}$
+            \item T enter state $s'$
+        \end{itemize}
+    \end{enumerate}
+    \item definition: each line of cells is called a configuration \\
+    denote as: $x_1sx_2$
+    \begin{itemize}
+        \item $s$: corrent state 
+        \item $x_1$: part of the tape from left-most $B$ to $s$
+        \item $x_2$: part of the tape from rightmost $B$ to $s$
+    \end{itemize}
+    \item definition: TM computation = All configurations grouped together for the given tape 
+\end{itemize}
+
+
+\section{Lecture 19}
+\subsection{TMs that Compute function}
+\begin{itemize}
+    \item definition: a TM computes a total function $f$ iff all tape inputs $x$ in $f$'s domain cause $T$ to halt with $f(x)$ on the tape 
+\end{itemize}
+T accepts a string $x\in\Sigma^*$ if when $x$ is on the tape, $T$ halts in a final state \\
+2 ways for $T$ to reject $x$
+\begin{itemize}
+    \item $T$ run forever 
+    \item $T$ halt on $x$, but isn't in a final state 
+\end{itemize}
+\subsection{Turing-Church Thesis}
+Thesis: "any problem that can be solved by an algorithm, can be solved by a TM"
+\subsection{Decidable Problems \& Computable Functions}
+definition: a decision problem is yes-or-on question on an infinite set of inputs \\
+each input is an instance of the problem 
+
+\section{Lecture 20}
+\subsection{Decidability}
+Definition: a decision problem is decidable / solvable if is a total TM accept those \& only those inputs of problem instances that produce ``yes''
+\subsection{Computability}
+Definition: a function is computable if there $\exists$ a total TM that compute / represent that function 
+\subsection{Peano Arithmetic}
+\begin{itemize}
+    \item Peano Arithmetic Properties
+    \begin{enumerate}
+        \item $D=\N$
+        \item non-logical symbols 
+        \item Axioms for functions $(s,+,\cdot)$ \& induction 
+    \end{enumerate}
+\end{itemize}
+\subsection{Peano Arithmetic Axioms}
+\begin{itemize}
+    \item an axiom $(\alpha)$ is a formula assumed as a premise in any proof (\O$\vdash_{PA}\alpha$)
+    \item an axiom scheme is a set of axioms, defined by a pattern / rule (can be $\infty$ axioms), denote $\Sigma\vdash_{PA}A$
+    \item 7 axioms:
+    \begin{enumerate}
+        \item PA1: $\forall x(s(x)\neq 0)$
+        \item PA2: $\forall x\forall y(s(x)=s(y)\rightarrow x=y)$
+        \item PA3: $\forall x(x+0=x)$
+        \item PA4: $\forall x\forall y(x+s(y)=s(x+y))$
+        \item PA5: $\forall x(x\cdot 0=0)$
+        \item PA6: $\forall x\forall y(x\cdot s(y)=x\cdot y+x)$
+        \item PA7: $A(0)\land\forall x(A(x)\rightarrow A(s(x)))\rightarrow \forall x A(x)$
+    \end{enumerate}
+    \item PA7 is an axiom scheme that generate $\infty$ axioms 
+\end{itemize}
+
+\section{Lecture 21}
+\subsection{Design Implication}
+\begin{itemize}
+    \item PA is decidable 
+    \item PA is consistent 
+    \item PA is not complete, complete iff $\forall A\in Sent(L)$, have \O$\vdash_{PA}A$ or \O$\vdash_{PA}\neg A$
+\end{itemize}
+\subsection{Hoare Triples}
+\begin{itemize}
+    \item $\{P\}C\{Q\}$ is satisfied under partial correctness iff 
+    \begin{itemize}
+        \item for every programming state $s_1$ satisfying $P$
+        \item if execution of $C$ starting from $s_1$ terminates in a state $s_2$ (termination not guarantee)
+        \item then $s_2$ satisfies $Q$
+    \end{itemize}
+    \item $\{P\}C\{Q\}$ is satisfied under total correctness iff
+    \begin{itemize}
+        \item for every state $s_1$ satisfying $P$
+        \item execution of $C$ from $s_1$ terminates in state $s_2$ (enforce termination)
+        \item $s_2$ satisfies $Q$
+    \end{itemize}
+    \item Total correctness = partial correctness + termination 
+\end{itemize}
+
+\section{Lecture 22 \& 23}
+\subsection{Decidability of Total / Partial Correctness}
+\begin{itemize}
+    \item Theorem: total correctness is undecidable 
+    \item Theorem: partial correctness is undecidable
+\end{itemize}
+
+\section{Refrence Sheet}
+\includepdf[page=-]{refsheets.pdf}
+
+\end{document}
