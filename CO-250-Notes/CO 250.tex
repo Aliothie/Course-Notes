@@ -1,0 +1,660 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm,enumerate,nicefrac,fancyhdr,hyperref,graphicx,adjustbox}
+\hypersetup{colorlinks=true,urlcolor=blue,citecolor=blue,linkcolor=blue}
+\usepackage[left=2.6cm, right=2.6cm, top=1.5cm, includehead, includefoot]{geometry}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[d]{esvect}
+\usepackage{pdfpages}
+
+%% commands
+%% useful macros [add to them as needed]
+% sets
+\newcommand{\C}{{\mathbb{C}}} 
+\newcommand{\N}{{\mathbb{N}}}
+\newcommand{\Q}{{\mathbb{Q}}}
+\newcommand{\R}{{\mathbb{R}}}
+\newcommand{\Z}{{\mathbb{Z}}}
+\newcommand{\F}{{\mathbb{F}}}
+
+% bases
+\newcommand{\mA}{\mathcal{A}}
+\newcommand{\mB}{\mathcal{B}}
+\newcommand{\mC}{\mathcal{C}}
+\newcommand{\mD}{\mathcal{D}}
+\newcommand{\mE}{\mathcal{E}}
+\newcommand{\mL}{\mathcal{L}}
+\newcommand{\mM}{\mathcal{M}}
+\newcommand{\mO}{\mathcal{O}}
+\newcommand{\mP}{\mathcal{P}}
+\newcommand{\mS}{\mathcal{S}}
+\newcommand{\mT}{\mathcal{T}}
+
+% linear algebra
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\adj}{\operatorname{adj}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\spn}{\operatorname{Span}}
+\newcommand{\proj}{\operatorname{proj}}
+\newcommand{\prp}{\operatorname{perp}}
+\newcommand{\refl}{\operatorname{refl}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\nul}{\operatorname{Null}}
+\newcommand{\nully}{\operatorname{nullity}}
+\newcommand{\range}{\operatorname{Range}}
+\renewcommand{\ker}{\operatorname{Ker}}
+\newcommand{\col}{\operatorname{Col}}
+\newcommand{\row}{\operatorname{Row}}
+\newcommand{\cof}{\operatorname{cof}}
+\newcommand{\Num}{\operatorname{Num}}
+\newcommand{\Id}{\operatorname{Id}}
+\newcommand{\ipb}{\langle \thinspace, \rangle}
+\newcommand{\ip}[2]{\left\langle #1, #2\right\rangle} % inner products
+\newcommand{\M}[2]{M_{#1\times #2}(\F)}
+\newcommand{\RREF}{\operatorname{RREF}}
+\newcommand{\cv}[1]{\begin{bmatrix} #1 \end{bmatrix}}
+\newenvironment{amatrix}[1]{\left[\begin{array}{@{}*{\numexpr#1-1}{c}|c@{}}}{\end{array}\right]}
+\newcommand{\am}[2]{\begin{amatrix}{#1} #2 \end{amatrix}}
+
+% vectors
+\newcommand{\vzero}{\vv{0}}
+\newcommand{\va}{\vv{a}}
+\newcommand{\vb}{\vv{b}}
+\newcommand{\vc}{\vv{c}}
+\newcommand{\vd}{\vv{d}}
+\newcommand{\ve}{\vv{e}}
+\newcommand{\vf}{\vv{f}}
+\newcommand{\vg}{\vv{g}}
+\newcommand{\vh}{\vv{h}}
+\newcommand{\vl}{\vv{\ell}}
+\newcommand{\vm}{\vv{m}}
+\newcommand{\vn}{\vv{n}}
+\newcommand{\vp}{\vv{p}}
+\newcommand{\vq}{\vv{q}}
+\newcommand{\vr}{\vv{r}}
+\newcommand{\vs}{\vv{s}}
+\newcommand{\vt}{\vv{t}}
+\newcommand{\vu}{\vv{u}}
+\newcommand{\vvv}{{\vv{v}}}
+\newcommand{\vw}{\vv{w}}
+\newcommand{\vx}{\vv{x}}
+\newcommand{\vy}{\vv{y}}
+\newcommand{\vz}{\vv{z}}
+
+% display
+\newcommand{\ds}{\displaystyle}
+\newcommand{\qand}{\quad\text{and}}
+\newcommand{\qandq}{\quad\text{and}\quad}
+\newcommand{\hint}{\textbf{Hint: }}
+
+% misc
+\newcommand{\area}{\operatorname{area}}
+\newcommand{\vol}{\operatorname{vol}}
+\newcommand{\red}[1]{{\color{red} #1}}
+\newcommand{\rc}{\red{\checkmark}}
+
+\newcommand{\vDashv}{%
+  \mathrel{%
+    \text{%
+      \ooalign{$\vDash$\cr\reflectbox{$\vDash$}\cr}%
+    }%
+  }%
+}
+
+\newcommand{\vdashv}{%
+  \mathrel{%
+    \text{%
+      \ooalign{$\vdash$\cr\reflectbox{$\vdash$}\cr}%
+    }%
+  }%
+}
+
+%% header
+\pagestyle{fancy}
+\fancyhead[L]{\bf\large CO 250 \\ Notes}
+\fancyhead[R]{\bf\large Fall 2023 \\}
+%\fancyfoot[C]{Page \thepage\ of 2}
+\setlength{\headheight}{35pt}
+
+\title{CO 250 Notes / Definition}
+\author{Thomas Liu}
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Module 1: Modelling Optimization Problems}
+\subsection{Week 1 Linear Programs}
+\subsubsection{Definition: affine/linear}
+A function $f: \R^n\rightarrow\R$ is affine if $f(x) = a^Tx+\beta$ for $a\in\R^n$, $\beta\in\R$. It is linear if, in addition, $\beta = 0$
+\subsubsection{Definition: linear program}
+The optimization problem \[min\{f(x):\ g_i(x)\leq b_i,\ \forall 1\leq i\leq m,\ x\in\R^n\}\]
+is called a linear program if $f$ is affine and $g_1,\cdots, g_m$ is finite number of linear functions 
+\subsubsection*{Comment}
+\begin{itemize}
+    \item insted of set notation, we often write LPS more verbosely
+    \item Often give non-negativity constraints seperately
+    \item May use max instead of min
+    \item Sometimes replace subject to by s.t.
+    \item Often write $x\geq 0$ as a short form for all variables are non-negative
+    \item Dividing by variables is not allowed
+    \item No strict inequalities 
+    \item Must have finite number of constraints 
+\end{itemize}
+\begin{align*}
+    \text{max}\ \ \ \ &-2x_1 + 7x_3 \\
+    \text{subject to}\ \ \ \ &x_1+7x_2\leq 3 \\
+    &3x_2+4x_3\leq 2 \\
+    &x_1, x_3\geq 0
+\end{align*}
+\subsection{Week 2: Integer Programs / Optimization on Graphs}
+\subsubsection{Integer Program}
+An integer program is a linear program with added integrality constraints for some / all of the variables 
+\subsubsection*{Comments}
+\begin{itemize}
+  \item Call an IP mixed if there are integer and fractional variables, and pure otherwise 
+  \item The difference between LPs and IPs is subtle (LPs are easy to solve, IPs are not)
+\end{itemize}
+\subsubsection{Running Time}
+The running time of an algorithm is the number of steps that an algorithm takes 
+\subsubsection*{Comments}
+\begin{itemize}
+  \item It is stated as a function of $n$: $f(n)$ measures the largest number of steps an algorithm takes on an instance of size $n$
+  \item Algoithm is efficient if its running time, $f(n)$, is a polynomial of $n$
+\end{itemize}
+\subsubsection{Binary Variable}
+It is very useful for modeling logical constraints of the form: \[\text{Condition (A or B) and C}\rightarrow D\]
+Variables that can take only a value of $0$ or $1$ are called binary 
+\subsubsection{Definition: Matching}
+A collection $M\subseteq E$ is a matching if no two edges $ij, i'j'\in M\ (ij\neq i'j')$ share an endpoint, $\{i,j\}\cap\{i',j'\}=\emptyset$
+\subsubsection{Definition: Perfect}
+A matching $M$ is perfect if every vertex $v$ in the graph is incident to an edge in $M$
+\subsubsection{Definition: Perfect Matching}
+Given $G=(V,E)$, $M\subseteq E$ is a perfect matching iff $M\cap\delta(v)$ contains a single edge for all $v\in V$ \\
+$V = $ vertices, $E = $ edges
+\subsection{Week 3: Shortest Paths and Nonlinear Models}
+\subsubsection{Definition: $\delta(S)$}
+For $S\subseteq V$, we let $\delta(S)$ be the set of edges with exactly one endpoint in $S$ \[\delta(S)=\{uv\in E:\ u\in S, v\notin S\}\]
+\subsubsection{Definition: s,t-cut}
+$\delta(S)$ is an s,t-cut if $s\in S$ and $t\notin S$
+\subsubsection{IP for Shortest Paths}
+Variable: we have one binary variabl $x_e$ for each edge $e\in E$, want 
+\begin{equation*}
+  x_e=
+  \begin{cases}
+    1: e\in P \\
+    0: otherwise
+  \end{cases}
+\end{equation*}
+Constraints: we have one constraint for each s,t-cut $\delta(U)$, forcing $P$ to have an edge from $\delta(S)$
+\[\sum(x_e: e\in\delta(U))\geq 1\]
+for all s,t-cuts $\delta(U)$ \\
+Objective: $\displaystyle\sum(c_ex_e: e\in E)$
+\subsubsection*{Note}
+\begin{itemize}
+  \item P is an s,t-path if it is of the form \[v_1v_2, v_2v_3, \cdots, v_{k-1}v_k\] and 
+  \begin{itemize}
+    \item $v_iv_{i+1}\in E$ for all $i\in\{1,\cdots,k-1\}$
+    \item $v_i\neq v_j$ for all $i\neq j$
+    \item $v_1=s$ and $v_k=t$
+  \end{itemize}
+  \item If $P$ is an s,t-path and $\delta(S)$ is an s,t-cut, then $P$ must have an edge from $\delta(S)$
+  \item If $S\subseteq E$ contains at least one edge from every s,t-cut, then $S$ contains an s,t-path 
+\end{itemize}
+\subsubsection{Nonlinear Program}
+A nonlinear program (NLP) is of the form 
+\begin{align*}
+  \text{min} &f(x) \\
+  \text{s.t.}&g_1(x)\leq0\\
+             &g_2(x)\leq0\\
+             &\cdots\\
+             &g_m(x)\leq0
+\end{align*}
+where 
+\begin{itemize}
+  \item $x\in\R^n$
+  \item $f:\R^n\rightarrow \R$, and 
+  \item $g_i:\R^n\rightarrow \R$
+\end{itemize}
+Linear programs are NLPs
+
+\section{Module 2: Solving Linear Programs}
+\subsection{Week 4: Possible Outcomes / Certificates / Standard Equality Forms}
+\subsubsection{Feasible Solution}
+An aassignment of values to each of the variables is a feasible solution if all the constraints are satisfied
+\subsubsection{Feasible / Infeasible}
+An optimization problem is feasible if it has at least one feasible solution. It is infeasible otherwise 
+\subsubsection{Optimal Solution}
+\begin{itemize}
+  \item For a maximization problem, an optimal solution is a feasible solution that maximizes the objective function 
+  \item For a minimization problem, an optimal solution is a feasible solution that minimizes the objective function 
+\end{itemize}
+\subsubsection{Unbounded}
+\begin{itemize}
+  \item A maximization problem is unbounded if for every value $M$, there exists a feasible solution with objective value greater than $M$
+  \item A minimization problem is unbounded if for every value $M$, there exists a feasible solution with objective value smaller than $M$
+\end{itemize}
+\subsubsection{Fundamental Theorem of Linear Programming}
+For any linear program, EXACTLY ONE of the following holds
+\begin{itemize}
+  \item It has an optimal solution 
+  \item It is infeasible 
+  \item It is unbounded 
+\end{itemize}
+\subsubsection{Proposition}
+There is no solution to $Ax=b$, $x\geq0$, if there exists $y$ where 
+\[y^TA\geq0^T\ \ \ \text{and}\ \ \ y^Tb<0\]
+\subsubsection{Farka's Lemma}
+If there is no solution to $Ax=b$, $x\geq0$, then there exists $y$ where 
+\[y^TA\geq0^T\ \ \ \text{and}\ \ \ y^Tb<0\]
+\subsubsection{Claims to show unboundness}
+\begin{itemize}
+  \item Claim 1: $x(t)$ is feasible for all $t>0$
+  \item Claim 2: $z\rightarrow\infty$ when $t\rightarrow\infty$
+\end{itemize}
+\subsubsection{Proposition}
+The linear program \[\text{max}\{c^Tx:Ax=b, x\geq 0\}\]
+is unbounded if we can find $\overline{x}$ and $r$ such that \[\overline{x}\geq0, r\geq0, A\overline{x}=b, Ar=0, \text{ and }c^Tr>0\]
+\subsubsection{Definition: Standard Equality Form (SEF)}
+A linear program (LP) is in standard equality form (SEF) if 
+\begin{enumerate}
+  \item it is a maximization problem
+  \item for every variable $x_j$, we have the constraint $x_j\geq 0$
+  \item all other constraints are equality constraints
+\end{enumerate}
+\subsubsection{What to do if LP is not in SEF?}
+\begin{enumerate}
+  \item find an ``equivalent'' LP in SEF 
+  \item solve the ``equivalent'' LP using simplex
+  \item use the solution of ``equivalent'' LP to get the solution of the original LP
+\end{enumerate}
+\subsubsection{Definition: Equivalent LP}
+A pair of LPs are equivalent if they behave in the same way \\
+Linear programs (P) and (Q) are equivalent if 
+\begin{itemize}
+  \item (P) infeasible $\iff$ (Q) infeasible 
+  \item (P) unbounded $\iff$ (Q) unbounded 
+  \item can construct optimal solution of (P) from optimal solution of (Q)
+  \item can construct optimal solution of (Q) from optimal solution of (P)
+\end{itemize}
+\subsubsection{Theorem}
+Every LP is equivalent to an LP in SEF 
+\subsubsection*{Tips}
+Set free variable $x_3:=a-b$ where $a,b\geq0$
+\subsection{Week 5: Basis, Canonical Form, Formalizing the Simplex}
+\subsubsection{Notation}
+Let $B$ be a subset of column indices \\
+Then $A_B$ is a solumn sub-matrix of $A$ indexed by set $B$ \\
+$A_j$ denotes column $j$ of $A$
+\subsubsection{Definition: Basis}
+Let $B$ be a subset of column indices. $B$ is a basis if
+\begin{enumerate}
+  \item $A_B$ is a square matrix 
+  \item $A_B$ is non-singular (columns are independent)
+\end{enumerate}
+\subsubsection{Theorem}
+Max number of independent columns $=$ max number of independent rows 
+\subsubsection{Definition: Basic solution}
+$x$ is a basic solution for basis $B$ if 
+\begin{enumerate}
+  \item $Ax=b$
+  \item $x_j=0$ whenever $j\notin B$
+\end{enumerate}
+\subsubsection{Proposition}
+Consider $Ax=b$ and a basis of $A$. Then there exists a unique basic solution $x$ for $B$
+\subsubsection{Definition: Basic solution}
+Consider $Ax=b$ with independent rows. Vector $x$ is a basic solution if it si a basic solution for some basis $B$
+\subsubsection{Definition}
+A basic solution $x$ of $Ax=b$ is feasible if $x\geq0$
+\subsubsection{Definition: Canonical form}
+\[\text{max}\{c^Tx:Ax=b,x\geq0\}\]
+Let $B$ be a basis of $A$. Then (P) is in canonical form for $B$ if 
+\begin{enumerate}[P1]
+  \item $A_b = I$
+  \item $c_j=0$ for all $j\in B$
+\end{enumerate}
+\subsubsection{Proposition}
+For any basis $B$, there exists (P') in canonical form for $B$ such that 
+\begin{enumerate}
+  \item (P) and (P') have the same feasible region
+  \item feasible solutions have the same objective value for (P) and (P') 
+\end{enumerate}
+\subsubsection{Proposition}
+Consider $A$ with basis $B$,
+$P:$\\
+\begin{align*}
+  \text{max}\ \ &c^Tx \\
+  \text{s.t.}\ \ &Ax=b \\
+                 &x\geq\vec{0}
+\end{align*}
+$P':$\\
+\begin{align*}
+  \text{max}\ \ &[c^T-y^TA]x + y^Tb \\
+  \text{s.t.}\ \ &A^{-1}_BAx = A^{-1}_Bb \\
+                 &x\geq\vec{0}
+\end{align*}
+where $y=A^{-T}_B$ 
+\begin{enumerate}
+  \item $(P')$ is in canonical form for basis $B$, $\overline{c}_B = 0$ and $A'_B = I$
+  \item $(P)$ and $(P')$ have the same feasible region 
+  \item feasible solutions have the same objective value for $(P)$ and $(P')$
+\end{enumerate}
+\subsubsection{The Simplex Algorithm}
+\begin{align*}
+  \text{max}\ \ &c^Tx \\
+  \text{s.t.}\ \ &Ax=b \\
+                 &x\geq0
+\end{align*}
+Input: a feasible basis $B$ \\
+Output: an optimal solution or it detects that the LP is unbounded 
+\begin{enumerate}
+  \item rewrite in canonical form for basis $B$
+  \item find a better basis $B$ or get required outcome 
+\end{enumerate}
+\subsubsection*{Try to find a better basis}
+\begin{align*}
+  \text{max}\ \ &z=c^T_Nx_N + \overline{z} \\
+  \text{s.t.}\ \ &x_B + A_Nx_N = b \\
+                 &x\geq0
+\end{align*}
+\subsubsection{Proposition}
+Simplex tells the truth:
+\begin{itemize}
+  \item If it claims the LP is unbounded, it is unbounded 
+  \item if it claims the solution is optimal, it is optimal 
+\end{itemize}
+\subsubsection{Definition: Bland's Rule}
+Bland's rule is as follows:
+\begin{itemize}
+  \item if we have a choice for the element entering the basis, pick the smallest one
+  \item if we have a choice for the element leaving the basis, pick the smallest one 
+\end{itemize}
+\subsubsection{Theorem}
+If we use Bland's rule, then the Simplex algorithm always terminates 
+\subsection{Week 6: Feasible Solution, Half Spaces and Convexity, Extreme Points}
+\subsubsection{Feasible Solution}
+\[\text{max}\ \ \{c^T:Ax=b,x\geq0\}\]
+Algorithm 1:
+\begin{itemize}
+  \item[Input:] $A,b,c$ and a feasible solution 
+  \item[Output:] Optimal solution / detect LP unbounded 
+\end{itemize}
+Algorithm 2:
+\begin{itemize}
+  \item[Input:] $A$ and $b$
+  \item[Output:] Feasible solution / detect there is none 
+\end{itemize}
+\subsubsection*{Proposition}
+Can use Algorithm 1 to get Algorithm 2
+\subsubsection{Definition: Feasible Region}
+For an optimication problem, the \[\text{feasible region } = \text{ set of all feasible solutions}\]
+\subsubsection{Definition: Polyhedron}
+$P\subseteq\R^n$ is a polyhedron if there exists a matrix $A$ and a vector $b$ such that \[P=\{x:Ax\leq b\}\]
+\subsubsection{Proposition}
+The feasible region of an LP is a polyhedron
+\subsubsection{Definition: Hyperplane, Halfspace}
+Let $a\neq0$ be a vector and $\beta$ a read number 
+\begin{enumerate}
+  \item $\{x:a^Tx=\beta\}$ is a hyperplane 
+  \item $\{x:a^Tx\leq\beta\}$ is a halfspace 
+\end{enumerate}
+A hyperplane is the set of solutions to a single linear equation \\
+A halfspace is the set of solutions to a single linear inequality 
+\subsubsection{Definition: Translate}
+Let $S,S'\subseteq\R^n$. Then $S'$ is a translate of $S$ if there exists $p\in\R^n$ and \[S'=\{s+p:s\in S\}\]
+\subsubsection{Proposition}
+Let $a\neq0$ be a vector and $\beta$ a real number and let 
+\[H:=\{x:a^Tx=\beta\} and\ H_0:=\{x:a^Tx=0\}\]
+It follows that $H$ is a translate of $H_0$
+\subsubsection{Proposition}
+Let $a\neq0$ be a vector and $\beta$ a real number and let 
+\[F:=\{x:a^Tx\leq\beta\}and\ F_0:=\{x:a^Tx\leq0\}\]
+It follows that $F$ is a translate of $F_0$
+\subsubsection{Proposition}
+The dimension of a hyperplane in $\R^n$ is $n-1$
+\subsubsection{Definition: Line Through}
+Let $x_1,x_2\in\R^n$. The line through $x_1$ and $x_2$ is defined as \[L=\{x=\lambda x_1 + (1-\lambda)x_2:\lambda\in\R\}\]
+\subsubsection{Definition: Line Segement}
+Let $x_1,x_2\in\R^n$. The line segement $x_1$ and $x_2$ is defined as \[S=\{x=\lambda x_1 + (1-\lambda)x_2:\lambda\in\R,0\leq\lambda\leq1\}\]
+\subsubsection{Definition: Convex}
+A set $S\subseteq\R^n$ is convex if, for any pair of points $x_1, x_2\in S$, the line segement between $x_1$ and $x_2$ is in $S$
+\subsubsection{Proposition}
+Let $H=\{x:a^Tx\leq\beta\}$ be a halfspace. It follows that $H$ is convex 
+\subsubsection{Corollary}
+If $P$ is a polyhedron, then $P$ is convex 
+\subsubsection{Definition: Properly Contained}
+Point $x\in\R^n$ is properly contained in the line segement $L$ if 
+\begin{itemize}
+  \item $x\in L$
+  \item $x$ is distinct from the endpoints of $L$
+\end{itemize}
+\subsubsection{Definition: Extreme Point}
+Let $S$ be a convex set and $\overline{x}\in S$ \\
+It follows that $\overline{x}$ is NOT an exteme point if there exists a line segement $L\subseteq S$ where $L$ properly contains $\overline{x}$
+\subsubsection*{Remark}
+A convex set may have an infinite number of extreme points \\
+A convex set may have NO extreme points 
+\subsubsection{Definition: Tight}
+Let $P=\{x:Ax\leq b\}$ be a polyhedron and let $x\in P$
+\begin{itemize}
+  \item A constraint is tight for $x$ if it is satisfied with equality 
+  \item the set of all tight constraints is denoted $\overline{A}x\leq\overline{b}$
+\end{itemize}
+\subsubsection{Theorem}
+Let $P=\{x\in\R^n:Ax\leq b\}$ be a polyhedron and let $\overline{x}\in P$
+\begin{itemize}
+  \item if $\rank(\overline{A})=n$, then $\overline{x}$ is an extreme point 
+  \item if $\rank(\overline{A})<n$, then $\overline{x}$ is NOT an extreme point 
+\end{itemize}
+
+\section{Module 3: Duality Through Examples}
+\subsection{Week 7: Duality Through Examples / Weak Duality}
+\subsubsection{Definition}
+A width assignment $\{y_U:\delta(U)\ s,t-cut\}$ is feasible if, for every edge $e\in E$, the total width of all cuts containing $e$ is no more than $c_e$
+\subsubsection{Proposition}
+If $y$ is a feasible width assignment, then any s,t-path must have length at least \[\sum(y_U:U\ s,t-cut)\]
+\subsubsection{Theorem: Weak Duality}
+If $\overline{x}$ is feasible for $(P)$ and $\overline{y}$ is feasible for $(D)$, then $b^T\overline{y}\leq c^T\overline{x}$
+\subsubsection{Theorem: Strong Duality}
+Let $P$ and $D$ be a pair of primal-dual LPs. Then 
+\begin{itemize}
+  \item if there exists an optimal solution $\overline{x}$ of $P$, then there exists an optimal solution $\overline{y}$ of $D$
+  \item the value of $\overline{x}$ in $P$ equals the value of $\overline{y}$ in $D$
+\end{itemize}
+\subsection{Week 8: Shortest Path Algorithm and Correctness}
+\subsubsection{Definition: Slack}
+Let $y$ be a feasible dual solution. The slack of an edge $e\in E$ is defined as 
+\[\text{slack}_y(e) = c_e-\sum(y_U: \delta(U)\ s,t-\text{cut}, e\in\delta(U))\]
+\subsubsection{Shortest Path Algorithm}
+\textbf{Input}: Graph $G = (V,E)$, costs $c_e\geq0$ for all $e\in E$, $s,t\in V$ where $s\neq t$\\ 
+\textbf{Output}: A shortest st-path $P$
+\begin{enumerate}
+  \item $y_W:=0$ for all st-cuts $\delta(W)$. Set $U:=\{s\}$
+  \item while $t\notin U$ do 
+  \item $\ \ $ Let $ab$ be an edge in $\delta(U)$ of smallest slack for $y$ where $a\in U$, $b\notin U$
+  \item $\ \ $ $y_U:=\text{slack}_y(ab)$
+  \item $\ \ $ $U:= U\cup\{b\}$
+  \item $\ \ $ change edge $ab$ into an arc $\overrightarrow{ab}$
+  \item end while 
+  \item return A directed st-path $P$
+\end{enumerate}
+\subsubsection{Proposition}
+Let $y$ be a feasible dual solution, and $P$ and s,t-path. $P$ is a shortest if 
+\begin{itemize}
+  \item all edges on $P$ are equality edges, and 
+  \item every active cut $\delta(U)$ has exactly one edge of $P$
+\end{itemize}
+\subsubsection{Proposition: Correctness of the Shortest Path Algorithm}
+The Shortest Path Algorithm maintains throughout its execution if:
+\begin{itemize}
+  \item $y$ is a feasible dual 
+  \item arcs are equality arcs (have $0$ slack)
+  \item no active cut $\delta(U)$ has an entering arc: an arc $wu$ with $w\notin U$, and $u\in U$
+  \item for every $u\in U$ there is a directed s,u-path, and
+  \item arcs have both ends in $U$
+\end{itemize}
+
+\section{Module 4: Duality Theory}
+\subsection{Week 9: Duality Theory}
+\subsubsection{Primal-Dual Pairs}
+The following table shows constraints and variables in primal and dual LPs correspond \\
+\includegraphics[width=\textwidth]{Screeshots/primal-dual pairs.png}
+\subsubsection{Theorem: Weak Duality}
+Let ($P_{max}$) and ($P_{min}$) represent the above. If $\overline{x}$ and $\overline{y}$ are feasible for two LPs, then \[c^T\overline{x}\leq b^T\overline{y}\]
+If $c^T\overline{x} = b^T\overline{y}$, then $\overline{x}$ is optimal for $(P_{max})$ and $\overline{y}$ is optimal for $(P_{min})$
+\subsubsection{Consequence of Weak Duality}
+\begin{itemize}
+  \item $(P_{max})$ is unbounded $\rightarrow$ $(P_{min})$ infeasible 
+  \item $(P_{min})$ is unbounded $\rightarrow$ $(P_{max})$ infeasible 
+  \item $(P_{max})$ and $(P_{min})$ feasible $\rightarrow$ both must have optimal solutions 
+\end{itemize}
+\subsubsection{Theorem: Strong Duality}
+If $(P_{max})$ has an optimal solution $\overline{x}$, then $(P_{min})$ has an optimal solution $\overline{y}$
+such that $c^T\overline{x} = b^T\overline{y}$ \\
+Let $(P)$ and $(D)$ be a primal-dual pairs of LPs. If $(P)$ has an optimal solution, then $(D)$ has one, and their objective values equal 
+\subsubsection{Strong Duality Theorem - Feasibility Version}
+Let $(P)$ and $(D)$ be primal-dual pairs of LPs. If both are feasible, then both optimal solutions of the same objective value 
+\subsubsection{Complementary Slackness - special case}
+Let $\overline{x}$ and $\overline{y}$ be feasible for $(P)$ and $(D)$ \\
+Then $\overline{x}$ and $\overline{y}$ are optimal if and only if 
+\begin{itemize}
+  \item $\overline{y}_i = 0$, or 
+  \item the $i$th constraint of $(P)$ is tight for $\overline{x}$, for every row index $i$
+\end{itemize}
+\subsubsection{Complementary Slackness Theorem}
+Let $(P)$ and $(D)$ be an arbitrary primal-dual pair of LPs, and let $\overline{x}$ and $\overline{y}$ be feasible solutions. Then
+these solutions are optimal if and only if the CS conditions hold 
+\subsubsection{Definition}
+Let $a^{(1)}, \cdots, a^{(k)}$ be vectors in $\R^n$. The cone generated by these vectors is given by 
+\[C=\{\lambda_1a^{(1)} + \lambda_2a^{(2)} + \cdots + \lambda_ka^{(k)}: \lambda\geq 0\}\]
+\subsubsection{Theorem}
+Let $\overline{x}$ be a feasible solution to 
+\[\text{max}\{c^Tx: Ax\leq b\}\]
+Then $\overline{x}$ is optimal if and only if $c$ is in the cone of tight constraints for $\overline{x}$
+
+\section{Module 5: Solving Integer Programs}
+\subsection{Week 10: Solving Integer Programs}
+\subsubsection{Definition: Convex Hull}
+Let $C$ be a subset of $\R^n$ \\
+The convex hull of $C$ is the smallest convex set that contains $C$
+\subsubsection{Meyer's Theorem}
+Consider $P=\{x:Ax\leq b\}$ where $A,b$ are rational \\
+Then, the convex hull of all integer poitns in $P$ is a polyhedron 
+\subsubsection{Theorem}
+\begin{itemize}
+  \item IP is infeasible if and only if LP is infeasible 
+  \item IP is unbounded if and only if LP is unbounded 
+  \item an optimal solution to IP is an optimal solution to LP 
+  \item an extreme optimal solution to LP is an optimal solution to IP
+\end{itemize}
+\subsubsection{Cutting Plane Scheme}
+\[\text{max}\ \{c^Tx:Ax\leq b, x\text{integer}\} \ \ \ (IP)\]
+\begin{itemize}
+  \item Let $(P)$ denote $\text{max}\{c^Tx: Ax\leq b\}$
+  \item If $(P)$ is infeasible, then STOP. $(IP)$ is also infeasible 
+  \item Let $\overline{x}$ be the optimal solution to $(P)$ 
+  \item If $\overline{x}$ is integral, then STOP. $\overline{x}$ is also optimal for $(IP)$
+  \item Find a cutting plane $a^Tx\leq\beta$ for $\overline{x}$
+  \item Add a constraint $a^Tx\leq\beta$ to the system $Ax\leq b$
+  \item Repeat 
+\end{itemize}
+\subsubsection{Definition: Floor}
+Let $a\in\R$, then $\lfloor a\rfloor$ denotes the largest integer $\leq a$
+
+\section{Module 6: Nonlinear Optimization}
+\subsection{Week 11: Nonlinear Optimization}
+\subsubsection{Definition: Nonlinear Program}
+A nonlinear program (NLP) is a problem of the form 
+\begin{align*}
+  \text{min}\ \ \ &f(x) \\
+  \text{s.t.}\ \ \ &g_i(x)\leq 0\quad (i=1,\cdots,k)
+\end{align*}
+\subsubsection{Definition: Local Optimum}
+Consider \[min\{f(x):x\in S\} \ \ \quad (P)\]
+$s\in S$ is a local optimum if there exists $\delta>0$ such that 
+\[\forall x'\in S\ \text{where}\ ||x'-x||\leq \delta\ \text{and we have}\ f(x)\leq f(x')\]
+\subsubsection{Proposition}
+Consider \[min\{c^Tx:x\in S\}\ \ \quad(p)\]
+If $S$ is convex and $x$ is a local optimum, then $x$ is optimal
+\subsubsection{Proposition}
+If $g_1,\cdots,g_k$ are all convex, then the feasible region of $(P)$ is convex
+\subsubsection{Definition}
+Function $f:\R^n\rightarrow\R$ is convex if for all $a,b\in\R^n$
+\[f(\lambda a+(1-\lambda)b)\leq \lambda f(a) + (1-\lambda)f(b)\ \text{for all}\ 0\leq\lambda\leq1\]
+\subsubsection{Proposition}
+Let $g:\R^n\rightarrow\R$ be a convex function $\beta\in\R$ \\
+It follows that $S=\{x\in\R^n:g(x)\leq\beta\}$ is a convex set 
+\subsubsection{Proposition}
+$(P)$:
+\begin{align*}
+  \text{min}\ \ &c^Tx \ \quad\\
+  \text{s.t.}\ \ &g_i(x)\leq 0\ \ (i=1,\cdots,k)
+\end{align*}
+If all functions $g_i$ are convex, then the feasible region of $(P)$ is convex 
+\subsubsection{Definition: Epigraph}
+Let $f:\R^n\rightarrow\R$ be a function. The epigraph of $f$ is then given by 
+\[epi(f) = \{\cv{y\\x}:y\geq f(x), x\in\R\}\subseteq\R^{n+1}\]
+\subsubsection{Proposition}
+Let $f:\R^n\rightarrow\R$ be a function. It follows that 
+\begin{enumerate}
+  \item $f$ is convex $\Rightarrow$ $epi(f)$ is convex 
+  \item $epi(f)$ is convex $\Rightarrow$ $f$ is convex 
+\end{enumerate}
+\subsubsection{Defintion: Subgradient}
+Let $f:\R^n\rightarrow\R$ be a convex function and $\overline{x}\in\R^n$ \\
+Then, $s\in\R^n$ is a subgradient of $f$ at $\overline{x}$ if 
+\[h(x):= f(\overline{x}) + s^T(x-\overline{x})\leq f(x)\ \text{for all }x\in\R^n\]
+\subsubsection{Definition: Supporting}
+Let $C\in\R^n$ be a convex set and let $\overline{x}\in C$\\
+The halfspace $F=\{x:s^Tx\leq\beta\}$ is supporting $C$ at $\overline{x}$ if 
+\begin{enumerate}
+  \item $C\subseteq F$ and 
+  \item $s^T\overline{x}=\beta$. That is, $\overline{x}$ is on the boundary of $F$
+\end{enumerate}
+\subsubsection{Proposition}
+Let $g:\R^n\rightarrow\R$ be convex and let $\overline{x}$ where $g(\overline{x}) = 0$ \\
+Let $s$ be a subgradient of $g$ at $\overline{x}$ \\
+Let $C=\{x:g(x)\leq 0\}$ \\
+Let $F=\{x:h(x):=g(\overline{x})+s^T(x-\overline{x})\leq0\}$ \\
+Then, $F$ is a supporting halfspace of $C$ at $\overline{x}$
+\subsubsection{Proposition}
+\begin{align*}
+  \text{min}\ \ &c^Tx \\
+  \text{s.t.}\ \ &g_i(x)\leq 0 \ \ (i=1,\cdots,k)
+\end{align*}
+$g_1,\cdots, g_k$ all convex \\
+$\overline{x}$ is a feasible solution \\
+$\forall i\in I$, $g_i(\overline{x}) = 0$ \\
+$\forall i\in I$, $s^i$ subgradient for $g_i$ at $\overline{x}$ \\
+If $-c\in\text{cone}\{s^i:i\in I\}$ then $\overline{x}$ is optimal 
+\subsubsection{Proposition}
+Let $f:\R^n\rightarrow\R$ be a convex function and let $\overline{x}\in\R^n$ \\
+If the gradient $\nabla f(\overline{x})$ of $f$ exists at $\overline{x}$, then it is a subgradient 
+\subsubsection{Proposition}
+Let $f:\R^n\rightarrow\R$ be function and let $\overline{x}\in\R^n$ \\
+If the partial derivative $\dfrac{\partial f(x)}{\partial x_j}$ exists for $f$ at $\overline{x}$ for all $j=1,\cdots,n$, then 
+the gradient $\nabla f(\overline{x})$ is obtained by evaluating for $\overline{x}$ 
+\[\cv{\dfrac{\partial f(x)}{\partial x_1} &\cdots &\dfrac{\partial f(x)}{\partial x_n}}^T\]
+\subsubsection{Definition: Slater Point}
+A feasible solution to $\overline{x}$ is a slater point of 
+\begin{align*}
+  \text{min}\ \ &c^Tx \\
+  \text{s.t.}\ \ &g_i(x)\leq 0 \ \ (i=1,\cdots,k)
+\end{align*}
+if $g_i(\overline{x})<0$ for all $i=1,\cdots,k$ 
+\subsubsection{The Karush-Kuhn-Tucker (KKT) Theorem}
+Consider the following NLP:
+\begin{align*}
+  \text{min}\ \ &c^Tx \\
+  \text{s.t.}\ \ &g_i(x)\leq 0 \ \ (i=1,\cdots,k)
+\end{align*}
+Suppose that 
+\begin{enumerate}
+  \item $g_1,\cdots,g_k$ are all convex 
+  \item there exists a slater point 
+  \item $\overline{x}$ is a feasible solution 
+  \item $I$ is the set of indices $i$ for which $g_i(\overline{x}) = 0$
+  \item for all $i\in I$ there exists a gradient $\nabla g_i(\overline{x})$ of $g_i$ at $\overline{x}$
+\end{enumerate}
+Then $\overline{x}$ is optimal $\iff$ $-c\in cone\{\nabla g_i(\overline{x}):i\in I\}$
+
+\end{document}
