@@ -1,0 +1,533 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm,enumerate,nicefrac,fancyhdr,hyperref,graphicx,adjustbox}
+\hypersetup{colorlinks=true,urlcolor=blue,citecolor=blue,linkcolor=blue}
+\usepackage[left=2.6cm, right=2.6cm, top=1.5cm, includehead, includefoot]{geometry}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[d]{esvect}
+
+%% commands
+%% useful macros [add to them as needed]
+% sets
+\newcommand{\C}{{\mathbb{C}}} 
+\newcommand{\N}{{\mathbb{N}}}
+\newcommand{\Q}{{\mathbb{Q}}}
+\newcommand{\R}{{\mathbb{R}}}
+\newcommand{\Z}{{\mathbb{Z}}}
+\newcommand{\F}{{\mathbb{F}}}
+
+% bases
+\newcommand{\mA}{\mathcal{A}}
+\newcommand{\mB}{\mathcal{B}}
+\newcommand{\mC}{\mathcal{C}}
+\newcommand{\mD}{\mathcal{D}}
+\newcommand{\mE}{\mathcal{E}}
+\newcommand{\mL}{\mathcal{L}}
+\newcommand{\mM}{\mathcal{M}}
+\newcommand{\mO}{\mathcal{O}}
+\newcommand{\mP}{\mathcal{P}}
+\newcommand{\mS}{\mathcal{S}}
+\newcommand{\mT}{\mathcal{T}}
+
+% linear algebra
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\adj}{\operatorname{adj}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\spn}{\operatorname{Span}}
+\newcommand{\proj}{\operatorname{proj}}
+\newcommand{\prp}{\operatorname{perp}}
+\newcommand{\refl}{\operatorname{refl}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\nul}{\operatorname{Null}}
+\newcommand{\nully}{\operatorname{nullity}}
+\newcommand{\range}{\operatorname{Range}}
+\renewcommand{\ker}{\operatorname{Ker}}
+\newcommand{\col}{\operatorname{Col}}
+\newcommand{\row}{\operatorname{Row}}
+\newcommand{\cof}{\operatorname{cof}}
+\newcommand{\Num}{\operatorname{Num}}
+\newcommand{\Id}{\operatorname{Id}}
+\newcommand{\ipb}{\langle \thinspace, \rangle}
+\newcommand{\ip}[2]{\left\langle #1, #2\right\rangle} % inner products
+\newcommand{\M}[2]{M_{#1\times #2}(\F)}
+\newcommand{\RREF}{\operatorname{RREF}}
+\newcommand{\cv}[1]{\begin{bmatrix} #1 \end{bmatrix}}
+\newenvironment{amatrix}[1]{\left[\begin{array}{@{}*{\numexpr#1-1}{c}|c@{}}}{\end{array}\right]}
+\newcommand{\am}[2]{\begin{amatrix}{#1} #2 \end{amatrix}}
+
+% vectors
+\newcommand{\vzero}{\vv{0}}
+\newcommand{\va}{\vv{a}}
+\newcommand{\vb}{\vv{b}}
+\newcommand{\vc}{\vv{c}}
+\newcommand{\vd}{\vv{d}}
+\newcommand{\ve}{\vv{e}}
+\newcommand{\vf}{\vv{f}}
+\newcommand{\vg}{\vv{g}}
+\newcommand{\vh}{\vv{h}}
+\newcommand{\vl}{\vv{\ell}}
+\newcommand{\vm}{\vv{m}}
+\newcommand{\vn}{\vv{n}}
+\newcommand{\vp}{\vv{p}}
+\newcommand{\vq}{\vv{q}}
+\newcommand{\vr}{\vv{r}}
+\newcommand{\vs}{\vv{s}}
+\newcommand{\vt}{\vv{t}}
+\newcommand{\vu}{\vv{u}}
+\newcommand{\vvv}{{\vv{v}}}
+\newcommand{\vw}{\vv{w}}
+\newcommand{\vx}{\vv{x}}
+\newcommand{\vy}{\vv{y}}
+\newcommand{\vz}{\vv{z}}
+
+% display
+\newcommand{\ds}{\displaystyle}
+\newcommand{\qand}{\quad\text{and}}
+\newcommand{\qandq}{\quad\text{and}\quad}
+\newcommand{\hint}{\textbf{Hint: }}
+
+% misc
+\newcommand{\area}{\operatorname{area}}
+\newcommand{\vol}{\operatorname{vol}}
+\newcommand{\red}[1]{{\color{red} #1}}
+\newcommand{\rc}{\red{\checkmark}}
+
+\title{STAT 231 Notes}
+\author{Thomas Liu}
+\begin{document}
+\maketitle
+\tableofcontents
+
+\newpage 
+
+\section{Lecture 1}
+\subsection{Empirical Study}
+Empirical study is one in which knowledge is gained by observation or by experiment to 
+\begin{itemize}
+  \item help further knowledge 
+  \item improve systems 
+  \item determine public policy
+\end{itemize}
+Empirical studies deal with populations and provesses which are collections of individual units
+\subsection{Data Collection}
+\subsubsection{Variate}
+a characteristic of a unit 
+\begin{itemize}
+  \item continuous
+  \item discrete
+  \item categorical
+  \item ordinal
+  \item complex
+\end{itemize}
+\subsubsection{Attribute}
+a function of the variates over the population or process 
+\subsubsection{Types of Empirical Studies}
+\begin{itemize}
+  \item sample surveys
+  \begin{itemize}
+    \item select a representative sample of units from the population
+    \item determine the variates of interest for each unit in the sample 
+  \end{itemize}
+  \item observational studies 
+  \begin{itemize}
+    \item data are collected about a population or process without any attempts to change the value of one or more variates for the sampled units 
+    \item subtle distinction from sample survey 
+  \end{itemize}
+  \item experimental studies 
+  \begin{itemize}
+    \item the experimenter intervenes and changes or sets the values of one or more variates for the units in the sample
+  \end{itemize}
+\end{itemize}
+\subsection{Measures of Location}
+\begin{itemize}
+  \item sample mean: $\overline{y} = \frac{1}{n}\sum_{i=1}^{n}y_i$
+  \item sample median: $\hat{m}$ (middle value)
+  \item sample mode: the value of $y$ which appears in the sample with the highest frequency
+\end{itemize}
+\subsection{Variability}
+Measures of variability or dispersion:
+\begin{itemize}
+  \item sample variance: $s^2 = \frac{1}{n-1}\sum_{i=1}^{n}(y_i-\overline{y})^2$ \\
+  take square root for the sample standard deviation
+  \item range: $y_n-y_1$ where $y_n= max(y)$ and $y_1= min(y)$
+\end{itemize}
+\subsection{Measures of Shape}
+\begin{itemize}
+  \item sample skewness: measures ``lack of symmetry'' in the data, can be positive or negative \[g_1 = \ds\frac{\frac{1}{n}\ds\sum_{i=1}^{n}(y_i-\overline{y})^3}{\Big[\frac{1}{n}\ds\sum_{i=1}^{n}(y_i-\overline{y})^2\Big]^{3/2}}\]
+  \begin{itemize}
+    \item positive skew: more data on the left
+    \item negative skew: more data on the right 
+  \end{itemize}
+  \item sample kurtosis: measures the heaviness of the tails of the data, always positive \[g_2 = \ds\frac{\frac{1}{n}\ds\sum_{i=1}^{n}(y_i-\overline{y})^4}{\Big[\frac{1}{n}\ds\sum_{i=1}^{n}(y_i-\overline{y})^2\Big]^{2}}\]
+\end{itemize}
+\subsection{Sample Quantiles}
+\begin{itemize}
+  \item define $p$th quantile (or $100p$th percentile) as a value st approximately a fraction $p$ of the $y$ values fall less than $q(p)$
+  \item order dataset $\{y_1,\cdots,y_n\}$ from smallest to largest: $\{y_{(1)},\cdots,y_{(n)}\}$
+  \item find $p$th sample quantile
+  \begin{itemize}
+    \item let $k=(n+1)p$, where $n$ is the sample size 
+    \item if $k$ is integer, $1\leq k\leq n$, then $q(p)=y_{(k)}$
+    \item otherwise, $q(p)$ is the average of $y_{(j)}$ and $y_{(j+1)}$ where $j$ and $j+1$ are the two closest integers that $k$ falls between 
+  \end{itemize}
+  \item interquantile range (IQR): $q(0.75)-q(0.25)$
+\end{itemize}
+\subsection{Sample Correlation for Continuous Bivariate Data}
+For a sample of data $\{(x_1,y_1),\cdots,(x_n,y_n)\}$, the sample correlation is defined as \[r=\dfrac{S_{xy}}{\sqrt{S_{xx}S_{yy}}}\]
+where 
+\begin{itemize}
+  \item $S_{xy}=\sum_{i=1}^{n}(x_i-\overline{x})(y_i-\overline{y})$
+  \item $S_{xx}=\sum_{i=1}^{n}(x_i-\overline{x})^2$
+  \item $S_{yy}=\sum_{i=1}^{n}(y_i-\overline{y})^2$
+  \item $r$ takes on values between $-1$ and $1$
+  \item measure of strength of linear relationship between $x$ and $y$
+\end{itemize}
+
+\section{Lecture 2}
+\subsection{Histograms}
+A histogram is a way of reresenting frequencies in a dataset $\{y_1,\cdots,y_n\}$ using rectangles \\
+Partition the range of $y$ into $k$ non-overlapping intervals $l_j=[a_{j-1}, a_j)$, $j=1,\cdots,k$ 
+\subsubsection{Types of Histograms}
+Two ways of determining the heights of the rectangles: 
+\begin{itemize}
+  \item standard frequency histogram: intervals are of equal length, the height is the frequency $f_j$ or relative frequency $f_j/n$
+  \item relative frequency histogram: to adjust for intervals being of different lengths, set the height to 
+  \[\frac{f_j/n}{a_j-a_{j-1}}\]
+\end{itemize}
+\subsection{Bar Graphs and Pie Charts}
+Bar graphs and pie charts are useful ways of visualizing frequencies for categorical (non-numberic) data 
+\subsection{Empirical Cumulative Distribution Functions}
+Suppose the dataset are from an unknown cumulative distribution function $F(y)=P(Y\leq y)$, then the empirical cumulative distribution function (ecdf):
+\[\hat{F}(y) = \frac{\text{Number of values in the set }\{y_1,\cdots,y_n\}\leq y}{n}\]
+\begin{figure}[tbhp]
+	\begin{center}
+		\includegraphics[width=0.5\textwidth]{ECDF for right-skewed data.png}
+	\end{center}
+	\caption{ECDF for right-skewed data}
+	\label{figcaption}
+\end{figure}
+\begin{figure}[tbhp]
+	\begin{center}
+		\includegraphics[width=0.5\textwidth]{ECDF for left-skewed data.png}
+	\end{center}
+	\caption{ECDF for left-skewed data}
+	\label{figcaption}
+\end{figure}
+\subsection{Boxplots}
+Boxplots are a useful way of visualizing data with few numbers of groups or small smaple sizes
+\begin{itemize}
+  \item The line inside the box is the sample median $(q(0.5))$
+  \item The top edge of the box is the upper quantile $(q(0.75))$
+  \item The lower edge of the box is the lower quantile $(q(0.25))$
+  \item The lower line is placed at the smallest observed data value that is larger than the value $q(0.25)-1.5\times IQR$ where $IQR = q(0.75) - q(0.25)$ is the interquantile range 
+  \item The upper line is placed at the largest observed data value that is smaller than the value $q(0.75)+1.5\times IQR$
+  \item Values beyond the whiskers are called outliers
+\end{itemize}
+\subsection{Scatterplots}
+Scatterplots can be used to visualize the relationship between two variates \\
+THe magnitude of the sample correlation $r$ reflects the strength of a linear relationship between the two variates 
+\subsection{Run Charts}
+A run chart is useful for depicting changes in a variate over time
+\subsection{Statistical Models and Uses}
+A probability-based model that describes a provess or the selection of units and measurement of variates for a population 
+\begin{itemize}
+  \item random variables can describe variation in variate values 
+  \item questions are often formulated in terms of model parameters (e.g. the proportion of Canadians who drink coffee every morning as of January 8, 2024)
+  \item can draw parallels between sample-based summaries of $\{y_1,\cdots,y_n\}$ and properties of the corresponding probability model for $Y$
+\end{itemize}
+
+\section{Lecture 3}
+\subsection{Random Variables}
+\begin{figure}[tbhp]
+	\begin{center}
+		\includegraphics[width=0.9\textwidth]{Random Variables.png}
+	\end{center}
+	\caption{Properties of discrete versus continuous random variables}
+	\label{figcaption}
+\end{figure}
+\newpage 
+\subsection{Point Estimates}
+The value of a function of observed data $\{y_1,\cdots,y_n\}$ and other known quatities such as sample size $n$
+\begin{itemize}
+  \item notation: $\hat{\theta}$ is an estimate of $\theta$
+  \item depends on the sample of data at hand 
+  \item a point estimate is also a statistic because it does not contain any unknown quantities 
+\end{itemize}
+\subsection{Likelihood Function for Discrete Distributions}
+\begin{itemize}
+  \item Notation: let discret (vector) random variable $Y$ represent potential data to estimate $\theta$ and let $y$ represent the data that are actually observed 
+  \item The likelihood function for $\theta$ is defined as \[L(\theta) = L(\theta; y) = P(Y=y; \theta)\text{\ for $\theta\in\Omega$}\]
+\end{itemize}
+\subsection{Maximum Likelihood Estimates}
+Maximum likelihood estimate of $\theta$: the value of $\theta$ that maximizes $L(\theta)$ for the given data $y$
+\begin{itemize}
+  \item not unique 
+  \item depends on the sample $y$
+\end{itemize}
+\subsection{Relative Likelihood Function}
+The relative likelihood function is defined as \[R(\theta) = \frac{L(\theta)}{L(\hat{\theta})}, \theta\in\Omega\]
+\begin{itemize}
+  \item $0\leq R(\theta)\leq 1$ for all $\theta$
+  \item the log likelihood function is defined as \[\log L(\theta) = \ln L(\theta) = l(\theta)\]
+  \item easier working with the log likelihood when trying to calculate the MLE, we can use $\dfrac{dl(\theta)}{d\theta}$ rather than $\dfrac{dL(\theta)}{d\theta}$
+\end{itemize}
+
+\section{Lecture 4}
+\subsection{Likelihood Functions for Continuous Distribution}
+$\ds P(Y=y)=\prod_{i=1}^{n}\triangle f(y_i;\theta)$
+\begin{itemize}
+  \item $\triangle$ is a very small interval 
+  \item $\triangle^n$ is even smaller and can be ignored in our likelihood and MLE calculations
+\end{itemize}
+\begin{figure}[tbhp]
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{Max Likelihood Method.png}
+	\end{center}
+	\caption{Summary of Maximum Likelihood Method for Named Distributions}
+	\label{figcaption}
+\end{figure}
+\newpage 
+\subsection{Multinomial Distributions}
+The multinomial distribution is used to model $n$ independent trials where each trial has one of $k$ possible outcomes (outcomes $1,\cdots,k$) \\
+The discrete random variables $Y_1,\cdots, Y_n$ have joint probability function 
+\[P(Y_1=y_1,\cdots, Y_n=y_n; \theta) = f(y_1,\cdots,y_n;\theta) = \dfrac{n!}{y_1!\cdots y_k!}\theta_1^{y_1}\cdots\theta_k^{y_k}\]
+We write $(Y_1,\cdots,Y_n)\sim\text{Multinomial}(n;\theta)$
+\subsection{Likelihood Function for the Multinomial Distribution}
+The multinomial distribution 
+\[L(\theta) = \dfrac{n!}{y_1!\cdots y_k!}\theta_1^{y_1}\cdots\theta_k^{y_k}=\dfrac{n!}{y_1!\cdots y_k!}\prod_{i=1}^k\theta^{y_i}\]
+Also 
+\[\sum_{i=1}^{k}y_i = n\]
+It can be shown that 
+\[\hat{\theta_i} = \frac{y_i}{n}, i= 1,\cdots,k\]
+
+\section{Lecture 5}
+\subsection{Invariance Property of Maximum Likelihood Estimates}
+If $\hat{\theta} = (\hat{\theta_1},\cdots,\hat{\theta_k})$ is the MLE of $\theta = (\theta_1,\cdots,\theta_k)$, then $g(\hat{\theta})$ is the MLE of $g(\theta)$
+
+\section{Lecture 6}
+Chapter $2$ review
+
+\section{Lecture 7}
+\subsection{Issue with Parameter Estimation}
+The likelihood function is based on the probability of the observed sample of data \
+\begin{itemize}
+  \item Parameter estimation is data dependent 
+  \item assume that the variate of interest is measured without error for a random sample of units 
+\end{itemize}
+\subsection{Point Estimate}
+A point estimate $\hat{\theta}$ of $\theta$ is a function of the observed sample data $\{y_1,\cdots y_n\}$. ex:
+\[\hat{\theta} = g(y_1,\cdots,y_n) = \frac{1}{n}\sum_{i=1}^{n}y_i\]
+\subsection{Estimator}
+An estimator $\tilde{\theta}$ is a function of random variables, i.e. $g(Y_1,\cdots,Y_n)$. Tells how to use data to obtain a numerical estimate $\hat{\theta} = g(y_1,\cdots,y_n)$
+\subsection{Interval Estimator, Confidence Interval}
+Suppose the interval estimator $[L(Y),U(Y)]$ has the property that 
+\[P(\theta\in[L(Y),U(Y)]) = P(L(Y)\leq\theta\leq U(Y)) = p\]
+The interval estimate $[L(Y),U(Y)]$ constructed for $\theta$ based on observed data $\{y_1,\cdots,y_n\}$ is called a $100p\%$ confidence interval for $\theta$
+
+\section{Lecture 8}
+\subsection{Pivotal Quantity}
+A pivotal quantity $Q=Q(Y;\theta)$ is a function of data $Y$ and parameter $\theta$ such that $Q$ is a random variable with known distribution \\
+Suppose we can rearrange the inequality \[a\leq Q(Y;\theta)\leq b\]a
+as \[L(Y)\leq\theta\leq U(Y)\]
+Then 
+\begin{align*}
+  p &= P(a\leq Q(Y;\theta)\leq b) \\  
+    &= P(L(Y)\leq\theta\leq U(Y)) \\
+    &= P(\theta\in[L(Y),U(Y)])
+\end{align*} 
+
+\section{Lecture 9}
+\subsection{Likelihood Interval}
+Define a $100p\%$ likelihood interval for $\theta$ as set \[\theta:R(\theta)>p\]
+\begin{itemize}
+  \item likelihood intervals can be determined approximately by plotting $R(\theta)$
+  \item more accurate solution: $R(\theta)-p=0$
+  \item likelihood intervals take on the form \[L(y),U(y)\]
+  \item $L(y),U(y)$ are based on observed data 
+\end{itemize}
+\subsection{Log Relative Likelihood Functions}
+\[r(\theta)=\log(R(\theta))=l(\theta)-l(\hat{\theta})\]
+
+\section{Lecture 10}
+\subsection{Gamma Function}
+\[\Gamma(\alpha) = \int_{0}^{\infty}y^{\alpha-1}e^{-y}dy\quad\alpha>0\]
+\begin{itemize}
+  \item $\Gamma(\alpha)=(\alpha-1)\Gamma(\alpha-1)$
+  \item $\Gamma(\alpha)=(\alpha-1)!$ for $\alpha=1,2,\cdots$
+  \item $\Gamma(\frac{1}{2})=\sqrt{\pi}$
+\end{itemize}
+\subsection{The $\chi^2$ (Chi-squared) Distribution}
+The $\chi^2(k)$ distribution is a continuous family of distribution on $(0,\infty)$ with probability density function of the form 
+\[f(x;k) = \dfrac{1}{2^{k/2}\Gamma(k/2)}x^{(k/2)-1}e^{-x/2}\quad\quad x>0\]
+where $k\in\{1,2,\cdots\}$ \\
+For values $k\geq30$, the pdf resembles that of a $N(k,2k)$ pdf \\
+If $X\sim\chi^2(k)$ then 
+\[E(X)=k\text{ and } Var(X)=2k\]
+\subsection{Theorem}
+Let $W_1,W_2,\cdots,W_n$ be independent random variables with $W_i\sim\chi^2(k_2)$.
+Then \[S=\sum_{i=1}^{n}W_i\sim\chi^2(\sum_{i=1}^{n}k_i)\]
+\subsection{Theorem}
+If $Z\sim G(0,1)$ the the distribution of $W=Z^2$ is $\chi^2(1)$
+\subsection{Corollary}
+If $Z_1,Z_2,\cdots,Z_n$ are mutually independent $G(0,1)$ random variables and $S = \ds\sum_{i=1}^{n}Z_i^2$, then $S\sim\chi^2(n)$
+\subsection*{Useful Results}
+\begin{itemize}
+  \item if $W\sim\chi^2(1)$ then $P(W\geq w) = 2[1-P(Z\leq\sqrt{w})]$ where $Z\sim G(0,1)$
+  \item if $W\sim\chi^2(2)$ then $W\sim Exponential(2)$ and $P(W\geq w) = e^{-w/2}$
+\end{itemize}
+
+\section{Lecture 11}
+\subsection{Student's t Distribution}
+Student's $t$ distribution (or more simply the $t$ distribution) has probability density function 
+\[f(t;k) = c_k(1+\dfrac{t^2}{k})^{-(k+1)/2}\quad\text{ for $t\in\R$ and $k=1,2,\cdots$}\]
+where constant $c_k$ is 
+\[c_k = \dfrac{\Gamma(\frac{k+1}{2})}{\sqrt{k \pi}\Gamma(\frac{k}{2})}\]
+\subsection{Theorem}
+Suppose $Z\sim G(0,1)$ and $U\sim\chi^2(k)$ independently. Let 
+\[T = \frac{Z}{\sqrt{U/k}}\]
+Then $T$ has a Student's $t$ distribution with $k$ degrees of freedom
+
+\section{Lecture 12}
+\subsection{Likelihood Ratio Statistic}
+Let random variable $\wedge(\theta)$
+\[\wedge(\theta) = -2\log\Big[\dfrac{L(\theta)}{L(\tilde{\theta})}\Big]\]
+where $\tilde{\theta}$ is the maximum likelihood estimator
+\subsection{Theorem}
+A $100p\%$ likelihood interval is an approximate $100q\%$ confidence interval where $q=2P(Z\leq\sqrt{-2\log p})-1$ and $Z\sim N(0,1)$
+\subsection{Theorem}
+If $a$ ia a value such that $p=2P(Z\leq a)-1$ where $Z\sim N(0,1)$, then the likelihood interval $\{\theta:R(\theta)\geq e^{-a^2/2}\}$ is an approximate $100p\%$ confidence interval 
+\subsection{Theorem}
+Suppose $Y_1,\cdots,Y_n$ is a random sample from the $G(\mu,\sigma)$ distribution with sample mean $\overline{Y}$ and sample variance $S^2$. Then 
+\[T = \frac{\overline{Y}-\mu}{S/\sqrt{n}}\sim t(n-1)\]
+\subsection{Theorem}
+Suppose $Y_1,\cdots,Y_n$ is a random sample from the $G(\mu,\sigma)$ distribution with sample variance $S^2$
+\[U = \dfrac{(n-1)S^2}{\sigma^2} = \frac{1}{\sigma^2}\sum_{i=1}^{n}(Y_i-\overline{Y})^2 = \sum_{i=1}^{n}(\frac{Y_i-\overline{Y}}{\sigma})^2\sim \chi^2(n-1)\]
+
+\section{Lecture 13}
+
+\section{Lecture 14}
+\subsection{Null Hypothesis}
+The default hypothesis is often referred to as the ``null'' hypothesis and is denoted by $H_0$ \\
+There is an alternative hypothesis $H_A$, not always specified, usually $H_A$ is that $H_0$ is not true
+\subsection{Test Statistic}
+A test statistic or discrepancy measure $D$ is a function of the data $Y$ that is constructed to measure the degree of ``agreement'' between the data $Y$ and the null hypothesis $H_0$
+\subsection{$P$-Value or Observed Significance}
+Suppose we use the test statistic $D=D(Y)$ to test the hypothesis $H_0$. Suppose also that $d=D(y)$ be the corresponding is the observed value of $D$. The $p$-value or observed significance level of the test of hypothesis $H_0$ using test statistic $D$ is 
+\[p-value = P(D\geq d;H_0)\]
+\begin{center}
+\begin{tabular}{c|c}
+  p-value &interpretation \\ \hline
+  p-value$ >0.10$ &no evidence against $H_0$ \\ \hline 
+  $0.05 < $p-value$ \leq0.10$ &weak evidence against $H_0$ \\ \hline 
+  $0.01 < $p-value$ \leq0.05$ &evidence against $H_0$ \\ \hline 
+  $0.001 < $p-value$ \leq0.01$ &strong evidence against $H_0$ \\ \hline 
+  p-value$ \leq 0.001$ &very strong evidence against $H_0$
+\end{tabular}
+\end{center}
+
+\section{Lecture 15}
+\subsection{Relationship between Hypothesis Testing and Interval Estimation}
+The $p$-value for testing $H_0:\mu=\mu_0$ is greater than or equal to $0.05$ iff the value $\mu=\mu_0$ is an element of a $95\%$ confidence interval for $\mu$
+\subsection{Find $p$-value for Likelihood Ratio Statistic}
+First find observed value of $\wedge(\theta_0)$, denote as 
+\[\lambda(\theta_0) = -2\log\Big[\frac{L(\theta_0)}{L(\hat{\theta})}\Big] = -2\log R(\theta_0)\]
+where $R(\theta_0)$ is the relative likelihood function evaluated at $\theta=\theta_0$ \\
+The approx $p$-value is 
+\begin{align*}
+  p-value &\approx P[W\geq\lambda(\theta_0)] &W\sim\chi^2(1) \\
+          &= P(|Z|\geq\sqrt{\lambda(\theta_0)}) &Z\sim G(0,1) \\
+          &= 2[1-P(Z\leq \sqrt{\lambda(\theta_0)})]
+\end{align*}
+
+\section{Lecture 16}
+\subsection{Gaussian Response / Linear Regression}
+A Gaussian response model is one for which the distribution of the response variate $Y$, given the associated verctor of covariates $x=(x_1,x_2,\cdots,x_k)$ for an individual unit 
+\[Y\sim G(\mu(x), \sigma(x))\]
+If observations are made on $n$ randomly selected units we write 
+\[Y_i\sim G(\mu(x_i), \sigma(x_i))\ \ \text{ for $i=1,2,\cdots,n$ independently}\]
+In most cases assume $\sigma(x_i)=\sigma$ is constant \\
+Difference in Gaussian response models is the choice of function $\mu(x)$, and covariates \\
+Often assume $\mu(x_i)$ is linear function 
+\[Y_i\sim G(\mu(x_i), \sigma)\ \text{for $i=1,2,\cdots,n$ independently}\]
+with \[\mu(x_i) = \beta_0+\sum_{j=1}^{k}\beta_jx_{ij}\]
+These models are also referred to as linear regression models, $\beta_j$ are regression coefficients
+
+\section{Lecture 17}
+\subsection{Simple Linear Regression}
+Consider case which there is a single covariate $x$ \\
+Model with independent $Y_i$'s such that \[Y_i\sim G(\mu(x_i),\sigma)\text{ where }\mu(x_i)=\alpha+\beta(x_i)\]
+The likelihood function for $(\alpha,\beta,\sigma)$
+\[L(\alpha,\beta,\sigma) = \sigma^{-n}\exp\Big[-\frac{1}{2\sigma^2}\sum_{i=1}^{n}(y_i-\alpha-\beta x_i)^2\Big]\ \ \ \alpha,\beta\in\R, \sigma>0\]
+Solve to get 
+\[\hat{\beta} = \frac{S_{xy}}{S_{xx}}\]
+\[\hat{\alpha} = \overline{y}-\hat{\beta}\overline{x}\]
+\[\sigma^2 = \frac{1}{n}(S_{yy}-\hat{\beta}S_{xy})\]
+where 
+\[S_{xx}=\sum_{i=1}^{n}(x_i-\overline{x})^2, S_{yy} = \sum_{i=1}^{n}(y_i-\overline{y})^2, S_{xy} = \sum_{i=1}^{n}(x_i-\overline{x})(y_i-\overline{y})\]
+\subsection{Least Squares Estimation}
+To find a line of ``best fit'' which minimizes the sum of squares of distance between observed point and fitted line $y=\alpha+\beta x$, we want to find value $\alpha$ and $\beta$ that minimize 
+\[g(\alpha,\beta) = \sum_{i=1}^{n}[y_i-(\alpha+\beta x_i)]^2\]
+Or to find 
+\[\frac{\partial g}{\partial \alpha} = \sum_{i=1}^{n}(y_i-\alpha-\beta x_i) = 0\]
+\[\frac{\partial g}{\partial \beta} = \sum_{i=1}^{n}(y_i-\alpha-\beta x_i)x_i = 0\]
+The line $y=\hat{\alpha} + \hat{\beta}x$ is often called fitted regression line for $y$ on $x$, or fitted line 
+\subsection{Distribution of the estimator $\tilde{\beta}$}
+\[\tilde{\beta}\sim G(\beta, \frac{\sigma}{\sqrt{S_{xx}}})\]
+\subsection{Confidence Intervals for $\beta$ and Test of Hypothesis}
+We have \[\frac{\tilde{\beta}-\beta}{\sigma/\sqrt{S_{xx}}}\sim G(0,1)\]
+holds \[\frac{(n-2)S_e^2}{\sigma^2}\sim\chi^2(n-1)\]
+Then \[\frac{\tilde{\beta}-\beta}{\sigma/\sqrt{S_{xx}}}\sim t(n-2)\]
+$100p\%$ confidence interval for $\beta$
+\begin{align*}
+  p &= P(-a\leq T\leq a) &T\sim t(n-2) \\
+    &= P(\hat{\beta}-aS_e/\sqrt{S_{xx}}\leq\beta\leq\hat{\beta}+aS_e/\sqrt{S_{xx}})
+\end{align*}
+or \[\hat{\beta}\pm aS_e/\sqrt{S_{xx}}\]
+To test hypothesis $H_0:\beta=0$, use test statistic \[\frac{|\tilde{\beta}-0|}{S_e/\sqrt{S_{xx}}}\]
+$p$-value given 
+\begin{align*}
+  p-value &= P(|T|\geq \frac{|\tilde{\beta}-0|}{s_e/\sqrt{S_{xx}}}) \\
+          &= 2\Big[1 - P(T\leq \frac{|\tilde{\beta}-0|}{s_e/\sqrt{S_{xx}}})\Big] &T\sim t(n-2)
+\end{align*}
+$100p\%$ confidence interval for $\sigma^2$ 
+\[\frac{(n-2)s_e^2}{b}, \frac{(n-2)s_e^2}{b}\]
+\subsection{Confidence Interval for Mean Response $\mu(x) = \alpha+\beta x$}
+\[E[\tilde{\mu}(x)] = \mu(x)\]
+\[Var[\tilde{\mu}(x)] = \sigma^2[\frac{1}{n}+\frac{(x-\overline{x})^2}{S_{xx}}]\]
+We have \[\tilde{\mu}(x)\sim G(\mu(x), \sigma\sqrt{\frac{1}{n}+\frac{(x-\overline{x})^2}{S_{xx}}})\]
+Then $100p\%$ confidence interval for $\mu(x)$ is 
+\[\tilde{\mu}(x) - as_e\sqrt{\frac{1}{n}+\frac{(x-\overline{x})^2}{S_{xx}}}, \tilde{\mu}(x) + as_e\sqrt{\frac{1}{n}+\frac{(x-\overline{x})^2}{S_{xx}}}\]
+\subsection{Prediction Interval for Future Response}
+\[E[Y-\tilde{\mu}(x)] = 0\]
+\[Var[Y-\tilde{\mu}(x)] = \sigma^2[1+\frac{1}{n}+\frac{(x-\overline{x})^2}{S_{xx}}]\]
+We have \[Y-\tilde{\mu}(x)\sim G(0, \sigma[1+\frac{1}{n}+\frac{(x-\overline{x})^2}{S_{xx}}]^{1/2})\]
+Then $100p\%$ prediction interval is 
+\[\tilde{\mu}(x)-as_e\sqrt{1+\frac{1}{n}+\frac{(x-\overline{x})^2}{S_{xx}}}, \tilde{\mu}(x)+as_e\sqrt{1+\frac{1}{n}+\frac{(x-\overline{x})^2}{S_{xx}}}\]
+
+\section{Lecture 18}
+\subsection{Residual Plot}
+Residuals are defined as difference between observed response $y_i$ and fitted response $\mu_i=\tilde{\alpha}+\tilde{\beta}x$
+
+\section{Lecture 19}
+\subsection{Two Gaussian Populations with Common Variance}
+The likelihood function for $\mu_1$, $\mu_2$, $\sigma$ is 
+\[L(\mu_1,\mu_2,\sigma) = \prod_{j=1}^{2}\prod_{i=1}^{n_j}\frac{1}{\sqrt{2\pi}\sigma}exp[-\frac{1}{2\sigma^2}(y_{ji}-\mu_j)^2]\]
+with 
+\[\hat{\mu}_1 = \frac{1}{n_1}\sum_{i=1}^{n_1}y_{1i}=\overline{y}_1\]
+\[\hat{\mu}_2 = \frac{1}{n_2}\sum_{i=1}^{n_2}y_{2i}=\overline{y}_2\]
+\[\hat{\sigma}^2 = \frac{1}{n_1+n_2}[\sum_{i=1}^{n_1}(y_{1i}-\overline{y}_1)^2 + \sum_{i=1}^{n_2}(y_{2i}-\overline{y}_2)^2]\]
+Estimate of variance $\sigma^2$ called pooled estimate of variance 
+\[s^2_p = \frac{n_1+n_2}{n_1+n_2-2}\sigma^2\]
+\subsection{Confidence intervals for $\mu_1-\mu_2$}
+We have \[E(\overline{Y}_1 - \overline{Y}_2) = \mu_1 - \mu_2\]
+and \[Var(\overline{Y}_1 - \overline{Y}_2) = \sigma^2(\frac{1}{n_1} + \frac{1}{n_2})\]
+If $Y_{11},Y_{12},\cdots,Y_{1n_1}$ is random sample form a $G(\mu_1,\sigma)$ distribution and independently for $G(\mu_2,\sigma)$, then 
+\[\frac{(\overline{Y}_1 - \overline{Y}_2) - (\mu_1-\mu_2)}{S_p\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}}\sim t(n_1+n_2-2)\]
+and 
+\[\frac{(n_1+n_2-2)S_p^2}{\sigma^2} = \frac{1}{\sigma^2}\sum_{j=1}^{2}\sum_{i=1}^{n_j}(Y_{ji} - \overline{Y}_j)^2\sim \chi^2(n_1+n_2-2)\]
+
+\section{Lecture 20}
+\subsection{Two Gaussian Populations with Unequal Variance}
+The pivotal quantity 
+\[\frac{\overline{Y}_1 - \overline{Y}_2 - (\mu_1-\mu_2)}{\sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}}\sim G(0,1)\]
+
+\end{document}

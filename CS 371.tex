@@ -1,0 +1,816 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm,enumerate,nicefrac,fancyhdr,hyperref,graphicx,adjustbox}
+\hypersetup{colorlinks=true,urlcolor=blue,citecolor=blue,linkcolor=blue}
+\usepackage[left=2.6cm, right=2.6cm, top=1.5cm, includehead, includefoot]{geometry}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[d]{esvect}
+
+%% commands
+%% useful macros [add to them as needed]
+% sets
+\newcommand{\C}{{\mathbb{C}}} 
+\newcommand{\N}{{\mathbb{N}}}
+\newcommand{\Q}{{\mathbb{Q}}}
+\newcommand{\R}{{\mathbb{R}}}
+\newcommand{\Z}{{\mathbb{Z}}}
+\newcommand{\F}{{\mathbb{F}}}
+
+% bases
+\newcommand{\mA}{\mathcal{A}}
+\newcommand{\mB}{\mathcal{B}}
+\newcommand{\mC}{\mathcal{C}}
+\newcommand{\mD}{\mathcal{D}}
+\newcommand{\mE}{\mathcal{E}}
+\newcommand{\mL}{\mathcal{L}}
+\newcommand{\mM}{\mathcal{M}}
+\newcommand{\mO}{\mathcal{O}}
+\newcommand{\mP}{\mathcal{P}}
+\newcommand{\mS}{\mathcal{S}}
+\newcommand{\mT}{\mathcal{T}}
+
+% linear algebra
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\adj}{\operatorname{adj}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\spn}{\operatorname{Span}}
+\newcommand{\proj}{\operatorname{proj}}
+\newcommand{\prp}{\operatorname{perp}}
+\newcommand{\refl}{\operatorname{refl}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\nul}{\operatorname{Null}}
+\newcommand{\nully}{\operatorname{nullity}}
+\newcommand{\range}{\operatorname{Range}}
+\renewcommand{\ker}{\operatorname{Ker}}
+\newcommand{\col}{\operatorname{Col}}
+\newcommand{\row}{\operatorname{Row}}
+\newcommand{\cof}{\operatorname{cof}}
+\newcommand{\Num}{\operatorname{Num}}
+\newcommand{\Id}{\operatorname{Id}}
+\newcommand{\ipb}{\langle \thinspace, \rangle}
+\newcommand{\ip}[2]{\left\langle #1, #2\right\rangle} % inner products
+\newcommand{\M}[2]{M_{#1\times #2}(\F)}
+\newcommand{\RREF}{\operatorname{RREF}}
+\newcommand{\cv}[1]{\begin{bmatrix} #1 \end{bmatrix}}
+\newenvironment{amatrix}[1]{\left[\begin{array}{@{}*{\numexpr#1-1}{c}|c@{}}}{\end{array}\right]}
+\newcommand{\am}[2]{\begin{amatrix}{#1} #2 \end{amatrix}}
+
+% vectors
+\newcommand{\vzero}{\vv{0}}
+\newcommand{\va}{\vv{a}}
+\newcommand{\vb}{\vv{b}}
+\newcommand{\vc}{\vv{c}}
+\newcommand{\vd}{\vv{d}}
+\newcommand{\ve}{\vv{e}}
+\newcommand{\vf}{\vv{f}}
+\newcommand{\vg}{\vv{g}}
+\newcommand{\vh}{\vv{h}}
+\newcommand{\vl}{\vv{\ell}}
+\newcommand{\vm}{\vv{m}}
+\newcommand{\vn}{\vv{n}}
+\newcommand{\vp}{\vv{p}}
+\newcommand{\vq}{\vv{q}}
+\newcommand{\vr}{\vv{r}}
+\newcommand{\vs}{\vv{s}}
+\newcommand{\vt}{\vv{t}}
+\newcommand{\vu}{\vv{u}}
+\newcommand{\vvv}{{\vv{v}}}
+\newcommand{\vw}{\vv{w}}
+\newcommand{\vx}{\vv{x}}
+\newcommand{\vy}{\vv{y}}
+\newcommand{\vz}{\vv{z}}
+
+% display
+\newcommand{\ds}{\displaystyle}
+\newcommand{\qand}{\quad\text{and}}
+\newcommand{\qandq}{\quad\text{and}\quad}
+\newcommand{\hint}{\textbf{Hint: }}
+\newcommand{\tri}{\triangle}
+
+% misc
+\newcommand{\area}{\operatorname{area}}
+\newcommand{\vol}{\operatorname{vol}}
+\newcommand{\red}[1]{{\color{red} #1}}
+\newcommand{\rc}{\red{\checkmark}}
+
+\title{CS 371 Notes}
+\author{Thomas Liu}
+\begin{document}
+\maketitle
+\tableofcontents
+
+\newpage 
+
+\section{Chapter 1: Floating Point Arithmetic}
+Numerical algorithm and computers are operating on finite precision arithmetic \\
+We don't have the totality of $\R$ ar our disposal $\rightarrow$ only a tiny position of it 
+\subsubsection{Definition: Approximation}
+Let $\hat{x}$ be an approximation to a real number $x$. Two fundamental measures of $\hat{x}$:
+\begin{itemize}
+  \item absolute error: $\triangle x = x - \hat{x}$
+  \item relative error: $\delta x = \dfrac{x-\hat{x}}{x}$
+\end{itemize}
+\subsection{Section 1.1 Floating Point number System}
+\subsubsection{Defintion: Floating Point System}
+A floating point system $F\subset\R$ is subset of real numbers of following form:
+\[Z=\pm(0.x_1x_2\cdots x_m)_b\times b^{\pm(y_1y_2\cdots y_e)_b}\]
+where $0\leq x_i\leq b-1$, $0\leq y_i\leq b-1$, $\forall1\leq i\leq m$, $1\leq j\leq e$\\
+three parameters of $F$
+\begin{itemize}
+  \item base: $b_f$
+  \item mantissa: $m_f$
+  \item exponent: $e_f$
+\end{itemize}
+\[F[b=b_f, m=m_f, e=e_f]\]
+\subsubsection{Definition: Normalized}
+A floating point number in $F\subset\R$
+\[Z=\pm(0.x_1x_2\cdots x_m)_b\times b^{\pm(y_1y_2\cdots y_e)_b}\]
+is normalized when $x_1\geq1$
+\subsubsection{General Formula}
+\begin{align*}
+  &(a_na_{n-1}\cdots a_1a_0a_{-1}\cdots a_m)_b \\
+  = &a_nb^n + a_{n-1}b^{n-1} + \cdots a_1b^1 + a_0b^0 + a_{-1}b^{-1} + \cdots + a_{-m}b^{-m}
+\end{align*}
+\subsubsection{Definition: Machine Epsilon}
+The distance from $1.0$ to the next largest (normalized) floating point number is called machine epsilon, denoted by $\epsilon\ mach$
+\[1=(0.10\cdots0)_b\times b^{(0\cdots01)_b}\]
+\[next=(0.10\cdots01)_b\times b^{(0\cdots01)_b}\]
+\[\epsilon\ mach=(0.0\cdots01)_b\times b^{(0\cdots01)_b} = b^{-m}\times b = b^{1-m}\]
+\begin{itemize}
+  \item number $m$ is also called precision 
+  \item $\epsilon\ mach$ is also called machine precision 
+  \item $\epsilon\ mach = b^{1-m}$
+  \item important: formula $\epsilon\ mach = b^{1-m}$ is subject to slight change in practical (single / double formats)
+\end{itemize}
+\subsubsection{Definition: Subnormal Numbers}
+The system $F$ can be extended by including (filling the gap) subnormal numbers which are represented by:
+\[\pm(0.0x_2\cdots x_m)_b\times b^{-(b_{-1},b_{-1},\cdots,b_{-1})_b}\]
+where $0\leq x_2,x_3\cdots,x_m\leq b-1$, and $(0.0x_2\cdots x_m)_b\neq0$
+\begin{itemize}
+  \item closest to zero normalized numbers: $\pm(0.10\cdots0)_b\times b^{-(b_{-1},b_{-1},\cdots,b_{-1})_b}$
+  \item subnormal numbers are closer to $0$ than normalized numbers 
+  \item if we denote the smallest nonnormalized positive number as $\lambda$, then subnormal numbers fill the gap between $0$ and $\lambda$ with the same spacing between $\lambda$ and $b\lambda$
+\end{itemize}
+\subsection{Rounding, Overflow, Underflow}
+\subsubsection{Definition: rounding}
+Let $G\subset\R$ denote all read numbers of the form 
+\[z=\pm(0.x_1\cdots x_m)_b\times b^y\quad\quad y\in\Z\]
+For $\forall x\in\R$, then $fl(x)$ denotes an element of $G$ nearest to $x$, and the transformation $x\rightarrow fl(x)$ is called rounding 
+\subsubsection{Definition: Overflow, Underflow}
+We say $fl(x)$ overflows if $|fl(x)|>\max\{|z|:z\in F\}$ and $fl(x)$ underflow if $0<|fl(x)|<\min\{|z|:0\neq z\in F\}$
+\subsubsection{Theorem: Unit Roundoff}
+Every real number $x$ lying in the range (such that $fl(x)$ is normalized in $F$) of $F$ can be rounded to an element in $F$ with a 
+relative error no larger than $u=\frac{1}{2}\epsilon\ mach$\\
+Mathematically, if $x\in\R$ lies in the range of $F$, then 
+\[fl(x)=x(1+\delta), |\delta|<u=\frac{1}{2}\epsilon\ mach\]
+\subsection{Standard Floating Point Systems}
+\begin{itemize}
+  \item single precision format (32-bit (4-bytes) memory)
+  \begin{center}
+    \begin{tabular}{c|c|c}
+      s &$m=23$ bits &$e=8$ bits
+    \end{tabular}
+  \end{center}
+  where $s$ is sign bit of mantissa, $s=1$ means negative, $s=0$ means positive 
+  \item we have $2^8=256$ exponents from $0$ to $255\rightarrow[0, 255]$
+  \item want a range of signal exponents 
+  \item convertion: \\
+  they are subtracted by a bias $127$ $\rightarrow[-127,128]$
+  \item $e=(0\cdots0)_2\rightarrow-127$ \& $e=(1\cdots1)\rightarrow128$, special numbers (non-normalized)
+  \begin{center}
+    \begin{tabular}{c|c|c}
+      exponent &mantissa$=0$ &mantissa$\neq0$ \\
+      $(00000000)_2$ &$\pm$zero &subnormal numbers \\
+      $(11111111)_2$ &$\pm$infinity &NaN (not a number)
+    \end{tabular}
+  \end{center}
+  \item when $e\in[-126, 127]$, when string normalized values, instead of wasting a bit on storing the leading $x_1-1$, this is assumed
+  \item a general formula 
+  \[x_0 | x_1\cdots x_{23} | y_1\cdots y_8\rightarrow (-1)^{x_0}\times(1\cdot x_1x_2\cdots x_{23})_2\times 2^{(y_1\cdots y_8)_2-127}\]
+\end{itemize}
+\subsubsection{Double Precision Format (64-bit (8-bytes) memory)}
+we omit details about double precision except: 
+\begin{enumerate}
+  \item it's matlab default
+  \item $10^{-16}$ is a special number for (modern) numerical analyst since $eps("double")\approx 2.2204\times 10^{-16}$. When we have an error of $\approx 10^{-16}$ from our algorithm we are happy
+\end{enumerate}
+\subsection{Floating Point Operations}
+\subsubsection{Definition}
+Floating point addition $\oplus$ is defined by \[\forall x,y\in\R: x\oplus y = fl(fl(x)+fl(y))\]
+subtraction $\ominus$, multiplication $\otimes$ \& division $\oslash$ can be similarly defined 
+\subsubsection{Proposition}
+For any floating point number systems $F$, $x\oplus y=(fl(x)+fl(y))(1+s)$ with $|s|\leq u$, the unit roundoff. same applies to $\ominus, \otimes, \oslash$
+\subsection{Condition of a Mathematical Problem}
+Consider a problem $P$ with input $\vec{x}$ and output (exact) $\vec{z}=f_p(\vec{x})$
+\subsubsection{Definition: Conditioing of $P$}
+\begin{itemize}
+  \item $P$ is said to be well-conditioned w.r.t. the absolute error if small change $\tri\vec{x}$ in $\vec{x}$ results in small changes $\tri\vec{z}$ in $\vec{z}$
+  \item $P$ is said to be ill-conditioned w.r.t. the absolute error if small change $\tri\vec{x}$ in $\vec{x}$ results in large changes $\tri\vec{z}$ in $\vec{z}$
+  \item similarly define with w.r.t. the relative error 
+\end{itemize}
+\subsubsection{Vector Norms}
+Suppose $V$ is a vector space over $\R$. Then $|\cdot|$ is a vector norm on $V$ iff $||\vec{v}||\geq0$, and 
+\begin{itemize}
+  \item $||\vec{v}||=0$ iff $\vec{v} = \vec{0}$
+  \item $||\lambda\vec{v}|| = |\lambda|||\vec{v}||$ $\forall\vec{v}\in V$, $\forall\lambda\in\R$
+  \item $||\vec{u}+\vec{v}||\leq||\vec{u}||+||\vec{v}||$ $\forall\vec{u},\vec{v}\in V$ (triangle inequality)
+\end{itemize}
+\subsubsection{Condition Number of a Problem}
+\begin{itemize}
+  \item The condition number of a problem $P$ w.r.t. the absolute error is given by the absolute condition number \[\kappa_A = \frac{||\tri\vec{z}||}{||\tri\vec{x}||}\]
+  \item The condition number of a problem $P$ w.r.t. the relative error is given by the relative condition number \[\kappa_R = \frac{||\tri\vec{z}||/||\vec{z}||}{||\tri\vec{x}||/||\vec{x}||}\]
+\end{itemize}
+
+\section{Chapter 2: Road Finding}
+\subsection{}
+\subsubsection{Intermediate Value Theorem}
+if $f(x)$ is continuous on a closed interval $[a,b]$ and $c\in[f(a),f(b)]$, then $\exists x^*\in[a,b]$ such that $f(x^*) = c$
+\subsubsection{Corollary}
+If $f(a)\cdot f(b)<0$ for a closed interval $[a,b]$, then $[a,b]$ will contain at least one root $x^*$ as long as $f(x)$ is continuous 
+\subsection{Form Algorithm for Root Finding}
+\begin{figure}[tbhp]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{form alg 1.png}
+	\end{center}
+	\label{figcaption}
+\end{figure}
+\begin{figure}[tbhp]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{form alg 2.png}
+	\end{center}
+	\label{figcaption}
+\end{figure}
+\begin{figure}[tbhp]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{form alg 3.png}
+	\end{center}
+	\label{figcaption}
+\end{figure}
+\begin{figure}[tbhp]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{form alg 4.png}
+	\end{center}
+	\label{figcaption}
+\end{figure}
+\newpage 
+\subsection{Intro of Convergence Analysis}
+\subsubsection{Error at Iteration} 
+For a sequence $\{x_i\}_{i=0}^\infty$ and point $x^*$, the error at iteration $i$ is \[e_i = x_i - x^*\]
+\subsubsection{Order of Convergence}
+The sequence $\{x_i\}_{i=0}^\infty$ converges to $x^*$ with order of convergence $q$ iff
+\begin{enumerate}
+  \item $\{x_i\}_{i=0}^\infty$ converges to $x^*$
+  \item $|e_{i+1}| = c_i|e_i|^q$ where $\ds\lim_{i\rightarrow\infty}c_i = c^*$ for some constant $c^*\in(0,\infty)$
+  \item (special case): when $q=1$, we call the convergence linear and we require $c^*<1$, which is also called the rate of convergence  
+\end{enumerate}
+\begin{center}
+  \begin{tabular}{ c|c|c|c }
+    Method &Guaranteed Convergence &Order &Knowledge of $f'(x)$ \\ \hline 
+    Bisection &yes &linear &nope \\ \hline 
+    Fixed-point &not always, depend on $g(x)$ and $x_0$ &linear &nope \\ \hline 
+    Newton &not always, depend on $f(x)$ and $x_0$ &quadratic &yes \\ \hline 
+    Secant &not always, depend on $f(x), x_0$ and $x_1$ &$\dfrac{1+\sqrt{5}}{2}$ &nope 
+  \end{tabular}
+\end{center}
+\subsection{Convergence Theory of the Root Finding Algorithm}
+\subsubsection{Bisection Method}
+Consider the sequence $\{L_i\}_{i=1}^\infty$ with $L_i=|b_i-a_i|$ and $x_i = \dfrac{a_i+b_i}{2}$
+\begin{itemize}
+  \item $L_{i+1} = \frac{1}{2}L_i$ 
+  \item $|e_n|\leq L_n\leq (\dfrac{1}{2})^n L_0 = (\dfrac{1}{2})^n(b_0-a_0)$
+\end{itemize}
+\subsubsection{Fixed Point Iteration}
+Suppose $g$ is continuous on $[a,b]$. Then $g$ is said to be a contraction on $[a,b]$ if there exists a constant $L\in(0,1)$ such that \[|g(x)-g(y)|\leq L|x-y|\quad \forall x,y\in[a,b]\]
+\subsubsection*{Proposition}
+If $g(x)$ is differentiable on $[a,b]$ with $|g'(x)|<1$ $\forall x\in[a,b]$. Then $g(x)$ is a contraction on $[a,b]$ with \[L=\ ^{\text{max}}_{x\in[a,b]}|g'(x)|\]
+\subsubsection*{Definition: Mean Value Theorem}
+If $g(x)$ is continuous on $[a,b]$ and differentiable on $(a,b)$, then $\exists c\in(a,b)$ such that the tangent at $c$ is parallel to the secant line connecting $(a,g(a))$ and $(b,g(b))$
+\[g'(c) = \frac{g(b)-g(a)}{b-a}\]
+\subsubsection*{Theorem: Cantraction Mapping Theorem}
+Let $g$ be continuous on $[a,b]$ and assume that 
+\begin{itemize}
+  \item $g(x)\in[a,b]$
+  \item $g(x)$ is contraction on $[a,b]$
+\end{itemize}
+Then 
+\begin{itemize}
+  \item $g$ has a unique fixed point $x^*$ in the interval $[a,b]$
+  \item the sequence $\{x_k\}$ defined by \[x_{k+1}=g(x_k)\] converges to $x^*$ as $k\rightarrow\infty$ for any starting point $x_0$ in $[a,b]$
+\end{itemize}
+\subsubsection*{Corollary: Convergence of Fixed Point Iteration}
+Let $g'(x)$ be continuous on $[a,b]$ and assume that 
+\begin{itemize}
+  \item $g(x)\in[a,b]$
+  \item $\ ^{\text{max}}_{x\in[a,b]}|g'(x)|<1$
+\end{itemize}
+Then 
+\begin{enumerate}
+  \item $g$ has a unique fixed point $x^*$ in the interval $[a,b]$
+  \item the sequence $\{x_k\}^\infty_{k=0}$ defined by \[x_{k+1}=g(x_k)\] converges to $x^*$ as $k\rightarrow\infty$ for any starting point $x_0$ in $[a,b]$
+  \item the sequence $\{x_k\}^\infty_{k=0}$ converges with \[|e_{k+1}| = c_k|c_k|\] and \[\ds\lim_{k\rightarrow\infty}c_k = |g'(x^*)|\]
+\end{enumerate}
+If $|g'(x^*)|\in(0,1)$, we have linear convergence \\
+If $g'(x^*)=0$, we have faster convergence 
+\subsubsection*{Divergence of Fixed Point Iteration}
+Let $g'(x)$ be continuous on $[a,b]$ and $g(x)$ has a unique fixed point $x^*$ on $[a,b]$ \\
+If $|g'(x^*)|>1$, then the sequence $\{x_k\}^\infty_{k=0}$ diverges for any starting point $x_0$
+\subsubsection{Newton's Method}
+\subsubsection*{Convergence of Newton's Method}
+If $f(x^*)=0$, $f'(x^*)\neq0$ and $f, f', f''$ are all continuous in $I_\delta=[x^*-\delta, x^*+\delta]$ with $x_0$ sufficiently close to $x^*$ then the sequence $\{x_k\}^\infty_{k=0}$ converges quadratically to $x^*$ with \[|e_{k+1}| = c_k|e_k|^2\]
+where $\ds\lim_{k\to\infty}c_k = \frac{|f''(x^*)|}{|2f'(x)|}$
+\subsubsection{Secant Method}
+\subsubsection*{Convergence of Secant Method}
+If $f(x^*)=0$, $f'(x^*)\neq0$ and $f,f',f''$ are all continuous in $I_\delta = [x^*-\delta,x^*+\delta]$ with $x_0$, $x_1$ sufficiently close to $x^*$ then the sequence $\{x_k\}^\infty_{k=0}$ converges to $x^*$ with order of convergence $q=\ds\frac{1}{2}(1+\sqrt{5})\approx1.62$
+\[|e_{k+1}| = c_k|e_k|^{\frac{1+\sqrt{5}}{2}}\& \lim_{k\to\infty}c_k = c^* > 0\]
+
+\section{Numerical Linear Algebra}
+\subsection{Introduction}
+\subsubsection{Determinant}
+The determinant of matrix $A\in\R^{n\times n}$ is given by \[\det(A) = \sum_{j=1}^{n}(-1)^{i+j}a_{ij}\det(A_{ij})\]
+\begin{itemize}
+  \item $i$ can be any number from $1$ to $n$
+  \item $A_{ij}$ is the $(n-1)\times(n-1)$ matrix obtained by removing row $i$ and column $j$ from the original matrix $A$
+\end{itemize}
+\subsubsection{Theorem: Existence and Uniqueness of Solution of $A\vec{x} = \vec{b}$}
+Case 1: $\det(A)\neq0$, $\vx = A^{-1}\vb$ is the unique solution of $A\vx = \vb$ \\
+Case 2: $\det(A)=0$
+\begin{itemize}
+  \item if $\vb\in\range(A)$ then $A\vx=\vb$ has infinite many solutions
+  \item if $\vb\notin\range(A)$ then $A\vx=\vb$ has no solutions 
+\end{itemize}
+\subsection{Guassian Elimination}
+\subsubsection{LU Factorization}
+\subsubsection*{Gaussian Elimination}
+\begin{itemize}
+  \item Phase 1: reduce the matrix $A$ to upper triangle form 
+  \item Phase 2: solve the reduced system 
+\end{itemize}
+\subsubsection*{Definition}
+A matrix $A\in\R^{n\times n}$ with components $a_{ij}$ is said to be 
+\begin{itemize}
+  \item upper-triangular: if $a_{ij}=0$ for all $i>j$
+  \item lower-triangular: if $a_{ij}=0$ for all $i<j$
+\end{itemize}
+$A$ is said to be triangular if it is eiter upper- or lower-triangular
+\subsubsection*{Algorithm: Forward \& Backward Substitutions}
+\newpage 
+\begin{figure}[tbhp]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{forward and backward (1).png}
+	\end{center}
+	\label{figcaption}
+\end{figure}
+\begin{figure}[tbhp]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{forward and backward (2).png}
+	\end{center}
+	\label{figcaption}
+\end{figure}
+\newpage 
+\subsubsection*{Inversion Property}
+$L_i = m^{-1}_i$ can be obtained from $m_i$ by swapping the signs of the off-diagonal elements
+\subsubsection*{Combination Property}
+$L=L_1L_2\cdots L_{n-1} = m_1^{-1}m_2^{-1}\cdots m_{m-1}^{-1}$ \\
+$L$ can be obtained by placing all off-diagonal elements of $L_i$ in the corresponding position in $L$
+\subsubsection*{LU Factorization/Decomposition}
+For $A\in\R^{n\times n}$ \\
+$LU$ factorization may be computed as follow 
+\begin{align*}
+  A^{(1)} &= A \\
+  A^{(2)} &= m_1A^{(1)} \\
+  A^{(3)} &= m_2A^{(2)} = m_2m_1A^{(1)} \\
+  \vdots \\
+  A^{(n)} &= m_{n-1}\cdots m_{(2)}m_{(1)}A^{(1)}
+\end{align*}
+$m_j$ is a matrix where the diagonal is $1$, $c_{ij}=-\ds\frac{a_{ij}}{a_{ji}}$ for $j+1\leq i\leq n$
+\subsubsection{Guassian Elimination (full version)}
+\begin{itemize}
+  \item phase 1: decompose $A=LU$, $LU\vx = \vb$
+  \item phase 2: solve $L\vy=\vb$ for $\vy$ by forward substitution
+  \item phase 3: solve $U\vx=\vy$ for $\vx$ by backward substitution 
+\end{itemize}
+\subsubsection{Pivoting}
+\subsubsection*{Definition}
+$P\in\R^{n\times n}$ is a permutation matrix iff $P$ is obtained from the identity matrix by swapping any number of rows
+\subsubsection*{Theorem}
+For all $A\in\R^{n\times n}$ there exists a permutation matrix $P$, a unit lower triangular matrix $L$ and an upper triangular matrix $U$ such that \[PA=LU\]
+\subsubsection*{Corollary}
+If $A$ is nonsingular then $A\vx=\vb$ can be solved by LU factorization applied to $PA$
+\subsubsection*{Algorithm and Computational Cost}
+\begin{figure}[tbhp]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{phase 1.png}
+	\end{center}
+	\label{figcaption}
+\end{figure}
+\begin{figure}[tbhp]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{phase 2.png}
+	\end{center}
+	\label{figcaption}
+\end{figure}
+\begin{figure}[tbhp]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{phase 3.png}
+	\end{center}
+	\label{figcaption}
+\end{figure}
+\newpage 
+\subsection{Conditioning of $A\vec{x}=\vec{b}$ and stability of Gaussian Elimination}
+\begin{itemize}
+  \item condition of the mathematical problem $A\vx=\vb$ \[\vx = f_p(A,\vb) = A^{-1}\vb\]
+  \begin{itemize}
+    \item absolute condition number \[\mathcal{K}_A = ||\tri\vx||/||\tri(A,\vb)||\]
+    \item relative condition number \[\mathcal{K}_R = \frac{||\tri\vx||}{||\vx||} / \frac{||\tri(A,\vb)||}{||(A,\vb)||}\]
+  \end{itemize}
+\end{itemize}
+\subsubsection{Matrix Norm}
+\subsubsection*{Definition}
+The natural matrix p-norm: \[||A||_p = \ ^{sup}_{||vx||_p\neq0}\frac{||A\vx||_p}{||\vx||_p}\]
+\subsubsection*{Theorem}
+$||A||_p$ is a norm $\forall A\in\R^{m\times n}$
+\begin{itemize}
+  \item $||A||_p\geq0$, $||A||_p=0$ iff $A=0$
+  \item $||\alpha A||_p = |\alpha|||A||_p$ $\forall\alpha\in\R$
+  \item $||A+B||_p\leq ||A||_p + ||B||_p$ $\forall B\in\R^{m\times n}$
+\end{itemize}
+\subsubsection*{Proposition}
+\begin{itemize}
+  \item $||A\vx||_p\leq ||A||_p||\vx||_p$
+  \item $||AB||_p\leq ||A||_p||B||_p$
+\end{itemize}
+\subsubsection*{Proposition}
+\begin{itemize}
+  \item $||A||_1 = \ds\max_{1\leq j\leq n}\sum_{i=1}^{n}|a_{ij}|$
+\end{itemize}
+\subsubsection*{Singular Value Decomposition}
+\begin{figure}[tbhp]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{SVD.png}
+	\end{center}
+	\label{figcaption}
+\end{figure}
+\newpage 
+\subsubsection{Condition number of a matrix}
+The condition number of a matrix $A$ ($\det(A)\neq0$) is 
+\[\mathcal{K}(A) = ||A||||A^{-1}||\]
+\[\mathcal{K}_p(A) = ||A||_p||A^{-1}||_p\]
+\subsubsection{Proposition}
+For $A\in\R^{n\times n}$, $\det(A)\neq0$ and $p=2$ for vector and matrix norms in question
+\[\mathcal{K}_2(A) = ||A||_2||A^{-1}||_2 = \dfrac{\sqrt{1}(A)}{\sqrt{n}(A)}\]
+\subsubsection{Gaussian Elimination with Partial Pivoting}
+Essentially, during every step of the LU factorization,
+ie steps where we compare $m_i$, we rearrange the rwo such that 
+we get the largest pivoting element (in absolute value)
+\subsection{Interative Methods for Solving $A\vec{x} = \vec{b}$}
+\subsubsection{Definition}
+$A\in\R^{n\times n}$ is a square matrix iff the number of nonzero elements in $A$ is  ``much smaller'' than $n^2$,
+or equally, ``most'' of the elements of $A$ are zero 
+\subsubsection{Iterative Method}
+For solving $A\vx=\vb$, general stationary itertive method takes the form 
+\[\vx^{(k+1)} = G\vx^{(k)}+\vc\]
+where 
+\begin{itemize}
+  \item $G$ is called iteration matrix 
+  \item if $G$ does not depend on $k$, we have stationary iterative method 
+\end{itemize}
+\subsubsection{Definition}
+TL residual of a linear system $A\vx=\vb$ for some vector $\vu$ is given by $\vr = \vb-A\vu$
+\subsubsection{Definition: Stationary Iteration Based on Matrix Splitting}
+The iteration for solving $A\vx=\vb$ based on splitting $A=M+N$ is given by 
+\[G = -M^{-1}N\]
+\newpage
+\subsubsection{Jacobi Method}
+\begin{figure}[tbhp]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{Jacobi (1).png}
+	\end{center}
+	\label{figcaption}
+\end{figure}
+\begin{figure}[tbhp]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{Jacobi (2).png}
+	\end{center}
+	\label{figcaption}
+\end{figure}
+\newpage
+\subsubsection{Gauss-Seidel Method}
+\begin{figure}[tbhp]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{Guass Ite.png}
+	\end{center}
+	\label{figcaption}
+\end{figure}
+\newpage
+\subsubsection{Successive Over-Relaxation (SOR)}
+\begin{itemize}
+  \item matrix spliting: $A=M+N$ where \[M = \frac{1}{w}D+L\]\[N = (1 - \frac{1}{w})D+U\]
+  $w$: relaxation factor ($w=1$ is Gauss-Seidel) method
+  \item iteration matrix \[G = (\frac{1}{w}D+L)^{-1}((\frac{1}{w} - 1)D-U)\]
+  \item iteration: \[\vx^{(k+1)} = (\frac{1}{w}D+L)^{-1}((\frac{1}{w} - 1)D-U)\vx^{(k)}+\frac{1}{w}(\frac{1}{w}D+L)^{-1}\vb\]
+\end{itemize}
+\begin{figure}[tbhp]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{SOR.png}
+	\end{center}
+	\label{figcaption}
+\end{figure}
+\newpage
+\subsection{Convergence of Iterative Methods}
+\subsubsection{Definition: Spectral Radius of Matrix}
+Let $\{\lambda_1, \cdots,\lambda_n\}$ be the set of eigenvalus of $A\in\R^{n\times n}$. The spectral radius of $A$ is given by
+\[\rho(A) = \max\{|\lambda_1|,\cdots,|\lambda_n|\}\]
+\subsubsection{Theorem: Convergence of Iterative Methods}
+Let iterative method given by $\vx^{(k+1)}=G\vx^{(k)}+\vc$ with initial guess $\vx^{(0)}$. Then it converges for all $\vc\in\R^n$ iff \[\rho(G)<1\]
+\subsection{Definition}
+$A\in\R^{n\times n}$ is strictly diagonally dominant if if for all $i=1,\cdots,n$, \[|a_{ii}|>\sum_{j=1,j\neq i}^{m}|a_{ij}|\]
+\subsubsection{Proposition}
+A strictly diagonally dominant matrix $A$ is nonsingular 
+\subsection{Theorem}
+Consider $A\vx=\vb$ and starting vector $\vx^{(0)}$. 
+Let $\{x^{(i)}\}_{i=0}^{\infty}$ be sequence generated by either Jacobi, Gauss-Seidel method. 
+If $A$ is strictly diagonally dominant, the sequence converges to the unique solution of $A\vx=\vb$
+\subsubsection{Proposition}
+For any natural matrix norm, $||\cdot||$, and a square matrix $G\in\R^{n\times n}$ \[\rho(G)\leq ||G||\]
+
+
+\section{Interpolation}
+\subsection{Polynomial Interpolation}
+\subsubsection{Vandermonde Matrix}
+\subsubsection*{Definition}
+Given $n+1$ discrete data point $\{(x_i,f_i)\}_{i=0}^{n}$ with $x_i\neq x_j$, for $i\neq j$, the interpolating polynomial $P_n$ is given by 
+\[P_n(x) = a_0+a_1x+\cdots+a_nx^n\]
+st $P_n(x_i) = f_i$ for $0\leq i\leq n$
+\subsubsection*{Algorithm}
+solver $(n+1)\times(n+1)$ linear system 
+\begin{align*}
+\begin{cases}
+  a_0+a_1x_0+\cdots+a_nx_0^n = f_0 \\
+  a_0+a_1x_1+\cdots+a_nx_1^n = f_1 \\
+  \vdots \\
+  a_0+a_1x_n+\cdots+a_nx_n^n = f_n
+\end{cases}
+\end{align*}
+can be written as $V\va = \vf$
+\subsubsection*{Proposition}
+The determinant of $V$ is \[det(V) = \prod_{0\leq i<j\leq n}(x_j-x_i)\]
+\subsubsection*{Theorem}
+Interpolating polynomial $P_n(x)\in P_n$ given $\{(x_i,f_i)\}_{i=0}^n$ exists and unique 
+\subsubsection{Lagrange Form}
+\subsubsection*{Lagrange Form of Interpolating Polynomial}
+$n+1$ Lagrange polynomial for a set of points $\{(x_i,f_i)\}_{i=0}^n$ are $P_n$ polynomial that satisfy
+\[l_i(x_j)
+  \begin{cases}
+    1 &\text{if } i=j \\
+    0 &\text{otherwise}
+  \end{cases}
+\] or \[l_i(x_j) = f_{ij}(\text{kronecker symbol})\]
+\begin{itemize}
+  \item we can write out $l_i(x)$ \[l_i(x) = \prod_{j=0,j\neq i}^{n}\frac{x-x_j}{x_i-x_j}\]
+  \item Lagrange form of iterpolating polynomial \[P_n(x) = \sum_{i=0}^{n}f_il_i(x)\]
+\end{itemize}
+\subsubsection{Hermite Interpolation}
+\subsubsection*{Definition}
+Given $\{(x_i,f_i,f_i')\}_{i=0}^{n}$, Hermite interpolating polynomial $H_n(x)$ is the polynomial that satisfies
+\[p(x)\in P_{2n+1}\] st \[p(x_i)=f_i\quad \text{n+1 condition}\] \[p'(x_i)=f_i'\quad \text{n+1 condition$\rightarrow$2n+1 degree}\]
+thus \[H_n(x) = \sum_{i=0}^{n}f_ih_i(x) + \sum_{i=0}^{n}f_i'\tilde{h}_i(x)\]
+where \[h_i(x) = [1-2l_i'(x_i)(x-x_i)](l_i(x))^2\]\[\tilde{h}_i(x) = (x-x_i)(l_i(x))^2\]
+\subsubsection*{Proposition}
+For given $\{(x_i,f_i,f_i')\}_{i=0}^n$ where $x_i\neq x_j$, there exists unique interpolating polynomial $p(x)\in P_{2n+1}$ st 
+\[\begin{cases}
+  p(x_i) = f_i \\
+  p'(x_i) = f_i'
+\end{cases}\]
+and $p(x) = H_n(x)$
+\subsection{Piecewise Polynomial Interpolation}
+\subsubsection{Piecewise Linear Interpolation}
+\subsubsection*{Definition}
+Define a set of polynomial $p_1^{[i]}(x)$, $1\leq j\leq n$  where domain of $p_1^{[i]}(x)$ is $I_i=[x_{i-1},x_i]$
+\[p_1^{[i]}(x) = \frac{x-x_2}{x_{i-1}-x_2}f_{i-1} + \frac{x-x_{i-1}}{x_i - x_{i-1}}f_i\]
+The interpolating piecewise polynomial $P_1(x)$ is equal to $p_1^{[i]}(x)$ on $I_i=[x_{i-1},x_i]$ for all 
+\subsubsection{Spline Interpolation}
+\subsubsection*{Definition}
+Given $\{(x_i,f_i)\}_{i=0}^n$, $p(x)$ is a degree $k$ spline if 
+\begin{itemize}
+  \item $p(x)$ is piecewise $P_k$ polynomial on each interval $I_i=[x_{i-1},x_i]$, denote $p^{[i]}(x)$ as restriction of $p(x)$ on $I_i$
+  \item $p^{[i]}(x_{i-1})=f_{i-1}$ and $p^{[i]}(x_i)=f_i$
+  \item for each iterior node $x_j$ 
+  \[\begin{cases}
+    p^{[j]'}(x_j) = p^{[j]'}(x_j) \\
+    p^{[j]''}(x_j) = p^{[j]''}(x_j) \\
+    \vdots \\
+    p^{[j]^{(k-1)}}(x_j) = p^{[j]{(k-1)}}(x_j)
+  \end{cases}\] 
+  \item 
+  \begin{itemize}
+    \item free boundary: $p^{[1]''}(x_0) = 0$, $p^{[n]''}(x_n) = 0$
+    \item clamped boundary: specify the $1^{st}$ derivatives at the end with $f_0'$, $f_n'$: $p^{[1]'}(x_0)=f_0'$, $p^{[n]'}(x_n)=f_n'$
+    \item periodic boundary: if $f_0=f_n$, we impose that first and second derivatives also math end points \[p^{[1]'}(x_0) = p^{[n]'}(x_n)\]\[p^{[1]''}(x_0) = p^{[n]''}(x_n)\]
+  \end{itemize}
+\end{itemize}
+\subsection{Error Analysis for Polynomial Interpolation}
+\subsubsection{Newton's Form}
+\subsubsection*{Proposition}
+For all $f[x_0,x_1,\cdots,x_n]$
+\begin{itemize}
+  \item \[f[x_0,x_1] = \dfrac{f_1-f_0}{x_1-x_0}\]
+  \item \[f[x_0,x_1,x_2]=\dfrac{f[x_1,x_2]-f[x_0,x_1]}{x_2-x_0}\]
+  \item \[f[x_0,x_1,\cdots,x_n] = \dfrac{f[x_1,x_2,\cdots,x_n]-f[x_0,x_1,\cdots,x_{n-1}]}{x_n-x_0}\]
+\end{itemize}
+\subsubsection*{Definition: Newton's Form}
+Given $\{(x_i,f_i)\}_{i=0}^n$ with distinct $x_i$, Newton's form at interpolating polynomial of degree $n$ of $f(x)$ can be written 
+\[P_n(x) = f_0+(x-x_0)f[x_0,x_1] + (x-x_0)(x-x_1)f[x_0,x_1,x_2] + \cdots + (x-x_0)\cdots(x-x_{n-1})f[x_0,\cdots,x_n]\]
+\subsubsection{Error Estimate of Polynomial Interpolation}
+\subsubsection*{Notation}
+For $\{x_i\}_{i=0}^n$, $\tau\{x_0, \cdots,x_n\}$ denotes the closed interval 
+\[[\min\{x_0,\cdots,x_n\}, \max\{x_0,\cdots,x_n\}]\]
+\subsubsection*{Proposition}
+Let $f$ be given real valued function withh $n$ cts derivatiives. For $\{(x_i,f_i)\}_{i=0}^n$, there exists $\delta\in\tau\{x_0,\cdots,x_n\}$ such that 
+\[f[x_0,\cdots,x_n] = \frac{f^{(n)}(\delta)}{n!}\]
+\subsubsection*{Theorem}
+Given $\{(x_i,f_i)\}_{i=0}^n$ with distinct $x_i$'s and $f$, a real valued function with $n+1$ cts derivatiives on the interval $\tau_t = \delta\{t,x_0,\cdots,x_n\}$
+with $t$ some given real number where we evaluate the error of interpolation \\
+There exists $\delta\in\tau_t$
+\[f(t) - P_n(t) = (t-x_0)\cdots(t-x_n)\frac{f^{(n+1)}(\delta)}{(n+1)!}\]
+where $P_n(t)$ is the degree $n$ interpolating polynomial of $f(t)$ on $\{(x_i,f_i)\}_{i=0}^n$
+\subsubsection*{Corollary}
+Let $p(x)$ be piecewise linear interpolating polynomial of $f(x)$ on $I=[x_0,x_n]$ \\
+Then for any $1\leq i\leq n$ and $x_{i-1}< t< x_i$
+\[|f(t)-p(t)| \leq \frac{(x_i-x{i-1})^2}{\delta}max_{x_{i-1}\leq x\leq x_i}|f^{(2)}(x)|\]
+
+
+\section{Numerical Integration}
+\subsection{Quadrature faced on Interpolating Polynomial}
+\subsubsection{Midpoint Rule}
+Let $P_0(x)$ be the constant interpolating polynomial of $f(x)$ on $I=[a,b]$ at $\dfrac{a+b}{2}$ 
+\[\hat{I}_M(f) = I(P_0(x)) = \int_{a}^{b}P_0(x)dx = \int_{a}^{b}f(\frac{a+b}{2})dx = (b-a)f(\frac{a+b}{2})\]
+\subsubsection*{Midpoint Rule}
+To approximate $\ds\int_{a}^{b}f(x)dx$, the midpoint rule reads
+\[\hat{I}_M(f):= (b-a)f(\frac{a+b}{2})\xrightarrow[]{approx}I(f)=\int_{a}^{b}f(x)dx\]
+The error of the rule is 
+\[E_M(f):= I(f) - \hat{I}_M(f)\]
+\subsubsection*{Error Estimate of Midpoint Rule}
+Let $f$ be given real valued function with 2 cts derivatives. Then there exists $\delta\in(a,b)$ st 
+\[|E_M(f)| = |\dfrac{(b-a)^3}{24}f''(\delta)|\]
+\subsubsection{Trapezoidal Rule}
+Let $P_z(x)$ be linear interpolating polynomial of $f(x)$ on $[a,b]$ with interpolating data point \\
+$\{(a,f(a)),(b,f(b))\}$
+\[\hat{I}_T(f)=I(P_1(x)) = \frac{b-a}{2}(f(a)+f(b))\]
+\subsubsection*{Trapezoidal Rule}
+To approximate $\ds\int_{a}^{b}f(x)dx$, the midpoint rule reads
+\[\hat{I}_T(f):= \frac{b-a}{2}(f(a)+f(b))\xrightarrow[]{approx}I(f)=\int_{a}^{b}f(x)dx\]
+The error of Trapezoidal rule is 
+\[E_T(f):=I(f)-\hat{I}_T(f)\]
+\subsubsection*{Error Estimate of Trapezoidal Rule}
+Let $f$ be given real valued function with 2 cts derivatives. Then there exists $\delta\in(a,b)$ st 
+\[|E_T(f)|=|\dfrac{(b-a)^3}{12}f''(\delta)|\] 
+\subsubsection{Simpson's Rule}
+Let $P_2(x)$ be the $2^{nd}$ degree interpolating polynomial of $f(x)$ on $[a,b]$ with interpolating data point $\{(a,f(a)),(\frac{a+b}{2}, f(\frac{a+b}{2})), (b,f(b))\}$
+\[\hat{I}_S(f) = I(P_2(x)) = \frac{b-a}{6}(f(a)+4f(\frac{a+b}{2})+f(b))\]
+\subsubsection*{Simpson's Rule}
+To numerically approximate $\ds\int_{a}^{b}f(x)dx$, the Simpson's rule reads
+\[\hat{I}_S(f) = \frac{b-a}{6}(f(a)+4f(\frac{a+b}{2})+f(b))\xrightarrow[]{approx}I(f)=\int_{a}^{b}f(x)dx\]
+The error of Simpson's rule is
+\[E_S(f):= I(f)-\hat{I}_S(f)\]
+\subsubsection*{Error Estimate of Simpson's Rule}
+Let $f$ be given real valued function with 4 cts derivatives. Then there exists $\delta\in(a,b)$ st
+\[|E_S(f)| = |\frac{(b-a)^5}{2880}f^{(4)}(f)|\]
+\subsubsection{Degree of Precision}
+\subsubsection*{Degree of Precision of Quadrature}
+The following statements are equivalent
+\begin{itemize}
+  \item $\hat{I}(f)$ has degree of precision $m$
+  \item $E(f)=I(f)-\hat{I}(f)\equiv0$ for any $f(x)\in P_m$
+  \item $\hat{I}(f)$ integrates any polynomial $f(x)\in P_m$ exactly
+\end{itemize}
+Midpoint rule and trapezoidal rule have degree of precision $1$, Simpson's rule has degree of precision $3$
+\subsection{Composite Quadrature}
+\subsubsection*{Composite Trapezoidal Rule}
+Local error estimate:
+\[|E_{CT}^i(f)| = |\dfrac{(x_{i}-x_{i-1})^3}{12}f''(q_i)|\quad q_i\in(x_{i-1},x_i)\]
+Global error estimate:
+\[E_{CT}(f)=\mO(h^2)\]
+\subsubsection*{Composite Simpson's Rule}
+Global error estimate: 
+\[E_{CS}(f)=\mO(h^4)\]
+\subsubsection*{Composite Midpoint Rule}
+Global error estimate:
+\[E_{CM}(f)=\mO(h^2)\]
+\subsection{Gaussian Integration}
+\subsubsection*{Lemma}
+Given any distinct set of nodes $x_1,\cdots,x_n$ in $[-1,1]$, one can find unique set 
+of weights $w_1,\cdots,w_n$ such that the quadrature is at least degree of precision $n-1$
+\subsubsection{Orthogonal Polynomials}
+\subsubsection*{Definition}
+Consider space of all polynomial on $[-1,1]$ denoted by $P$ \\
+Define inner product \[<f,g>=\int_{-1}^{1}f(x)g(x)dx\]
+\subsubsection*{Lemma}
+All $n$ roots of orthogonal polynomial $p_n(x)$ reside in $(-1,1)$ and all simple
+\subsubsection*{Gaussian Legendre Quadrature}
+Let $\{x_i\}_{i=1}^n$ be roots of $p_n(x)$, and let $\{w_i\}_{i=1}^n$ be solution of system \\
+Then 
+\begin{itemize}
+  \item $\{w_i\}_{i=1}^n$ ais of degree of precision $2n-1$
+  \item no quadrature exceeds this order 
+\end{itemize}
+
+\section{Discrete Fourier Methods}
+\subsection{Introduction}
+\subsubsection*{Complex Numbers and Complex Plane}
+Complex number $z=a+bi$ is defined as point in the xy-plane having Cartesian coordinates $(a,b)$ \\
+The plane is denoted $\C$ and called complex plane 
+\subsubsection*{Addition and Multiplication of Complex Number}
+\begin{itemize}
+  \item Addition: $z_1+z_2$ is giving by \[z_1+z_2 = (a_1+a_2)+i(b_1+b_2)\]
+  \item Multiplication is given by \[z_1\cdot z_2 = (a_1+b_1i)(a_2+b_2i) = (a_1a_2-b_1b_2) + (a_1b_2+a_2b_1)i\]
+\end{itemize}
+\subsubsection*{Euler's Formula}
+\[e^{i\theta} = \cos\theta + i\sin\theta\]
+\subsection{Fourier Series}
+Goal: Given a function on $[a,b]$, expand it in sum of sines and cosines
+\subsubsection{Fourier Series and Orthogonal Basis}
+\subsubsection*{Orthogonal Basis \& Orthonormal Basis}
+A basis $B=\{v_1,\cdots,v_n\}$ is orthogonal basis iff \[<v_i,v_j> = c_{ij}\]
+where $c_{ij}$ is nonzero iff $i=j$ \\
+When $c_{ij}=1$, call $B$ an orthonormal basis 
+\subsubsection*{Square Integrable Function}
+Define vector space of square integrable functions on $[-\pi,\pi]$ as 
+\[V = L^2([-\pi,\pi]) = \{f(x)|\int_{-\pi}^{\pi}f(x)^2dx<\infty\}\]
+The inner product $<\cdot,\cdot>: V\times V\rightarrow\R$ is defined as 
+\[<f,g>=\int_{-\pi}^{\pi}f(x)g(x)dx\]
+\subsubsection*{Basis of Vector Space of Infinite Dimension}
+Say $\{v_i\}_{i=1}^\infty$ is a basis of infinite dimensional vector $V$ if $\forall v\in V$, there exists unique sequence 
+$\{c_i\}_{i=1}^\infty$ such that 
+\[v=\sum_{i=1}^{\infty}c_iv_i\]
+\subsubsection*{Proposition}
+Let $V=\{f(x)|\int_{-\pi}^{\pi}f(x)^2dx<\infty\}$
+and $B = \{1,\cos(kx),\sin(kx)\}_{k=1}^\infty$. Then $B$ is orthogonal basis of $V$
+\subsubsection*{Fundamental Convergence Theorem for Fourier Series}
+Let $V=\{f(x)|\int_{-\pi}^{\pi}f(x)^2dx<\infty\}$ \\
+Then for $\forall f(x)\in V$, there exists a unique set of coefficients $\{a_0,a_kb_k\}_{k=1}^\infty$ such that
+\[f_n(x) = \frac{a_0}{2} = \sum_{k=1}^{n}[a_k\cos(kx) + b_k\sin(kx)]\]
+converges to $f(x)$ as $n\rightarrow\infty$
+\subsubsection*{Definition}
+The Fourier series of $f(x)$ on $[-\pi, \pi]$ is given by $g(x) = \frac{a_0}{2}+\sum_{k=1}^{\infty}[a_k\cos(kx) + b_k\cos(kx)]$ with 
+\[\begin{cases}
+  a_k = \frac{1}{\pi}\int_{-\pi}^{\pi}f(x)\cos(kx)dx &(k\geq0)\\
+  b_k = \frac{1}{\pi}\int_{-\pi}^{\pi}f(x)\sin(kx)dx &(k\geq1)
+\end{cases}\]
+\subsubsection{Complex Form of the Fourier Series}
+\subsubsection*{Square Integrable Complex-valued Functions}
+Define vector space of square integrable functions on $[-\pi,\pi]$ as \[V = L_2([-\pi,\pi]) = \{f(x)|\int_{-\pi}^{\pi}|f(x)|^2dx<\infty\}\]
+where $|f(x)|$ is modules of $f(x)\in\C$\\
+Inner product $<\cdot,\cdot>: V\times V\rightarrow\C$ is defined as 
+\[<f,g> = \int_{-\pi}^{\pi}f(x)\overline{g(x)}dx\]
+\subsubsection*{Proposition}
+Let $V = \{f(x)|\int_{-\pi}^{\pi}|f(x)|^2dx<\infty\}$ and $B=\{\exp(ikx)\}_{k=-\infty}^\infty$ \\
+Then $B$ is orthogonal basis of $V$
+\subsubsection*{Definition}
+Fourier series of complex-valued $f(x)$ on $[-\pi,\pi]$ is given by 
+\[g(x) = \sum_{k=-\infty}^{\infty}c_k\exp(ikx)\]
+with \[c_k = \frac{1}{2\pi}\int_{-\pi}^{\pi}f(x)\overline{\exp(ikx)}dx = \frac{1}{2\pi}\int_{-\pi}^{\pi}f(x)\exp(-ikx)dx\]
+\subsubsection*{Proposition}
+The real and complex Fourier coefficients of a real function $f(x)$ obey:
+\begin{itemize}
+  \item $\overline{c_k} = c_{-k}, a_{-k} = a_k, b_{-k} = -b_k$
+  \item $a_k=2Re(c_k), b_k = -2Im(c_k)$
+  \item $b_0=0,c_0=\frac{1}{2}a_0,c_k=\frac{1}{2}(a_k-ibk)$
+\end{itemize}
+\subsubsection*{Theorem}
+For a real function $f(x)$, its real and complex forms of Fourier series are equivalent: $g(x)=h(x)$
+\subsection{Discrete Fourier Transform}
+\subsubsection{Approximation to Fourier Series Coefficients}
+\subsubsection*{$N^{th}$ roots of unity}
+The $N^{th}$ roots of unity are integer powers of $W_N=\exp(i\frac{2\pi}{N})$ \\
+They evenly divide unit circle on $\C$
+\subsubsection*{DFT}
+The discrete Fourier transform of a discrete time signal $f[n]$ with $-\frac{N}{2}+1\leq n\leq\frac{N}{2}$ is 
+\[F[k] = DFT\{f[n]\} = \frac{1}{N}\sum_{n=-\frac{N}{2}+1}^{\frac{N}{2}}f[n]W_N^{nk}\]
+for $-\frac{N}{2}+1\leq k\leq \frac{N}{2}$
+\subsubsection*{IDFT}
+The inverse discrete Fourier transform of a discrete frequency signal $F[k]$ with $-\frac{N}{2}+1\leq k\leq \frac{N}{2}$ is 
+\[f[n = IDFT\{F[k]\}] = \sum_{k=-\frac{N}{2}-1}^{\frac{N}{2}}F[k]W_N^{nk}\]
+where $-\frac{N}{2}+1\leq n\leq \frac{N}{2}$
+\subsubsection{Properties of DFT}
+\subsubsection*{Properties of DFT}
+\begin{itemize}
+  \item $F[k] = F[k+sN]$ with $s\in\Z$
+  \item if signal $f[n]$ is real 
+  \begin{itemize}
+    \item $Re(F[k])$ is even in $k$
+    \item $Im(F[k])$ is odd in $k$
+    \item $\overline{F[k]} = F[-k]$
+    \item $f[n]$ is even in $n$, then $Im(F[k])=0$
+    \item $f[n]$ is odd in $n$, then $Re(F[k])=0$
+  \end{itemize}
+\end{itemize}
+\subsubsection*{Dot Porduct in $\C$}
+$\forall\vx,\vy\in\C^n$, $<\vx,\vy>=\sum_{i=1}^{n}x_i\overline{y_i}$
+\subsubsection*{Porposition}
+$\{\vec{F_k}\}_{k=0}^{N-1}$ forms orthogonal basis of $\C^n$
+\subsubsection{FFT}
+
+
+
+
+
+\end{document}
