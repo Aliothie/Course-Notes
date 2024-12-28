@@ -1,0 +1,885 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm,enumerate,nicefrac,fancyhdr,hyperref,graphicx,adjustbox}
+\hypersetup{colorlinks=true,urlcolor=blue,citecolor=blue,linkcolor=blue}
+\usepackage[left=2.6cm, right=2.6cm, top=1.5cm, includehead, includefoot]{geometry}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[d]{esvect}
+
+%% commands
+%% useful macros [add to them as needed]
+% sets
+\newcommand{\C}{{\mathbb{C}}} 
+\newcommand{\N}{{\mathbb{N}}}
+\newcommand{\Q}{{\mathbb{Q}}}
+\newcommand{\R}{{\mathbb{R}}}
+\newcommand{\Z}{{\mathbb{Z}}}
+\newcommand{\F}{{\mathbb{F}}}
+
+% bases
+\newcommand{\mA}{\mathcal{A}}
+\newcommand{\mB}{\mathcal{B}}
+\newcommand{\mC}{\mathcal{C}}
+\newcommand{\mD}{\mathcal{D}}
+\newcommand{\mE}{\mathcal{E}}
+\newcommand{\mL}{\mathcal{L}}
+\newcommand{\mM}{\mathcal{M}}
+\newcommand{\mO}{\mathcal{O}}
+\newcommand{\mP}{\mathcal{P}}
+\newcommand{\mS}{\mathcal{S}}
+\newcommand{\mT}{\mathcal{T}}
+
+% linear algebra
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\adj}{\operatorname{adj}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\spn}{\operatorname{Span}}
+\newcommand{\proj}{\operatorname{proj}}
+\newcommand{\prp}{\operatorname{perp}}
+\newcommand{\refl}{\operatorname{refl}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\nul}{\operatorname{Null}}
+\newcommand{\nully}{\operatorname{nullity}}
+\newcommand{\range}{\operatorname{Range}}
+\renewcommand{\ker}{\operatorname{Ker}}
+\newcommand{\col}{\operatorname{Col}}
+\newcommand{\row}{\operatorname{Row}}
+\newcommand{\cof}{\operatorname{cof}}
+\newcommand{\Num}{\operatorname{Num}}
+\newcommand{\Id}{\operatorname{Id}}
+\newcommand{\ipb}{\langle \thinspace, \rangle}
+\newcommand{\ip}[2]{\left\langle #1, #2\right\rangle} % inner products
+\newcommand{\M}[2]{M_{#1\times #2}(\F)}
+\newcommand{\RREF}{\operatorname{RREF}}
+\newcommand{\cv}[1]{\begin{bmatrix} #1 \end{bmatrix}}
+\newenvironment{amatrix}[1]{\left[\begin{array}{@{}*{\numexpr#1-1}{c}|c@{}}}{\end{array}\right]}
+\newcommand{\am}[2]{\begin{amatrix}{#1} #2 \end{amatrix}}
+
+% vectors
+\newcommand{\vzero}{\vv{0}}
+\newcommand{\va}{\vv{a}}
+\newcommand{\vb}{\vv{b}}
+\newcommand{\vc}{\vv{c}}
+\newcommand{\vd}{\vv{d}}
+\newcommand{\ve}{\vv{e}}
+\newcommand{\vf}{\vv{f}}
+\newcommand{\vg}{\vv{g}}
+\newcommand{\vh}{\vv{h}}
+\newcommand{\vl}{\vv{\ell}}
+\newcommand{\vm}{\vv{m}}
+\newcommand{\vn}{\vv{n}}
+\newcommand{\vp}{\vv{p}}
+\newcommand{\vq}{\vv{q}}
+\newcommand{\vr}{\vv{r}}
+\newcommand{\vs}{\vv{s}}
+\newcommand{\vt}{\vv{t}}
+\newcommand{\vu}{\vv{u}}
+\newcommand{\vvv}{{\vv{v}}}
+\newcommand{\vw}{\vv{w}}
+\newcommand{\vx}{\vv{x}}
+\newcommand{\vy}{\vv{y}}
+\newcommand{\vz}{\vv{z}}
+
+% display
+\newcommand{\ds}{\displaystyle}
+\newcommand{\qand}{\quad\text{and}}
+\newcommand{\qandq}{\quad\text{and}\quad}
+\newcommand{\hint}{\textbf{Hint: }}
+\newcommand{\tri}{\triangle}
+
+% misc
+\newcommand{\area}{\operatorname{area}}
+\newcommand{\vol}{\operatorname{vol}}
+\newcommand{\red}[1]{{\color{red} #1}}
+\newcommand{\rc}{\red{\checkmark}}
+
+\title{STAT 330 Notes}
+\author{Thomas Liu}
+\begin{document}
+\maketitle
+\tableofcontents
+
+\newpage 
+\section{Univariate Random Variables}
+\subsection{Probability}
+\subsubsection{Sample Space}
+sample space (S) is a set of all distinct outcomes for random experiment, with property that in a single trial,
+one and only one of these outcome occurs 
+\subsubsection{Sigma Algebra}
+a collection of subsets of set S is called $\sigma$ algebra or $\sigma$ field, denoted by $\mB$, it satisfies following properties:
+\begin{itemize}
+    \item $\emptyset\in\mB$ and $S\in\mB$
+    \item $\mB$ is closed under complementation
+    \item $\mB$ is closed under countable union
+\end{itemize}
+The pair $(S,\mB)$ is called measurable space. Define a probability measure on this space 
+\subsubsection{Probability Set Function}
+A probability set function is a function $P$ with domain $\mB$ that satisfies following axioms:
+\begin{itemize}
+    \item $P(A)\geq0$ for all $A\in\mB$
+    \item $P(S)=1$
+    \item if $A_1,A_2,\cdots\in\mB$ are mutually exclusive events, then \[P(\bigcup_{i=1}^{\infty}A_i) = \sum_{i=1}^{\infty}P(A_i)\]
+\end{itemize}
+We call $(S,\mB,P)$ a probability space, the three conditions are called Kolmogorove axioms of probability \\
+When writing $P(x)$, we must define $P(x)=P(\{x\})$ to show it is a function on set 
+\subsubsection{Properties}
+\begin{itemize}
+    \item $P(\emptyset)=0$
+    \item $P(A)\leq 1$
+    \item $P(A')=1-P(A)$
+    \item if $A,B\in\mB$, then $P(A\cup B) = P(A)+P(B)-P(A\cap B)$
+    \item if $A\subset B$, then $P(A)\leq P(B)$
+    \item Boole's inequality: if $A_1,A_2,\cdots$ is a sequence of events \[P(\bigcup_{i=1}^{\infty}A_i)\leq\sum_{i=1}^{\infty}P(A_i)\]
+    \item Bonferroni's inequality: if $A_1,A_2,\cdots,A_k$ are events \[P(\bigcap_{i=1}^{k}A_i)\geq1-\sum_{i=1}^{k}P(A_i^c)\]
+    \item Continuity Property: if $A_1\subseteq A_2\subseteq\cdots$ is sequence of nested sets where $A=\bigcup_{i=1}^{\infty}A_i$ \[\lim_{n\to\infty}P(\bigcup_{i=1}^{n}A_i)=P(A)\]
+\end{itemize}
+\subsubsection{Conditional Probability}
+conditional probability of event $A$ given $B$ is 
+\[P(A|B) = \frac{P(A\cap B)}{P(B)}\quad P(B)>0\]
+\subsubsection{Independent Events}
+two events $A$ and $B$ are independent if \[P(A\cap B) = P(A)P(B)\] 
+\subsection{Random Variables}
+random variable $X$ is a function from sample space $S$ to real numbers $\R$ \[X:S\rightarrow\R\]
+such that $P(X\leq x)$ is defined for all $x\in\R$
+\subsubsection{Cumulative Distribution Function}
+cumulative distribution function (CDF) of random variable $X$ is defined as 
+\[F_X(x) = P(X\leq x)\quad x\in\R\]
+It is defined for all real numbers 
+\subsubsection{Properties for CDF}
+\begin{itemize}
+    \item $F$ is non-decreasing function \[F(x_1)\leq F(x_2)\] for all $x_1<x_2$
+    \item $\ds\lim_{x\to-\infty}F(x)=0$ and $\ds\lim_{x\to\infty}F(x)=1$
+    \item $F$ is right-continuous function \[\lim_{x\to a^+}F(x)=F(a)\]
+    \item for all $a<b$ \[P(a<X\leq b)=P(X\leq b)-P(X\leq a) = F(b) - F(a)\]
+    \item for all $b$ \[P(X=b) = F(b) - \lim_{a\to b^-}F(a)\]
+\end{itemize}
+\subsection{Discrete Random Variables}
+random variable $X$ defined on sample space $S$ is discrete random variable if there is a countable subset $A\subset\R$ such that $P(X\in A)=1$
+\subsubsection{Probability Function}
+if $X$ is discrete random variable, then probability function (PF) of $X$ is 
+\begin{align*}
+    f(x) &= P(X=x) \\
+         &= F(x) - \lim_{\epsilon\to0}F(x-\epsilon)\quad x\in\R 
+\end{align*}
+set $A=\{x:f(x)>0\}$ is called support set of $X$
+\subsubsection{Properties of PF}
+\begin{itemize}
+    \item $f(x)\geq0$ for $x\in\R$
+    \item $\ds\sum_{x\in A}f(x) = 1$
+\end{itemize}
+\subsection{Continuous Random Variables}
+$X$ is random variable with CFD $F$. If $F$ is continuous function for $x\in\R$ and $F$ is differentiable except possibly coutably many points, then $X$ is continuous random variable
+\subsubsection{PDF}
+PDF of $X$ is $f(x) = F'(x)$ if $F$ is differentiable at $x$
+\subsubsection{Properties}
+\begin{itemize}
+    \item $f(x)\geq0$ for $x\in\R$
+    \item $\int_{-\infty}^{\infty}f(x)dx = \lim_{x\to\infty}F(x) - \lim_{x\to-\infty}F(x) = 1$
+    \item $f(x)=\lim_{h\to0}\frac{F(x+h)-F(x)}{h}=\lim_{h\to0}\frac{P(x\leq X\leq x+h)}{h}$ if limit exists 
+    \item $F(x)=\int_{-\infty}^{x}f(t)dt$, $x\in\R$
+    \item $P(a<X\leq b)=P(X\leq b)-P(X\leq a) = F(b) - F(a)=\int_{a}^{b}f(x)dx$
+    \item $P(X=b)=F(b)-\lim_{a\to b^-}F(a)=F(b)-F(b)=0$
+\end{itemize}
+\subsubsection{Gamma Function}
+gamma function defined as 
+\[\Gamma(\alpha)=\int_{0}^{\infty}y^{\alpha-1}e^{-y}dy\]
+\subsubsection{Properties of Gamma Function}
+\begin{itemize}
+    \item $\Gamma(\alpha)=(\alpha-1)\Gamma(\alpha-1)$, $\alpha>1$
+    \item $\Gamma(n)=(n-1)!$, $n=1,2,\cdots$
+    \item $\Gamma(\frac{1}{2})=\sqrt{\pi}$
+\end{itemize}
+\subsection{Location and Scale Parameters}
+\subsubsection{Location Parameter}
+Suppose $X$ is continuous random variable with PDF $f(x;\theta)$ where $\theta$ is parameter of distribution.
+Let $F_0(x)=F(x;\theta=0)$ and $f_0(x)=f(x;\theta=0)$. Parameter $\theta$ is called location parameter of distribution if 
+\[F(x;\theta)=F_0(x-\theta)\quad\theta\in\R\]
+or \[f(x;\theta)=f_0(x-\theta)\quad\theta\in\R\]
+\subsubsection{Scale Parameter}
+Let $F_1(x)=F(x;\theta=1)$ and $f_1(x)=f(x;\theta=1)$. Parameter $\theta$ is called scale parameter of distribution if
+\[F(x;\theta)=F_1(\frac{x}{\theta})\quad\theta>0\]
+or \[f(x;\theta)=\frac{1}{\theta}f_1(\frac{x}{\theta})\quad\theta>0\]
+\subsection{Functions of Random Variables}
+\subsubsection*{Theorem}
+If $Z\sim N(0,1)$ then $Z^2\sim\chi^2(1)$
+\subsubsection{Probability Integral Transformation}
+If $X$ is continuous random variable with cumulative distribution function $F$ then random variable 
+\[Y=F(X)=\int_{-\infty}^{X}f(t)dt\]
+has Uniform(0,1) distribution 
+\subsubsection*{Theorem}
+Suppose $F$ is cdf for continuous random variable. If $U\sim$ Uniform(0,1) then random variable $X=F^{-1}(U)$ also has cdf $F$
+\subsubsection{One-to-One Transformation of Random Variable}
+Suppose $X$ is continuous random variable with pdf $f$ and support set $A=\{x:f(x)>0\}$.
+Let $Y=h(x)$ where $h$ is real-valued function. Let $B=\{y:g(y)>0\}$ be support set of random variable $Y$.
+If $h$ is one-to-one function from $A$ to $B$ and $\frac{d}{dx}h(x)$ is continuous for $x\in A$, then pdf of $Y$ is 
+\[g(y) = f(h^{-1}(y))|\frac{d}{dy}h^{-1}(y)|\quad y\in B\]
+\subsection{Expectation}
+suppose $h(x)$ is real-valued function \\
+If $X$ is discrete random variable with probability function $f(x)$, then expectation of $h(X)$ is
+\[E[h(X)] = \sum_{x\in A}h(x)f(x)\]
+provided the sum converges absolutely
+\[E(|h(X)|) = \sum_{x\in A}|h(x)|f(x)\leq\infty\]
+If $X$ is continuous random variable with pdf $f(x)$, then expectation of $h(X)$ is
+\[E[h(X)] = \int_{-\infty}^{\infty}h(x)f(x)dx\]
+provided the integral converges absolutely
+\[E(|h(X)|) = \int_{-\infty}^{\infty}|h(x)|f(x)dx\leq\infty\]
+If $E(|h(X)|)=\infty$ then we say $E[h(X)]$ does not exist \\
+$E[h(X)]$ is also called expected value of random variable $h(X)$
+\subsubsection{Expectation is Linear Operator}
+\[E(aX+b) = aE(X)+b\]
+\[E(ag(X)+bh(X)) = aE[g(X)]+bE[h(X)]\]
+\subsubsection{Special Expectations}
+\begin{itemize}
+    \item mean of random variable \[E(X)=\mu\]
+    \item kth moment (about the origin) of random variable \[E(X^k)\]
+    \item kth moment about the mean of random variable \[E[(X-\mu)^k]\]
+    \item kth factorial moment of random variable \[E(X^{(k)}) = E[X(X-1)\cdots(X-k+1)]\]
+    \item variance of random variable \[\text{Var}(X)=E[(X-\mu)^2] = \sigma^2\quad \mu=E(X)\]
+\end{itemize}
+\subsubsection{Properties of Variance}
+\begin{align*}
+    \sigma^2 &= Var(X) \\
+             &= E(X^2)-\mu^2 \\
+             &= E[X(X-1)] + \mu - \mu^2
+\end{align*}
+\[Var(aX+b) = a^2Var(X)\]
+and \[E(X^2) = \sigma^2+\mu^2\]
+\subsection{Inequalities}
+\subsubsection{Markov's Inequality}
+\[P(|X|\geq c)\leq\frac{E(|X|^k)}{c^k}\quad\forall k,c>0\]
+\subsubsection{Chebyshev's Inequality}
+\[P(|X-\mu|\geq k\sigma)\leq\frac{1}{k^2}\quad\forall k>0\]
+\subsection{Moment Generating Function}
+If $X$ is random variable, then $M(t)=E(e^{tX})$ is called moment generating function (MGF) of $X$ if
+expectation exists for all $t\in(-h,h)$ for some $h>0$
+\subsubsection{Moment Generating Function of Linear Function}
+Suppose random variable $X$ has mgf $M_X(t)$ defined for $t\in(-h,h)$ for some $h>0$.
+Let $Y=aX+b$ where $a,b\in\R$ and $a\neq0$. Then mgf of $Y$ is 
+\[M_Y(t)=e^{bt}M_X(at)\quad|t|<\frac{h}{|a|}\]
+\subsubsection{Moments from Moment Generating Function}
+Suppose random variable $X$ has mgf $M(t)$ defined for $t\in(-h,h)$ for some $h>0$. Then $M(0)=1$ and 
+\[M^{(k)}(0)=E(X^k)\quad k=1,2,\cdots\]
+where \[M^{(k)}(t) = \frac{d^k}{dt^k}M(t)\]
+is kth derivative of $M(t)$
+\subsubsection{Uniqueness of Moment Generating Function}
+Suppose random variable $X$ has mgf $M_X(t)$ and random variable $Y$ has mgf $M_Y(t)$.
+Also $M_X(t) = M_Y(t)$ for all $t\in(-h,h)$ for some $h>0$. Then $X$ and $Y$ have same distribution 
+\[P(X\leq s)=F_X(s)=F_Y(s)=P(Y\leq s)\quad\forall s\in\R\]
+
+\section{Joint Distributions}
+\subsection{Definition of Joint Distribution (Bivariate)}
+Suppose $X$ and $Y$ are random variables defined on a sample space $S$. Then $(X,Y)$ forms a random vector (bivariate)
+where the joint cdf of $X$ and $Y$ given by 
+\[F(x,y)=P(X\leq x, Y\leq y)=P([X\leq x]\cap[Y\leq y]), (x,y)\in\R^2\]
+\subsubsection{Properties of $F$} 
+\begin{itemize}
+    \item $F$ is non-decreasing in $x$ for fixed $y$
+    \item $F$ is non-decreasing in $y$ for fixed $x$
+    \item $\lim_{x\to-\infty}F(x,y)=0$ and $\lim_{y\to-\infty}F(x,y)=0$
+    \item $\lim_{(x,y)\to(-\infty,-\infty)}F(x,y)=0$ and $\lim_{(x,y)\to(\infty,\infty)}F(x,y)=1$
+    \item $\lim_{x\to\infty}F(x,y)=F_Y(y)$ and $\lim_{y\to\infty}F(x,y)=F_X(x)$ where $F_X(x)$ and $F_Y(y)$ are cdf of random variables $X$ and $Y$
+\end{itemize}
+\subsection{Joint Random Variables}
+\subsubsection{Joint Discrete Random Variables}
+Suppose $X$ and $Y$ are two discrete random variables. The joint pmf of $X$ and $Y$ is defined as
+\begin{align*}
+    f(x,y) &= P(\{w\in S, X(w)=x,Y(w)=y\}) \\
+           &= P(X=x,Y=y) &\forall(x,y)\in\R^2
+\end{align*}
+The set $A=\{(x,y):f(x,y)>0\}$ is support set of $(X,Y)$
+\begin{itemize}
+    \item $f(x,y)\geq0$ for all $(x,y)\in\R^2$
+    \item $\underset{(x,y)\in A}{\sum\sum} f(x,y)=1$
+    \item For all sets $B\subset\R^2$, $P[(X,Y)\in B]=\underset{(x,y)\in B}{\sum\sum}f(x,y)$
+\end{itemize}
+\subsubsection{Joint Continuous Random Variables}
+Two random variables $X$ and $Y$ are said to be jointly continuous if there exists a function $f(x,y)$ such that the joint 
+cdf of $X$ and $Y$ is given by 
+\[F(X,Y)=\int_{-\infty}^{x}\int_{-\infty}^{y}f(t_1,t_2)dt_2dt_1\quad\forall(x,y)\in\R^2\]
+The function $f(x,y)$ is called joint density function of $X$ and $Y$. It follows the definition 
+above when second order partial derivative exists \[f(x,y)=\frac{\partial^2}{\partial x\partial y}F(x,y)\]
+$f(x,y)=0$ when $\frac{\partial^2}{\partial x\partial y}F(x,y)$ doesn't exist 
+\begin{itemize}
+    \item $f(x,y)\geq0$ for all $(x,y)\in\R^2$
+    \item $\int_{-\infty}^{\infty}\int_{-\infty}^{\infty}f(x,y)dxdy=1$
+    \item For all sets $B\subset\R^2$ \[P[(X,Y)\in B]=\underset{(x,y)\in B}{\int\int} f(x,y)dxdy\]
+\end{itemize}
+\subsection{Marginal Distributions}
+\subsubsection{X and Y Discrete}
+Suppose $X$ and $Y$ are both discrete random variables with joint pmf $f(x,y)$.
+The marginal pmf of $X$ and $Y$ are
+\[f_X(x)=P(X=x)=\sum_{y\in Supp(Y)}f(x,y)\quad x\in\R\]
+\[f_Y(y)=P(Y=y)=\sum_{x\in Supp(X)}f(x,y)\quad y\in\R\]
+\subsubsection{X and Y Continuous}
+Suppose $X$ and $Y$ are both continuous random variables with joint pdf $f(x,y)$.
+The marginal pdf of $X$ and $Y$ are
+\[f_X(x)=\int_{-\infty}^{\infty}f(x,y)dy\quad x\in\R\]
+\[f_Y(y)=\int_{-\infty}^{\infty}f(x,y)dx\quad y\in\R\]
+\subsection{Independent Random Variables}
+\subsubsection{Independence}
+Two r.v. $X$ and $Y$ with joint cdf $F(x,y)$ are independent iff
+\[F(x,y)=F_X(x)F_Y(y)\quad\forall x,y\in\R\]
+You can replace $F$ with $f$, $X$ and $Y$ are independent iff
+\[f(x,y)=f_X(x)f_Y(y)\quad\forall(x,y)\in Supp(X,Y)\]
+\subsubsection{Factorization Theorem for Independence}
+Suppose $X$ and $Y$ are random variables with joint pf/pdf $f(x,y)$, and marginal pf/pdf $f_X(x)$ and $f_Y(y)$. Suppose
+\begin{itemize}
+    \item $A=\{(x,y):f(x,y)>0\}$ is support set of $(X,Y)$
+    \item $A_X=\{x:f_X(x)>0\}$ is support set of $X$
+    \item $A_Y=\{y:f_Y(y)>0\}$ is support set of $Y$
+\end{itemize}
+Then $X$ and $Y$ are independent r.v. iff $A=A_X\times A_Y$ and there exist non-negative functions $g(x)$ and $h(y)$ st 
+\[f(x,y)=g(x)h(y)\]
+for all $(x,y)\in A_X\times A_Y$
+\subsection{Conditional Distributions}
+Let $X$ and $Y$ be both discrete with joint pmf $f(x,y)=P(X=x,Y=y)$, then conditional probability function of $X$ given $Y=y$, for 
+$P(Y=y)\neq0$, is defined as 
+\[f(x|y) = P(X=x|Y=y)=\frac{P(X=x,Y=y)}{P(Y=y)}=\frac{f(x,y)}{f_Y(y)}\]
+For continuous $X$ and $Y$, notince $P(Y=y)=0$, $\forall y\in\R$. So 
+we define conditional pdf of $X$ given $Y=y$ as
+\[f(x|y)=\frac{f(x,y)}{f_Y(y)}\]
+\subsubsection*{Conditional Distribution Properties}
+\subsubsection{Discrete Case}
+\begin{itemize}
+    \item $\sum_xf(x|y)=1$
+    \item $F(x|y)=\sum_{w:w\leq x}f(w|y)$
+    \item $f(x|y)=F(x|y)-F(x^-|y)$
+\end{itemize}
+\subsubsection{Continuous Case}
+\begin{itemize}
+    \item $\int_xf(x|y)dx=1$
+    \item $F(x|y)=\int_{-\infty}^{x}f(t|y)dt$
+    \item $f(x|y)=\frac{\partial}{\partial x}F(x|y)$
+\end{itemize}
+\subsubsection{Theorem}
+Product Rule: \\
+Suppose $X$ and $Y$ are random variables with joint pdf $f(x,y)$ and marginal pdf $f_X(x)$ and $f_Y(y)$, and conditional 
+pdf $f(x|y)$ and $f(y|x)$. Then \[f(x,y)=f_X(x|y)f_Y(y)=f_Y(y|x)f_X(x)\]
+Independence: \\
+$X$ and $Y$ are independent iff $f(x|y)=f_X(x)$ and $f(y|x)=f_Y(y)$
+\subsection{Expectation of Joint Random Variables}
+\subsubsection{Joint Expectation}
+Suppose $X$ and $Y$ are random variables with joint pf $f(x,y)$ and support $A$. Also, suppose $h(x,y)$ is a real-valued function. 
+Then 
+\[X\&Y\text{ discrete}: E[h(X,Y)]=\underset{(x,y)\in A}{\sum\sum}h(x,y)f(x,y)\]
+\[X\&Y\text{ continuous}: E[h(X,Y)]=\int_{-\infty}^{\infty}\int_{-\infty}^{\infty}h(x,y)f(x,y)dxdy\]
+provided the joint sum/integral converges absolutely
+\subsubsection{Linearity of Expectation in Bivariate Case}
+Suppose $X$ and $Y$ are random variables with joint pmf/pdf $f(x,y)$, $a_i,b_i$, $i=1,\cdots,n$ are constants, and 
+$g_i(x,y)$, $i=1,\cdots,n$ are real-valued functions. Then
+\[E[\sum_{i=1}^{n}(a_ig_i(X,Y)+b_i)]=\sum_{i=1}^{n}(a_iE[g_i(X,Y)])+\sum_{i=1}^{n}b_i\]
+provided $E[g_i(X,Y)]$ exist for all $i=1,\cdots,n$
+\subsubsection{Covariance}
+No linear relationship between $X$ and $Y$ $\iff$ $Cov(X,Y)=0$ \\
+If two random variables are independent, then $Cov(X,Y)=0$, but not the other way around \\
+The covariance of random variables $X$ and $Y$ is defined as
+\[Cov(X,Y)=E[(X-\mu_X)(Y-\mu_Y)]=E(XY)-\mu_X\mu_Y\]
+where $\mu_X=E(X)$ and $\mu_Y=E(Y)$ \\
+By definition, $Cov(X,X)=Var(X)$
+\subsubsection{Variance of Linear Combination}
+\subsubsection*{Theorem 1}
+Suppose $X$ and $Y$ are random variables and $a,b,c$ are real constants. Then 
+\[Var(aX+bY+c)=a^2Var(X)+b^2Var(Y)+2ab\ Cov(X,Y)\]
+\subsubsection*{Theorem 2}
+Suppose $X_1,X_2,\cdots,X_n$ are random variables with $Var(X_i)=\sigma_i^2$, and $a_1,a_2,\cdots,a_n$ are real constants. Then 
+\begin{align*}
+    Var(\sum_{i=1}^{n}a_iX_i) &= \sum_{i=1}^{n}a_i^2\sigma_i^2 + 2\sum_{i=1}^{n}\sum_{j=i+1}^{n}a_ia_jCov(X_i,X_j) \\
+                               &= \sum_{i=1}^{n}a_i^2\sigma_i^2 + \underset{i\neq j}{\sum\sum} a_ia_jCov(X_i,X_j)
+\end{align*}
+If $X_1,X_2,\cdots,X_n$ are independent, then $Cov(X_i,X_j)=0$ for all $i\neq j$, and
+\[Var(\sum_{i=1}^{n}a_iX_i)=\sum_{i=1}^{n}a_i^2\sigma_i^2\]
+\subsection{Correlation}
+Covariance is a real number depends on units of measurement of $X$ and $Y$. THe informative part of covariance is its sign, unless it is puut into context. \\
+TO put covariance into context, and to quantitatively measure the strength of a linear relationship, use correlation coefficient 
+\subsubsection{Definition}
+The correlation coefficient of random variables $X$ and $Y$ is defined as
+\[\rho(X,Y)=\frac{Cov(X,Y)}{\sigma_X\sigma_Y}\]
+where $\sigma_X=\sqrt{Var(X)}$ and $\sigma_Y=\sqrt{Var(Y)}$
+\begin{itemize}
+    \item $-1\leq\rho(X,Y)\leq1$
+    \item $\rho(X,Y)=1$ if $Y=aX+b$ for some $a>0$
+    \item $\rho(X,Y)=-1$ if $Y=aX+b$ for some $a<0$
+\end{itemize}
+\subsection{Conditional Expectation}
+Let $g$ be a real-valued function. The conditional expectation of $g(Y)|X=x$ is given by 
+\begin{align*}
+    E[g(Y)|X=x] &= \sum_{y\in Supp(Y)}g(y)f(y|x)\quad\text{discrete} \\
+                &= \int_{-\infty}^{\infty}g(y)f(y|x)dy\quad\text{continuous}
+\end{align*} 
+The conditional expecatation of $h(X)|Y=y$, for a real-valued function $h$, is defined in a similar manner \\
+Based on definition above, 
+\begin{align*}
+    Var(Y|X=x) &= E[(Y-E(Y|X=x))^2|X=x] \\
+               &= E(Y^2|X=x)-[E(Y|X=x)]^2
+\end{align*}
+is the conditional variance 
+\subsubsection{Linearity}
+The linearity of the expected value applies to condtional expectation as well 
+\begin{itemize}
+    \item $X$ and $Y$ are two random variables with conditional distribution $f(y|x)$
+    \item $a_i$ and $b_i$ are real constants for $i=1,\cdots,n$
+    \item $g_i(y)$, $i=1,\cdots,n$ are real-valued functions
+\end{itemize}
+then 
+\begin{align*}
+    E[\sum_{i=1}^{n}(a_ig_i(Y)+b_i)|X=x] &= \sum_{i=1}^{n}(a_iE[g_i(Y)|X=x]) + \sum_{i=1}^{n}b_i
+\end{align*}
+provided $E[g_i(Y)|X=x]$ exists for all $i=1,\cdots,n$ \\
+If $X$ and $Y$ are independent, then $E(g_i(Y)|X=x)=E(g_i(Y))$
+\subsubsection*{Properties}
+Suppose $X$ and $Y$ are random variables then 
+\[E(E[g(Y)|x]) = E[g(Y)]\]
+\[Var(Y) = E[Var(Y|X)] + Var[E(Y|X)]\]
+\subsection{Joint Moment Generating Function}
+The joint moment generating function of random variables $X$ and $Y$ is defined as
+\[M(t_1,t_2)=E(e^{t_1X+t_2Y})\]
+if this expectation exists for all $(t_1,t_2)\in(-h_1,h_1)\times(-h_2,h_2)$ for some $h_1,h_2>0$ \\
+More generally, if $X_1,X_2,\cdots,X_n$ are random variables then
+\[M(t_1,t_2,\cdots,t_n)=E(e^{t_1X_1+t_2X_2+\cdots+t_nX_n})=E[exp\sum_{i=1}^{n}t_iX_i]\]
+is called the joint mgf of $X_1,X_2,\cdots,X_n$ if this expectation exists for all $t_i\in\times(-h_i,h_i)$ for some $h_i>0$, $i=1,\cdots,n$
+\subsubsection{Joint Moments and Marginal MGF}
+Given the joint moment generating function $M(t_1,t_2)$, the joint moments of $X$ and $Y$ are
+\[E(X^jY^k) = \frac{\partial^{j+k}}{\partial t_1^j\partial t_2^k}M(t_1,t_2)|\ _{(t_1,t_2)=(0,0)}\]
+If $M(t_1,t_2)$ exists for all $t_1\in(-h_1,h_1)$ and $t_2\in(-h_2,h_2)$ for some $h_1,h_2>0$, then the marginal mgf of $X$ and $Y$ are
+\[M_X(t_1)=E(e^{t_1X})=M(t_1,0)\]
+\[M_Y(t_2)=E(e^{t_2Y})=M(0,t_2)\]
+\subsubsection{Independence and Joint MGF}
+Suppose $X$ and $Y$ are random variables with joint mgf $M(t_1,t_2)$ which exists for all $t_1\in(-h_1,h_1)$ and $t_2\in(-h_2,h_2)$ for some $h_1,h_2>0$. Then $X$ and $Y$ are independent iff
+\[M(t_1,t_2)=M_X(t_1)M_Y(t_2)\]
+for all $t_1\in(-h_1,h_1)$ and $t_2\in(-h_2,h_2)$ where 
+\begin{itemize}
+    \item $M_X(t_1) = M(t_1,0)$
+    \item $M_Y(t_2) = M(0, t_2)$
+\end{itemize}
+\subsection{Multinomial Distribution}
+Suppose $(X_1,X_2,\cdots,X_k)$ are discrete random variables with joint p.f.
+\[f(x_1,\cdots,x_k) = \frac{n!}{x_1!x_2!\cdots x_{k+1}!}p_1^{x_1}\cdots p_{k+1}^{x_{k+1}}\]
+$x_i=0,\cdots,n$, $i=1,\cdots,k+1$, and $x_{k+1} = n-\sum_{i=1}^{k}x_i$ \\
+$0<p_i<1$, $i=1,\cdots,k+1$, and $p_{k+1} = 1 - \sum_{i=1}^{k}p_i$ \\
+Under these conditions, $(X_1,X_2,\cdots,X_k)$ have a multinomial distribution, \\
+$(X_1,\cdots,X_k)\sim MULT(n,p_1,\cdots,p_k)$ 
+\subsubsection{Properties of Multinomial Distritbution}
+Suppose $(X_1,X_2,\cdots,X_k)\sim MULT(n,p_1,\cdots,p_k)$, then
+\begin{itemize}
+    \item For all $(t_1,\cdots,t_k)\in\R^k$, the random variable $(X_1,\cdots,X_k)$ has joint mgf 
+    \begin{align*}
+        M(t_1,\cdots,t_k) &= E(e^{t_1X_1+\cdots+t_kX_k}) \\
+                          &= (p_1e^{t_1}+\cdots+p_ke^{t_k}+p_{k+1})^n
+    \end{align*}
+    \item Any set of $X_1,\cdots,X_{k+1}$ also has a multinomial distribution. In particular, $X_i\sim BIN(n,p_i)$, $i=1,\cdots,k+1$
+    \item If $T=X_i+X_j$, $i\neq j$, then $T\sim BIN(n,p_i+p_j)$
+    \item $Cov(X_i,X_j)=-np_ip_j$, $i\neq j$
+    \item the conditional distirbution of any subset of $(X_1,\cdots,X_{k+1})$ given the rest of coordinates is a multinomial distribution. In particular, the conditional p.f. of $X_i$ given $X_j=x_j$, $i\neq j$, is 
+    \[X_i|X_j=x_j\sim BIN(n-x_j,\frac{p_i}{1-p_j})\]
+    \item The conditional distribution of $X_i$ given $T=X_i+X_j=t$, $i\neq j$, is 
+    \[X_i|X_i+X_j=t\sim BIN(t,\frac{p_i}{p_i+p_j})\]
+\end{itemize}
+\subsection{Bivariate Normal Distribution}
+Let $X_1$ and $X_2$ be random variables with joint pdf 
+\begin{align*}
+    f(x_1, x_2) &= \frac{1}{2 \pi |\Sigma|^{1/2}} \exp \left\{ -\frac{1}{2} (x - \mu)^T \Sigma^{-1} (x - \mu) \right\} \\
+                &= \frac{1}{2 \pi \sigma_1 \sigma_2 \sqrt{1 - \rho^2}} \exp \left\{ -\frac{1}{2(1 - \rho^2)} \left[ \frac{(x_1 - \mu_1)^2}{\sigma_1^2} + \frac{(x_2 - \mu_2)^2}{\sigma_2^2} - \frac{2 \rho (x_1 - \mu_1)(x_2 - \mu_2)}{\sigma_1 \sigma_2} \right] \right\}
+\end{align*}
+where $(x_1,x_2)\in\R^2$ and 
+\[x=\cv{x_1\\x_2}\quad \mu=\cv{\mu_1\\\mu_2}\quad \Sigma=\cv{\sigma_1^2 &\rho\sigma_1\sigma_2\\ \rho\sigma_1\sigma_2 &\sigma_2^2}\]
+and $\Sigma$ is an nonsignular matrix. Then $X=(X_1,X_2)^T$ is said to have a bivariate normal distribution. Write is as $X\sim BVN(\mu,\Sigma)$
+\begin{itemize}
+    \item $\mu=\cv{\mu_1&\mu_2}^T$ is called the mean vector 
+    \item $\Sigma$ is called the variance-covariance matrix, or simply the covariance matrix 
+\end{itemize}
+\subsubsection{Properties of Bivariate Normal Distribution}
+Suppose $X\sim BVN(\mu,\Sigma)$, where \[\mu=\cv{\mu_1\\\mu_2}\quad \Sigma=\cv{\sigma_1^2 &\rho\sigma_1\sigma_2\\ \rho\sigma_1\sigma_2 &\sigma_2^2}\]
+\begin{itemize}
+    \item X has joint mgf 
+    \begin{align*}
+        M(t_1,t_2) &= E(e^{t_1X_1+t_2X_2}) \\
+                   &= \exp\left\{ \mu^T\cv{t_1\\t_2} + \frac{1}{2} \cv{t_1&t_2} \Sigma \cv{t_1\\t_2} \right\} &\forall(t_1,t_2)\in\R^2
+    \end{align*}
+    \item $X_1\sim N(\mu_1,\sigma_1^2)$ and $X_2\sim N(\mu_2,\sigma_2^2)$
+    \item $Cov(X_1,X_2)=\rho\sigma_1\sigma_2$ and $Corr(X_1,X_2)=\rho$ where $-1\leq\rho\leq1$
+    \item $X_1$ and $X_2$ are independent iff $\rho=0$
+    \item if $c=\cv{c_1&c_2}^T$ is nonzero vector of constants, then 
+    \[c^TX = \sum_{i=1}^{2}c_iX_i \sim N(c^T\mu,c^T\Sigma c)\]
+    \item if $A$ is a $2\times 2$ nonsignular matrix and $b$ is a $2\times 1$ vector then $Y=AX+b\sim BVN(A\mu+b,A\Sigma A^T)$
+    \item $X_2|X_1 = x_1 \sim N(\mu_2+\rho\frac{\sigma_2}{\sigma_1}(x_1-\mu_1),\sigma_2^2(1-\rho^2))$ and $X_1|X_2=x_2\sim N(\mu_1+\rho\frac{\sigma_1}{\sigma_2}(x_2-\mu_2),\sigma_1^2(1-\rho^2))$
+    \item $(X-\mu)^T\Sigma^{-1}(X-\mu)\sim\chi^2(2)$
+\end{itemize}
+
+\section{Functions of Two or More Random Variables}
+\subsection{One-to-One Transformation}
+\subsubsection{Jacobian of a Bivariate One-To-One Transformation}
+Consider the one-to-one transformation $S:(x,y)\rightarrow(u,v)$ mapping $(x,y)\in R_{XY}=supp((X,Y))$ onto 
+$(u,v)\in R_{UV}=supp((U,V))$. We have 
+\[u=h_1(x,y)\quad v=h_2(x,y)\]
+Since $S$ is one-to-one transformation, there exists a inverse transformation $T$ defined by 
+\[x=w_1(u,v)\quad y=w_2(u,v)\]
+such that $T = S^{-1}:(u,v)\rightarrow(x,y)$ for all $(u,v)\in R_{UV}$. The Jacobian of transformation $T$ is 
+\[\left|\frac{\partial(x,y)}{\partial(u,v)}\right| = \cv{\frac{\partial x}{\partial u} &\frac{\partial x}{\partial v}\\\frac{\partial y}{\partial u} &\frac{\partial y}{\partial v}} = \left|\frac{\partial (u,v)}{\partial(x,y)}\right|^{-1}\]
+where $\left|\frac{\partial(x,y)}{\partial(u,v)}\right|$ is the Jacobian of transformation $S$. Assume all functions are continuously differentiable
+\subsubsection{Change of Variables}
+Consider continuous random variables $X$ and $Y$ with joint pdf $f(x,y)$. Define $U = h_1(X,Y)$ and $V=h_2(X,Y)$, where 
+$S:(x,y)\rightarrow(u,v)$ is a one-to-one transformation 
+\[X = w_1(U,V)\quad Y=w_2(U,V)\]
+The joint pdf of $U$ and $V$ is
+\[g(u,v) = f(w_1(u,v),w_2(u,v))\times |J|\quad \forall (u,v)\in supp[(U,V)]\] 
+where $|J|=\left|\frac{\partial(x,y)}{\partial(u,v)}\right|$ is the Jacobian of transformation $S^{-1}$
+\subsection{Moment Generating Function Method}
+Suppose $X_1,\cdots,X_n$ are independent random variables and $X_i$ has mgf $M_i(t)$ which exists for 
+$t\in(-h,h)$ for some $h>0$. The mgf of $Y=\sum_{i=1}^{n}X_i$ is
+\[M_Y(t) = \prod_{i=1}^{n}M_i(t)\]
+If $X_i$ are independent random variables each with mgf $M(t)$, then $Y$ has mgf 
+\[M_Y(t) = [M(t)]^n\]
+\subsubsection{Properties}
+\begin{itemize}
+    \item If $X\sim GAM(\alpha,\beta)$, where $\alpha$ is positive integer, then \[\dfrac{2X}{\beta}\sim\chi^2(2\alpha)\]
+    \item If $X_i\sim GAM(\alpha_i,\beta)$, $i=1,\cdots,n$ independently, then \[\sum_{i=1}^{n}X_i\sim GAM(\sum_{i=1}^{n}\alpha_i,\beta)\]
+    \item If $X_i\sim GAM(1,\beta) = EXP(\beta)$, $i=1,\cdots,n$ independently, then \[\sum_{i=1}^{n}X_i\sim GAM(n,\beta)\]
+    \item If $X_i\sim GAM(\frac{k_i}{2},2)=\chi^2(k_i)$, $i=1,\cdots,n$ independently, then \[\sum_{i=1}^{n}X_i\sim\chi^2(\sum_{i=1}^{n}k_i)\]
+    \item If $X_i\sim N(\mu,\sigma^2)$, $i=1,\cdots,n$ independently, then \[\sum_{i=1}^{n}(\frac{X_i-\mu}{\sigma})^2 \sim \chi^2(n)\]
+    \item If $X_i\sim POI(\mu_i)$, $i=1,\cdots,n$ independently, then \[\sum_{i=1}^{n}X_i\sim POII(\sum_{i=1}^{n}\mu_i)\]
+    \item If $X_i\sim BIN(n_i,p)$, $i=1,\cdots,n$ independently, then \[\sum_{i=1}^{n}X_i\sim BIN(\sum_{i=1}^{n}n_i,p)\]
+    \item If $X_i\sim NB(k_i,p)$, $i=1,\cdots,n$ independently, then \[\sum_{i=1}^{n}X_i\sim NB(\sum_{i=1}^{n}k_i,p)\]
+\end{itemize}
+\subsubsection{Gaussian Distribution}
+If $X_i\sim N(\mu_i,\sigma_i^2)$, $i=1,\cdots,n$ independently, then
+\[\sum_{i=1}^{n}a_iX_i\sim N(\sum_{i=1}^{n}a_i\mu_i,\sum_{i=1}^{n}a_i^2\sigma_i^2)\]
+Assume $X_i\sim N(\mu,\sigma^2)$, $i=1,\cdots,n$ independently, and $\overline{X}=\ds\frac{1}{n}\sum_{i=1}^{n}X_{i}$, 
+and $S^2 = \dfrac{\sum_{i=1}^{n}(X_i-\overline{X})^2}{n-1}$, then 
+\begin{itemize}
+    \item $\overline{X}\sim N(\mu,\dfrac{\sigma^2}{n})$
+    \item $\overline{X}$ and $S^2$ are independent
+    \item $\dfrac{(n-1)S^2}{\sigma^2}=\ds\frac{\sum_{i=1}^{n}(X_i-\overline{X})^2}{\sigma^2}\sim\chi^2(n-1)$
+    \item $\dfrac{\overline{X}-\mu}{S/\sqrt{n}}\sim t(n-1)$
+\end{itemize}
+\subsubsection{Snedecor's F Distribution}
+If $X\sim\chi^2(n)$ and $Y\sim\chi^2(m)$ independently, then
+\[U=\frac{X/n}{Y/m}\sim F_{n,m}\]
+Suppose $X_1,\cdots,X_n$ is random sample from $N(\mu_1,\sigma_1^2)$ and $Y_1,\cdots,Y_m$ is random sample from $N(\mu_2,\sigma_2^2)$. 
+Let $S_1^2 = \sum_{i=1}^{n}(X_i-\overline{X})^2/(n-1)$ and $S_2^2 = \sum_{i=1}^{m}(Y_i-\overline{Y})^2/(m-1)$, then
+\[\frac{S_1^2/\sigma_1^2}{S_2^2/\sigma_2^2}\sim F_{n-1,m-1}\]
+
+\section{Limiting or Asymptotic Distributions}
+\subsection{Convergence in Distribution}
+\subsubsection{Definition}
+Let $X_1,X_2,\cdots$ be a sequence of random variables such that $X_n$ has the CDF $F_n(x)$, $n=1,2,\cdots$. Let 
+$X$ be a random variable with CDF $F(x)$. We say $X_n$ converges in distribution to a random variable $X$ and write 
+\[X_n\overset{D}{\rightarrow}X\]
+if \[\lim_{n\to\infty}F_n(x) = F(x)\]
+at all points $x$ which $F(x)$ is continuous. We call $F$ the limiting distribution of $X_n$
+\subsubsection*{Notes}
+$X_n\overset{D}{\rightarrow}X$ means \[P(X_n\leq a)\approx P(X\leq a)\text{ for large n}\]
+but does not mean $X_n\approx X$
+\subsubsection{Taylor Series with Remainder}
+Suppose $f:[a,b]\rightarrow\R$ is infinitely differentiable, and $c\in[a,b]$. Then $\forall x\in[a,b]$ and 
+positive integer $k$, 
+\[f(x) = \sum_{i=1}^{k}\frac{f^{(i)}(c)}{i!}(x-c)^i + \frac{f^{(k+1)}(\zeta_x)(x-c)^{k+1}}{(k+1)!}\]
+where $\zeta_x$ is in the interval $[c,x]$
+\subsubsection*{Two Equations}
+\begin{itemize}
+    \item If $b,c\in\R$ are constants and $\lim_{n\to\infty}\psi(n)=0$, then \[\lim_{n\to\infty}\left[1+\frac{b}{n}+\frac{\psi(n)}{n}\right]^{cn}=e^{bc}\]
+    \item If $b,c\in\R$ are constants, then \[\lim_{n\to\infty}\left[1+\frac{b}{n}\right]^{cn}=e^{bc}\]
+\end{itemize}
+\subsection{Convergence in Probability}
+\subsubsection{Degenrate Distribution}
+The function $F(y)$ is the CDF of a degenerate distribution at $y=c$ if 
+\begin{align*}
+    F(y) = 
+    \begin{cases}
+        0 & y<c \\
+        1 & y\geq c
+    \end{cases}
+\end{align*}
+In other words, $F(y)$ is the CDF of a discrete distribution where 
+\begin{align*}
+    P(Y=y) = 
+    \begin{cases}
+        1 & y=c \\
+        0 & y\neq c
+    \end{cases}
+\end{align*}
+If $y$ is degenerate at $c$, then $E(Y)=c$, $Var(Y)=0$
+\subsubsection{Convergence in Probability}
+A sequence of random variables $X_1,X_2,\cdots$ converges in probability to a random variable $X$ if, 
+for every $\epsilon>0$,
+\[\lim_{n\to\infty}P(|X_n-X|\geq\epsilon)=0\]
+or equivalently
+\[\lim_{n\to\infty}P(|X_n-X|<\epsilon)=1\]
+We show convergence in probability by
+\[X_n\overset{P}{\rightarrow}X\]
+\subsubsection{Relationship Between the Two Convergences}
+Convergence in probability implies convergence in distribution, 
+\[X_n\overset{P}{\rightarrow}X\Rightarrow X_n\overset{D}{\rightarrow}X\]
+This shows that convergence in probability is a stronger form of convergence than convergence in distribution
+\subsection{Weak Law of Large Numbers (WLLN)}
+\subsubsection{Theorem}
+If $X_1,\cdots,X_n$ is a random sample from a distribution with finite mean $\mu$ and variance $\sigma^2$, 
+then the sequence of sample means converges in probability to $\mu$, $\overline{X}\overset{P}{\rightarrow}\mu$
+\subsection{MGF Technique For Limiting Distributions}
+\subsubsection{Theorem}
+Let $Y_1,Y_2,\cdots$ be a sequence of random variables with respective MGFs $M_1(t),M_2(t),\cdots$ defined on a common 
+neighborhood about 0. Then \[Y_n\overset{D}{\rightarrow}Y\]
+if and only if 
+\[\lim_{n\to\infty}M_n(t) = M(t)\quad t\in(-h,h)\]
+where $M(t)$ is the MGF of the limiting random variable $Y$
+\subsubsection{Central Limit Theorem (CLT)}
+Suppose $X_1,X_2,\cdots$ is a sequence of independent random variables with $E(X_i)=\mu$ and $Var(X_i)=\sigma^2<\infty$. 
+Then \[\frac{\overline{X}_n-\mu}{\sigma/\sqrt{n}} = \frac{\sqrt{n}(\overline{X}_n-\mu)}{\sigma}\overset{D}{\rightarrow}Z\] 
+where $\overline{X}_n = \sum_{i=1}^{n}X_i/n$ and $Z\sim N(0,1)$ 
+\subsection{Limit Theorems}
+\begin{itemize}
+    \item If $X_n\overset{D}{\rightarrow}a$ and $g(x)$ is continuous at $x=a$, then \[g(X_n)\overset{D}{\rightarrow}g(a)\]
+    \item If $X_n\overset{D}{\rightarrow}a$ and $Y_n\overset{D}{\rightarrow}b$, and $g(x,y)$ are continuous at $(a,b)$ then \[g(X_n,Y_n)\overset{D}{\rightarrow}g(a,b)\]
+    \item (Slutsky's Theorem) If $X_n\overset{D}{\rightarrow}X$, $Y_n\overset{P}{\rightarrow}b$, and $g(x,b)$ is continuous for all $x\in$ support set of $X$, then \[g(X_n,Y_n)\overset{D}{\rightarrow}g(X,b)\]
+    \item If $X_n\overset{D}{\rightarrow}X$ and $g(x)$ is continuous for all $x\in$ support set of $X$, then \[g(X_n)\overset{D}{\rightarrow}g(X)\] 
+\end{itemize}
+\subsubsection{Delta Method}
+Let $X_1,X_2,\cdots$ be a sequence of random variables such that 
+\[n^b(X_n-a)\overset{D}{\rightarrow}X\] 
+for some $b>0$. Suppose the function $g(x)$ is differentiable at $a$ and $g'(a)\neq 0$. Then 
+\[n^b\left[g(X_n)-g(a)\right]\overset{D}{\rightarrow}g'(a)X\] 
+\subsubsection*{Corollary}
+Let $X_1,X_2,\cdots$ be a sequence of IID random variables with mean $\mu$ and variance $\sigma^2$. Suppose the function $g(x)$ is differentiable at $\mu$ and $g'(\mu)\neq 0$, then 
+\[\sqrt{n}\left[g(\overline{X}_n)-g(\mu)\right]\overset{D}{\rightarrow}Z\sim N(0, [g'(\mu)]^2\sigma^2)\] 
+
+\section{Maximum Likelihood Estimation (One Parameter)}
+\subsection{Terminology}
+\subsubsection{Statistic}
+A statistic, $T=T(X)=T(X_1,\cdots,X_n)$, is a function of data which does not depend on any unknown parameters. In other words, $T(X)$ is calculated explicitly from realization of $X_1,\cdots,X_n$
+\subsubsection{Estimator/Estimate}
+A statistic that is used to estimate an unknown parameter $\theta$ like $\tau(\theta)$ is called an estimator. If $T(X)$ estimates $\tau(\theta)$, an observed value of the 
+statistic $t=t(x)=t(x_1,\cdots,x_n)$ is called an estimate of $\tau(\theta)$
+\subsubsection*{Estimator Properties}
+\begin{itemize}
+    \item Unbiasedness: $E(\tilde{\theta})=\theta$
+    \item Small variability: $Var(\tilde{\theta})$ small 
+    \item Consistency: $\tilde{\theta}\overset{P}{\rightarrow}\theta$
+\end{itemize}
+\subsection{Maximum Likelihood Estimation}
+Suppose $X_1,\cdots,X_n$ form a simple random sample (IID) from a discrete distribution with pf $f(x;\theta)$. The joint distribution of 
+$X_1,\cdots,X_n$ is 
+\[P(X_1=x_1,\cdots,X_n=x_n;\theta) = \prod_{i=1}^{n}f(x_i;\theta)\]
+If $x_1,\cdots,x_n$ is observed sample, then in discrete case:
+\[L(\theta)=P(X_1=x_1,\cdots,X_n=x_n;\theta) = \prod_{i=1}^{n}f(x_i;\theta)\]
+A natural estimate of $\theta$ then is the value which maximizeds the probability of the observed sample 
+\[\hat\theta = arg \max_{\theta}L(\theta)\]
+\subsubsection{Likelihood and Log-Likelihood Function}
+Suppose $X_1,\cdots,X_n\overset{iid}{\sim}f(x;\theta)$, then the function:
+\[L(\theta) = \prod_{i=1}^{n}f(x_i;\theta)\]
+is called the likelihood function of the parameter $\theta$. \\
+The function 
+\[l(\theta) = \log L(\theta) = \sum_{i=1}^{n}\log f(x_i;\theta)\]
+is called the loglikelihood function of the parameter $\theta$
+\subsubsection{Maximum Likelihood Estimate}
+The value of $\theta$ that maximizes the likelihood function $L(\theta)$, or the log-likelihood function $l(\theta)$, 
+is called the maximum likelihood (M.L.) estimate of $\theta$ and is denoted by $\hat\theta_{ML}$
+\[\hat\theta_{ML} = arg\max_{\theta}L(\theta)\ = arg\max_{\theta}l(\theta)\]
+The corresponding estimator to $\hat\theta_{ML}$ is the maximum likelihood estimator shown by $\tilde{\theta}_{ML}$
+\subsection{Score and Information Function}
+\subsubsection{Score Function}
+The score function is defined as 
+\[S(\theta) = S(\theta;x) = \frac{d}{d\theta}l(\theta) = \frac{d}{d\theta}\log L(\theta)\quad\theta\in\Omega\]
+Notice that to find the MLE, usually set score function equal to 0 and solve for $\theta$
+\subsubsection{Information Function}
+Suppose that $X_1,\cdots,X_n$ are IID random variables with pf/pdf $f(x;\theta)$, and log-likelihood $l(\theta)$.
+The information function of $\theta$, denoted $I(\theta)$, is a (random) function defined by 
+\[I(\theta) = I(\theta;X_1,\cdots,X_n)=-\frac{d^2}{d\theta^2}l(\theta)\] 
+If $X_1,\cdots,X_n$ are replaced by realized values $x_1,\cdots,x_n$, then the information function is a 
+real valued function of $\theta$. If $\hat\theta$ is MLE of $\theta$, then $I(\hat\theta)$ is called the observed information 
+\subsubsection{Expected Information}
+The information function $I(\theta)$ measures the curvature of the log-likelihood function. However, it is a function of both $\theta$ and data $X=(X_1,\cdots,X_n)$ \\
+If $\theta$ is scalar, then the expected information function is given by 
+\[J(\theta) = E[I(\theta;X)] = E[-\frac{d^2}{d\theta^2}l(\theta;X)]\]
+\subsubsection{Invariance properties of MLE}
+Suppose $\tau=h(\theta)$ is a one-to-one function of $\theta$. Suppose that $\hat{\theta}$ is the ML estimator of $\theta$. 
+Then $\hat\tau=h(\hat\theta)$ is the ML estimator of $\tau$
+\[MLE(h(\theta)) = h(MLE(\theta))\]
+\subsection{Relative Likelihood and Likelihood Region/Interval}
+\subsubsection{Relative Likelihood}
+Suppose $X_1,\cdots,X_n\overset{iid}{\sim}f(x;\theta)$ where the likelihood function is $L(\theta)$ and the MLE of $\theta$ is $\hat\theta$. The 
+relative likelihood function $R(\theta)$ is defined by 
+\[R(\theta) = \frac{L(\theta)}{L(\hat\theta)}\]
+$0\leq R(\theta)\leq 1$
+\subsubsection{Likelihood Region/Interval}
+The set of $\theta$ values for which $R(\theta)\geq p$ is called a $100p\%$ likelihood region for $\theta$.
+If the region is an interval of real values then it is called a $100p\%$ likelihood interval (LI) for $\theta$
+\begin{itemize}
+    \item Commone value for $p$ are $50\%,10\%,1\%$
+    \item Given data, values inside the $10\%$ LI are referred to as plausible and values outside this interval as implausible 
+    \item Values inside a $50\%$ LI are very implausible
+    \item Values outside a $1\%$ LI are very implausible
+\end{itemize}
+\subsection{Asymptotic Properties and Limiting Distribution of MLE}
+Suppose $X=(X_1,\cdots,X_n)$ be a random sample from $f(x;\theta)$. Let $\tilde{\theta}_n=\tilde{\theta}_n(X_1,\cdots,X_n)$
+be the ML estimator of $\theta$ based on $X$. Then under certain (regularity) conditions:
+\begin{itemize}
+    \item Consistency: \[\tilde{\theta}_n\overset{P}{\rightarrow}\theta\]
+    \item Asymptotic Normality: \[\sqrt{J(\theta)}(\tilde{\theta}_n-\theta)\overset{D}{\rightarrow}Z\sim N(0,1)\]
+    \item Asymptotic Distribution of Relative Likelihood: \[-2\log R(\theta)=2[l(\tilde{\theta}_n;X)-l(\theta;X)]\overset{D}{\rightarrow}W\sim\chi^2(1)\]
+\end{itemize}
+where $\theta$ is the true but unknown value of the parameter 
+\subsubsection{Asymptotic Variance of MLE}
+For large values of $n$, we have 
+\[Var(\tilde{\theta}_n)\approx[J(\theta)]^{-1}\]
+\[[J(\tilde{\theta}_n)]^{1/2}(\tilde{\theta}_n-\theta)\overset{D}{\rightarrow}Z\sim N(0,1)\]
+Therefore, for sufficiently large $n$, 
+\[Var(\tilde{\theta}_n)\approx\frac{1}{J(\hat\theta_n)}\]
+Since \[\frac{I(\tilde{\theta}_n)}{J(\theta)}\overset{P}{\rightarrow}1\]
+then \[[I(\tilde{\theta}_n)]^{1/2}(\tilde{\theta}_n-\theta)\overset{D}{\rightarrow}Z\sim N(0,1)\]
+Also, \[Var(\tilde{\theta}_n)\approx\frac{1}{I(\tilde{\theta}_n)}\]
+\subsection{Confidence Interval}
+\subsubsection{Interval Estimators}
+Suppose $X$ is a random variable whose distribution depends on $\theta$. Suppose that $A(x)$ and $B(x)$ are functions such that $A(x)\leq B(x)$
+for all $x\in$ support of $X$ and $\theta\in\Omega$. Let $x$ be the observed data. Then $(A(x),B(x))$ is an interval estimate for $\theta$. The 
+interval $(A(X),B(X))$ is an interval estimator for $\theta$ 
+\subsubsection{Pivotal Quantity}
+The random variable $Q(X;\theta)$, which is a function of the data $X$ and unknown parameter $\theta$, is called a pivotal quantity if 
+the distribution of $Q$ does not depend on $\theta$
+\subsubsection{Asymptotic Confidence Interval}
+The random variable $Q(X;\theta)$ is called an asymptotic pivotal quantity if the limiting distribution of $Q$ as $n\to\rightarrow$
+does not depend on $\theta$ \\
+Based on asymptotic properties of MLE, both 
+\[Q_1=\left[J(\tilde{\theta}_n)\right]^{1/2}(\tilde{\theta}_n-\theta)\overset{n\to\infty}{\sim}N(0,1)\] 
+and 
+\[Q_1=\left[I(\tilde{\theta}_n)\right]^{1/2}(\tilde{\theta}_n-\theta)\overset{n\to\infty}{\sim}N(0,1)\]
+are examples of asymptotic pivotal quantities, as they both have limiting $N(0,1)$ distribution 
+\subsubsection{Building Confidence Interval}
+Basic Idea: Since distribution of $Q$ is known, we find $q_1$ and $q_2$ such that $P(q_1\leq Q(X;\theta)\leq q_2)=1-\alpha$, and then solve the 
+inequality for $\theta$ such that $P(A(X)\leq\theta\leq B(X))=1-\alpha$. Sometimes, $1-\alpha$ is shown by $p$. The random interval $(A(X),B(X))$
+is called a $100(1-\alpha)\%$ confidence interval for $\theta$
+\subsubsection{Pivotal Quantity in Location and Scale Families}
+Let $X = (X_1,\cdots,X_n)$ be a random sample from $f(x;\theta)$ and let $\tilde{\theta} = \tilde{\theta}(X)$ be the MLE of parameter $\theta$
+based on $X$
+\begin{itemize}
+    \item if $\theta$ is location parameter then $Q=\tilde{\theta}-\theta$ is a pivotal quantity 
+    \item if $\theta$ is scale parameter then $Q=\tilde{\theta}/\theta$ is a pivotal quantity
+\end{itemize}
+\subsubsection{Asymptotic Pivotal Quantities and Confidence Intervals}
+When an exact pivotal quantity cannot be constructed, we can use the limiting distribution of the MLE to 
+construct confidence intervalls
+\[\sqrt{J(\tilde{\theta}_n)}(\tilde{\theta}_n-\theta)\overset{D}{\rightarrow}Z\sim N(0,1)\]
+Therefore,
+\begin{align*}
+    P(-z^*\leq\sqrt{J(\tilde{\theta}_n)}(\tilde{\theta}_n-\theta)\leq z^*) &= 1-\alpha \\
+    P(\tilde{\theta}_n-z^*/\sqrt{J(\tilde{\theta}_n)}\leq\theta\leq\tilde{\theta}_n+z^*/\sqrt{J(\tilde{\theta}_n)}) &= 1-\alpha
+\end{align*}
+Therefore, one asymptotic $100(1-\alpha)\%$ confidence interval for $\theta$ is
+\[\hat\theta_n \pm z^*\frac{1}{\sqrt{J(\hat\theta_n)}}\]
+where $P(-z^*\leq Z\leq z^*)=1-\alpha$ and $Z\sim N(0,1)$ \\
+Similarly, since 
+\[\sqrt{I(\tilde{\theta}_n)}(\tilde{\theta}_n-\theta)\overset{D}{\rightarrow}Z\sim N(0,1)\]
+an asymptotic $100(1-\alpha)\%$ confidence interval for $\theta$ is
+\[\hat\theta_n \pm z^*\frac{1}{\sqrt{I(\hat\theta_n)}}\]
+where $P(-z^*\leq Z\leq z^*)=1-\alpha$ and $Z\sim N(0,1)$
+\subsection{Confidence Interval VS Likelihood Interval}
+If $a$ is a value such that $p=2P(Z\leq a)-1$ where $Z\sim N(0,1)$, then the likelihood interval $\{\theta:R(\theta)\geq e^{-a^2/2}\}$
+is an approximate $100p\%$ confidence interval for $\theta$ \\
+Recall that 
+\[-2\log R(\theta;X)\overset{D}{\rightarrow}\chi^2(1)\] 
+\begin{align*}
+    P[R(\theta;X)\geq p] &= P[-2\log R(\theta;X)\leq -2\log p] \\
+                         &\approx P(W\leq -2\log p) \\
+                         &= P(Z^2\leq -2\log p) &Z\sim N(0,1)\\
+                         &= P(-\sqrt{-2\log p}\leq Z\leq\sqrt{-2\log p}) \\
+                         &= 2P(Z\leq\sqrt{-2\log p})-1
+\end{align*}
+
+\section{Maximum Likelihood Estimation (Multi-Parameters)}
+\subsection{Definition}
+The likelihood function is a k-variate function, where $l(\theta_1,\cdots,\theta_k)=\log L(\theta_1,\cdots,\theta_k)$.
+We have 
+\[L(\theta_1,\cdots,\theta_k) = \prod_{i=1}^{n}f(x_i;\theta_1,\cdots,\theta_k)\]
+Note that $X$ may or may not be multivariate. Here, the focus is on number of parameters $\theta_1,\cdots,\theta_k$
+\subsubsection{Multiparamter Score Function}
+Suppose $X_1,\cdots,X_n\overset{iid}{\sim}f(x;\theta)$ where $\theta=(\theta,\cdots,\theta_k)^T$.
+The score vector is defined as 
+\[S(\theta) = S(\theta;x) = \cv{\frac{\partial l}{\partial\theta_1}&\cdots&\frac{\partial l}{\partial\theta_k}}^T\quad\theta\in\Omega\]
+The maximum likelihood estimator of $\theta$ is 
+\[\hat\theta = (\hat\theta_1,\cdots,\hat\theta_k)^T = arg\max_{\theta}l(\theta_1,\cdots,\theta_k)\]
+which is usually calculated by solving simultaneously $k$ estimating equation $S(\theta)=0$
+\subsubsection{Observed and Expected/Fisher Information}
+Suppose $X_1,\cdots,X_n\overset{iid}{\sim}f(x;\theta)$ where $\theta=(\theta_1,\cdots,\theta_k)^T$
+\begin{itemize}
+    \item the information matrix $I(\theta)=I(\theta;x)$ is a $k\times k$ symmetric matrix whose $(i,j)$ entry is given by 
+    \[-\frac{\partial^2}{\partial\theta_i\partial\theta_j}l(\theta)\]
+    $I(\hat\theta)$ is called the observed information matrix, where $\hat\theta = MLE(\theta)$
+    \item The expected or Fisher information matrix $J(\theta)$ is a $k\times k$ symmetric matrix whose $(i,j)$ entry is givne by 
+    \[E\left[-\frac{\partial^2}{\partial\theta_i\partial\theta_j}l(\theta)\right]\]
+    \item The set of $\theta=(\theta_1,\cdots,\theta_k)$ values for which $R(\theta)\geq p$ is called a $100p\%$ likelihood region for $\theta$, which is a region in the k-dimensional space $\R^k$
+\end{itemize}
+\subsection{MLE and Positive Definite Observed Information}
+To make sure that the solution to the $k$ simultaneous estimating equations $S(\theta)=0$ is the MLE, the matrix of the second partial derivatives (aka the Hessian matrix $H$) must be 
+negative definite when calculated at the MLE $\hat\theta$ for all non-zero vectors $a=(a_1,\cdots,a_k)^T$
+\[a^THa|_{\theta=\hat\theta}<0\]
+This means that the observed information matrix must be positive definite
+\[a^TI(\hat\theta)a>0\]
+A sufficient condition for $I(\hat\theta)$ to be positive definite is that $\det(I(\hat\theta))>0$. Another sufficient 
+conditions is that the all eigenvalues of $I(\hat\theta)$ are positive
+\subsection{Asymptotic Properties of MLE}
+Suppose $X=(X_1,\cdots,X_n)$ be a random sample from $f(x;\theta)$, where $\theta=(\theta_1,\cdots,\theta_k)^T\in\Omega$ and
+the dimension of $\Omega$ is $k$. Let $\tilde{\theta}_n=\tilde{\theta}_n(X_1,\cdots,X_n)$ be the MLE of $\theta$ based on $X$.
+Also $0_k$ be a $1\times k$ vecotr of zeros and let $I_k$ be the $k\times k$ identity matrix. Then under certain (regularity) conditions:
+\begin{itemize}
+    \item Consistency: \[\tilde{\theta}_n\overset{P}{\rightarrow}\theta\]
+    \item Asymptotic Normality: \[(\tilde{\theta}_n-\theta)\left[J(\theta)\right]^{1/2}\overset{D}{\rightarrow}Z\sim MVN(0_k,I_k)\]
+    \item Asymptotic Distribution of Relative Likelihood: \[-2\log R(\theta;X)=2[l(\tilde{\theta}_n;X)-l(\theta;X)]\overset{D}{\rightarrow}W\sim\chi^2(k)\]
+\end{itemize}
+where $\theta$ is true but unknown value of the parameter vector 
+\subsection{Asymptotic Variance of MLE}
+For large values of $n$, we have 
+\[Var(\tilde{\theta}_n)\approx[J(\theta)]^{-1}\rightarrow\text{inverse of the Fisher information matrix}\]
+For sufficiently large $n$, 
+\[Var(\tilde{\theta}_n)\approx[J(\tilde{\theta}_n)]^{-1}\]
+\subsection{Asymptotic Confidence Region for $\theta=(\theta_1,\cdots,\theta_k)$}
+Recall that if $Y=(Y_1,\cdots,Y_k)^T\sim MVN(\mu_k,\Sigma_{k\times k})$, then 
+\[(Y-\mu)^T\Sigma^{-1}(Y-\mu)\sim\chi^2(k)\]
+Since 
+\[(\tilde{\theta}-\theta)\left[J(\theta)\right]^{1/2}\overset{D}{\rightarrow}Z\sim MVN(0_k,I_k)\]
+then
+\[(\tilde{\theta}-\theta)[J(\theta)](\tilde{\theta}-\theta)^T\overset{D}{\rightarrow}W\sim\chi^2(k)\]
+Therefore, an approximate $100p\%$ confidence region for $\theta$ is 
+\begin{itemize}
+    \item $\{\theta: (\hat\theta_n-\theta)[J(\hat\theta)](\hat\theta_n-\theta)^T\leq c\}$
+    \item $\{\theta: (\hat\theta_n-\theta)[I(\hat\theta)](\hat\theta_n-\theta)^T\leq c\}$
+\end{itemize}
+in which $c$ is such that $P(W\leq c)=p$ where $W\sim\chi^2(k)$
+
+\section{Hypothesis Testing}
+\subsection{Ingredients of Test of Hypothesis}
+Suppose based on a random sample $X_1,\cdots,X_n\sim f(x;\theta)$, we are interested in testing 
+\[H_0:\theta\in\Omega_0\quad vs\quad H_a:\theta\notin\Omega_0\]
+\begin{itemize}
+    \item Discrepancy measure or test statistic: The idea is that the discrepency measure evaluates the consistency of the data with $H_0$ in some way. 
+    To interpret the output of the discrepancy measure, we must know its distribution under $H_0$. The test statistic is a pivotal quantity, hence its distribution 
+    is known 
+    \item p-value: If under $H_0$ the observed test statistic is "extreme", we conclude that the data does not support $H_0$. We 
+    measure this by $p-value$, which is the probability of observing the test statistic value we have observed or something more extreme under $H_0$
+    \item Making a decision abuot $H_0$: deciding whether or not to reject $H_0$
+\end{itemize}
+\subsection{Likelihood Ratio Tests for Simple Hypotheses}
+As a starting point, we first focus on testing simple hypotheses ($H_0:\theta=\theta_0$) which means that under 
+$H_0$ the value of the scaler/vector parameter $\theta$, hence the distribution, is fully specified (as opposed to cases like $H_0:\theta\geq 2$) \\
+One popular method to propose a discrepancy measure and carry
+out the test is using the asymptotic property of the ML estimators.
+In particular, recall the asymptotic distribution of the likelihood
+ratio. Under $H_0:\theta=\theta_0$ we have 
+\[-2\log(R(\theta_0;X)) = -2\log\left[\frac{L(\theta_0;X)}{L(\tilde{\theta};X)}\right] = 2\left[l(\tilde{\theta};X)-l(\theta_0;X)\right]\]
+in which $X=(X_1,\cdots,X_n)$ is a random sample and $\tilde{\theta}$ is the MLE of $\theta$ \\
+$\frac{L(\theta_0)}{L(\hat\theta_{ML})}$ close to $1$ means no evidence against $H_0$, close to $0$ means there is evidence against $H_0$ \\
+Under regularity conditions (one of which being that the support of $X$ does not depend on $\theta$), we have
+\[\Lambda(\theta_0) = -2\log[R(\theta_0;X)]\overset{D}{\rightarrow}W_k\sim\chi^2(k)\]
+where $k$ is the number of parameters in the model (under the general hypothesis) minus the number of parameters under $H_0$
+\[k=dim(\Omega)-dim(\Omega_0)\]
+Notice that large values of $\Lambda(\theta_0)$ imply lack of support for $H_0$ in the data \\
+The asymptotic p-value or the asymptotic significance level of the test is 
+\[p-value = SL\approx P(W_k\geq\lambda(\theta_0))\]
+where $\lambda(\theta_0)$ is observed value $\Lambda(\theta_0)$ given the data 
+\subsubsection{Steps of Likelihood Ration Test}
+\begin{enumerate}
+    \item Hypotheses: set up $H_0$ and $H_a$
+    \item MLE: find $\tilde{\theta}_{ML}$
+    \item Test statistic: calculate the discrepency measure \[\lambda(\theta_0)=-2\log\left[\frac{L(\theta_0;X)}{L(\tilde{\theta}_{ML};X)}\right]\]
+    \item Degrees of freedom: calculate the df of the $\chi^2$ distribution \[dim(\Omega)-dim(\Omega_0)\]
+    \item P-value: calculate \[p-value=P(W_k>\lambda(\theta_0))\] where $W_k\sim\chi^2(k)$
+    \item Interpretation: Interpret the p-value and draw conclusion
+\end{enumerate}
+
+\end{document}

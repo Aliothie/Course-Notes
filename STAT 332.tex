@@ -1,0 +1,837 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm,enumerate,nicefrac,fancyhdr,hyperref,graphicx,adjustbox}
+\hypersetup{colorlinks=true,urlcolor=blue,citecolor=blue,linkcolor=blue}
+\usepackage[left=2.6cm, right=2.6cm, top=1.5cm, includehead, includefoot]{geometry}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[d]{esvect}
+
+%% commands
+%% useful macros [add to them as needed]
+% sets
+\newcommand{\C}{{\mathbb{C}}} 
+\newcommand{\N}{{\mathbb{N}}}
+\newcommand{\Q}{{\mathbb{Q}}}
+\newcommand{\R}{{\mathbb{R}}}
+\newcommand{\Z}{{\mathbb{Z}}}
+\newcommand{\F}{{\mathbb{F}}}
+
+% bases
+\newcommand{\mA}{\mathcal{A}}
+\newcommand{\mB}{\mathcal{B}}
+\newcommand{\mC}{\mathcal{C}}
+\newcommand{\mD}{\mathcal{D}}
+\newcommand{\mE}{\mathcal{E}}
+\newcommand{\mL}{\mathcal{L}}
+\newcommand{\mM}{\mathcal{M}}
+\newcommand{\mO}{\mathcal{O}}
+\newcommand{\mP}{\mathcal{P}}
+\newcommand{\mS}{\mathcal{S}}
+\newcommand{\mT}{\mathcal{T}}
+
+% linear algebra
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\adj}{\operatorname{adj}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\spn}{\operatorname{Span}}
+\newcommand{\proj}{\operatorname{proj}}
+\newcommand{\prp}{\operatorname{perp}}
+\newcommand{\refl}{\operatorname{refl}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\nul}{\operatorname{Null}}
+\newcommand{\nully}{\operatorname{nullity}}
+\newcommand{\range}{\operatorname{Range}}
+\renewcommand{\ker}{\operatorname{Ker}}
+\newcommand{\col}{\operatorname{Col}}
+\newcommand{\row}{\operatorname{Row}}
+\newcommand{\cof}{\operatorname{cof}}
+\newcommand{\Num}{\operatorname{Num}}
+\newcommand{\Id}{\operatorname{Id}}
+\newcommand{\ipb}{\langle \thinspace, \rangle}
+\newcommand{\ip}[2]{\left\langle #1, #2\right\rangle} % inner products
+\newcommand{\M}[2]{M_{#1\times #2}(\F)}
+\newcommand{\RREF}{\operatorname{RREF}}
+\newcommand{\cv}[1]{\begin{bmatrix} #1 \end{bmatrix}}
+\newenvironment{amatrix}[1]{\left[\begin{array}{@{}*{\numexpr#1-1}{c}|c@{}}}{\end{array}\right]}
+\newcommand{\am}[2]{\begin{amatrix}{#1} #2 \end{amatrix}}
+
+% vectors
+\newcommand{\vzero}{\vv{0}}
+\newcommand{\va}{\vv{a}}
+\newcommand{\vb}{\vv{b}}
+\newcommand{\vc}{\vv{c}}
+\newcommand{\vd}{\vv{d}}
+\newcommand{\ve}{\vv{e}}
+\newcommand{\vf}{\vv{f}}
+\newcommand{\vg}{\vv{g}}
+\newcommand{\vh}{\vv{h}}
+\newcommand{\vl}{\vv{\ell}}
+\newcommand{\vm}{\vv{m}}
+\newcommand{\vn}{\vv{n}}
+\newcommand{\vp}{\vv{p}}
+\newcommand{\vq}{\vv{q}}
+\newcommand{\vr}{\vv{r}}
+\newcommand{\vs}{\vv{s}}
+\newcommand{\vt}{\vv{t}}
+\newcommand{\vu}{\vv{u}}
+\newcommand{\vvv}{{\vv{v}}}
+\newcommand{\vw}{\vv{w}}
+\newcommand{\vx}{\vv{x}}
+\newcommand{\vy}{\vv{y}}
+\newcommand{\vz}{\vv{z}}
+
+% display
+\newcommand{\ds}{\displaystyle}
+\newcommand{\qand}{\quad\text{and}}
+\newcommand{\qandq}{\quad\text{and}\quad}
+\newcommand{\hint}{\textbf{Hint: }}
+\newcommand{\tri}{\triangle}
+
+% misc
+\newcommand{\area}{\operatorname{area}}
+\newcommand{\vol}{\operatorname{vol}}
+\newcommand{\red}[1]{{\color{red} #1}}
+\newcommand{\rc}{\red{\checkmark}}
+
+\title{STAT 332 Notes}
+\author{Thomas Liu}
+\begin{document}
+\maketitle
+\tableofcontents
+
+\newpage 
+\section{Sample Survey Issues}
+\subsection{Terminology}
+\subsubsection{Surveys}
+Any activity that collects information in an organized and methodical manner about characteristics of 
+the units of a population and compiles such info into useful summary form \\
+Conduct surveys to learn about a population \\
+In survey sampling, population is finite
+\subsubsection{Census}
+A censs is survey where we examine every unit \\
+A sample survey is preferred over census because
+\begin{itemize}
+    \item lower cost 
+    \item timeliness 
+    \item carefully conducted survey provides better quality estimates than sloppy census 
+\end{itemize}
+\subsubsection{Observation Unit}
+An entity on which measurement may be taken 
+\subsubsection{Target Population}
+A collection of observation units we want to study
+\subsubsection{Sampling Unit}
+A collection of observation units that may be sampled
+\subsubsection{Sampling Frame}
+The device which allows access to the sampling units in the population from which sample may be selected 
+\subsubsection{Study Population}
+The collection of all possible observation units that may have been measured in sample 
+\subsubsection*{Example}
+Do a survey among current UW undergrad, obtain a list of email address of students who volunteered during orientation, pick 100 of them, send the survey to them 
+\begin{itemize}
+    \item observation units: current UW undergrad
+    \item target population: current UW undergrad 
+    \item sampling unit: UW undergrad who volunteered during orientation 
+    \item sampling frame: list of email address of UW undergrad 
+    \item study population: UW undergrad who volunteered during orientation 
+\end{itemize}
+\subsection{Sampling}
+\subsubsection{Sampling Protocol}
+The mechanism by which we choose our sample 
+\begin{itemize}
+    \item Probability sampling protocol: probabilistic method is used to select the sample from the frame 
+    \item Non-probability sampling protocol: samples are selected based on subjective judgement of the interviewer
+\end{itemize}
+\subsubsection{Non-probability Sampling Protocols}
+\begin{itemize}
+    \item convenience sampling: units are sampled based on whats's easily available 
+    \item self-selection sampling: units choose themselves 
+    \item quota sampling: units selected so some attributes of the sample match down attributes in the target population 
+    \item judgement sampling: units selected so samplers think the sample will be representative of the whole population 
+\end{itemize}
+\subsubsection*{Issue with These Protocols}
+\begin{itemize}
+    \item convenience: does the sample really represent the target population? 
+    \item self-selection: does the sample volunteered really represent the whole class?
+    \item quota: there are some other important attributes not take into account
+    \item judgement: judgement might be biased
+\end{itemize}
+\subsection{Errors}
+\begin{itemize}
+    \item study error: difference in attributes of interest between target and study population 
+    \item sample error: difference in attributes of interest between study population and sample 
+    \item measurement error: difference between response measured and true value of attributes of interest for respondents
+\end{itemize}
+Thus, we assume that 
+\begin{itemize}
+    \item sampling frame is complete (contain everyone in the target population)
+    \item there is no non-response 
+    \item measurements are accurate 
+\end{itemize}
+
+\section{Simple Probability Sample}
+\subsection{Sampling Protocol / Sampling Design}
+Let $\mD$ be the set of all possible samples under chosen sampling design 
+\begin{itemize}
+    \item probability sampling design is determined by assigning to each possible sample $s$, where $s\subseteq\mD$, a probability $P(s)$ ($P(s)>0$)
+    \item $\ds\sum_{s\in\mD}P(s)=1$
+\end{itemize}
+\subsection{Inclusion Probabilities}
+\begin{itemize}
+    \item 
+    $p_i=P(i\in S)$: the first order inclusion probability for unit $i$ is probability that unit $i$ is in random sample $S$
+    \item 
+    $p_{ij}=P(i\in S, j\in S)$: the second order inclusion probability for units $i$ and $j$ is probability that both units $i$ and $j$ are in random sample $S$
+    \item 
+    Note $p_{ii}=p_i$
+\end{itemize}
+\subsection{Sampling Weights}
+Define it as \[w_i=\frac{1}{p_i}\] for any sampling design, inverse of first order inclusion probability 
+\subsection{Common Protocols}
+\subsubsection{Simple Random Sampling Without Replacement}
+Sampling protocol in which every one of $N\choose n$ distinct 
+samples has an equal chance of being drawn
+\begin{align*}
+    P(s) = 
+    \begin{cases}
+        \frac{1}{{N \choose n}} & \text{if $s$ is of size $n$} \quad \rightarrow \quad |s| = n, \\
+        0 & \text{otherwise}.
+    \end{cases}
+\end{align*}
+\subsubsection{Stratified Random Sampling}
+Divide population of size $N$ into $H$ non-overlapping and non-empty sub-populations (called strata).
+In each stratum take a simple random sample without replacement of size $n_h$, $h=1,\cdots,H$
+such that the total sample size from $H$ strata is $n$
+\subsubsection{Systematic Sampling}
+Consider fram $U=\{1,2,\cdots,N\}$ \\
+To take a systematic sample of size $n$ from population of size $N$, choose a number from $1$ to 
+$k=\frac{N}{n}$, and call this number $r$. Then take all units $r,r+k,r+2k,\cdots,r+(n-1)k$ from population,
+then the systematic sample is $s=\{y_j:j=r,r+k,r+2k,\cdots,r+(n-1)k\}$
+\subsubsection{Cluster Sampling}
+Divide population of size $N$ into $C$ non-overlapping and non-empty sub-populations (called clusters).
+Take a simple random sample of clustes without replacement, and in eawch cluster, take a census 
+\subsubsection{Two-stage Sampling}
+Divide population of size $N$ into $C$ non-overlapping and non-empty sub-populations (like clusters).
+Take a simple random sample of clusters without replacement, and in each cluster, take a simple random sample without replacement 
+\subsection{Population Parameters}
+Suppose out target population is $U=\{1,2,3,\cdots,U\}$
+\begin{itemize}
+    \item $N$: population size 
+    \item study variable or response of interest is \[y_i\text{ for individual }i\]
+    \item population average: $\mu=\ds\frac{1}{N}\sum_{i=1}^{N}y_i$
+    \item population total: $\tau=\ds\sum_{i=1}^{N}y_i$
+    \item population variance: $\sigma^2=\ds\frac{1}{N-1}\sum_{i=1}^{N}(y_i-\mu)^2$, this is unbiased
+\end{itemize}
+\subsubsection*{Population Parameters for Binary Response}
+Suppose the study variance or response of interest is binary \\
+We use an indicator variable $z_i$
+\begin{align*}
+    z_i = 
+    \begin{cases}
+        1 &\text{if (condition)} \\
+        0 &\text{otherwise}
+    \end{cases}
+\end{align*}
+The population total is $\tau=\ds\sum_{i=1}^{N}z_i$ and population average is a proportion 
+\[\mu_z = \frac{1}{N}\sum_{i=1}^{N}z_i=\frac{\tau}{N}=\pi\]
+\subsubsection{Variance Properties}
+\begin{itemize}
+    \item For any response we have \[\sigma^2=\frac{1}{N-1}\sum_{i=1}^{N}(y_i-\mu)^2=\frac{1}{N-1}[(\sum_{i=1}^{N}y_i^2) - N_\mu^2]\]
+    \item For any binary responses we have \[\sigma_z^2\approx\pi(1-\pi)\] for large $N$
+\end{itemize}
+We use $\hat{}$ for sample estimates, and $\tilde{}$ for estimator \\
+Estimates are fixed values, but estimators are random variables 
+\begin{itemize}
+    \item $E[\tilde{\mu}]=\sum_{s\in D}\overline{y}(s)P(S=s)$
+    \item $Var[\tilde{\mu}] = \sum_{s\in D}(\overline{y}(s)-E[\tilde{\mu}]^2)P(S=s)$
+\end{itemize}
+\subsection{Random Indicator Variables}
+\begin{align*}
+    I_i=I(i\in S)=
+    \begin{cases}
+        1 &\text{if unit $i$ is in sample $S$} \\
+        0 &\text{otherwise}
+    \end{cases}
+\end{align*}
+\subsubsection{Useful Results}
+\begin{itemize}
+    \item $P(I_i=1)=p_i$
+    \item $P(I_i=0)=1-p_i$
+    \item $E[I_i]=0(1-p_i)+1p_i=p_i$
+    \item $I_i^2=I_i$
+    \item $Var(I_i)=p_i(1-p_i)$
+    \item $Cov(I_i,I_j)=p_{ij}-p_ip_j$
+\end{itemize}
+\subsection{Simple Random Sampling Without Replacement (SRSWOR)}
+Select $n$ units from frame of $N$ units so that each sample of size $n$
+has the same probability of selection 
+\begin{itemize}
+    \item sampling frame: $U=\{1,2,\cdots,N\}$
+    \item sample size: fixed at $n$
+    \item $N\choose n$ possible samples of size $n$
+    \item sampling protocol 
+    \begin{align*}
+        P(S=s)=
+        \begin{cases}
+            \frac{1}{{N\choose n}} &\text{if $s$ has $n$ distinct elements} \\
+            0 &\text{otherwise}
+        \end{cases}
+    \end{align*}
+\end{itemize}
+\subsubsection*{Inclusion Probabilities}
+First order inclusion probabilities: $p_i=\frac{n}{N}$ \\
+Second order inclusion probabilities: $p_{ij}=\frac{n(n-1)}{N(N-1)}, i\neq j$
+\subsection{Estimator Results}
+\begin{itemize}
+    \item $\mu$ and $\sigma^2$: our population average and variance 
+    \item $\tilde{\mu}$ and $\tilde{\sigma}^2$: corresponding estimator 
+    \item Under SRSWOR, \[E(\tilde{\mu})=\mu\quad Var(\tilde{\mu})=(1-\frac{n}{N})\frac{\sigma^2}{n}\]
+    \item Under SRSWOR, $\tilde{\mu}$ is unbiased estimator for population average $\mu$
+\end{itemize}
+\subsubsection*{Helpful Derivations}
+When sampling design is SRSWOR, we have 
+\begin{itemize}
+    \item $Var(I_i)=p_i(1-p_i)=\frac{n}{N}(1-\frac{n}{N})$
+    \item $Cov(I_i,I_j)=p_{ij}-p_ip_j=\frac{n(n-1)}{N(N-1)}-\frac{n^2}{N^2}=-\frac{n}{N}\frac{1}{(N-1)}(1-\frac{n}{N})$
+\end{itemize}
+\subsubsection*{Variance Estimator}
+Under SRSWOR
+\begin{itemize}
+    \item $E[\tilde{\sigma}^2]=\sigma^2$, $\tilde{\sigma}^2$ is unbiased 
+    \item $Var(\tilde{\mu})=(1-\frac{n}{N})\frac{\sigma^2}{n}$
+    \item $f=\frac{n}{N}$ is sampling fraction
+    \item $1-f=1-\frac{n}{N}$ is finite population correction factor (fpc)
+\end{itemize}
+we can write $Var(\tilde{\mu})=(1-f)\frac{\sigma^2}{n}$
+\subsubsection*{Standard Error}
+\[\hat{SD}(\tilde{\mu})=\sqrt{\hat{Var}(\tilde{\mu})}=\sqrt{(1-\frac{n}{N})\frac{\hat{\sigma}^2}{n}}=\hat{\sigma}\sqrt{\frac{(1-f)}{n}} = s.e.(\hat{\mu})\]
+It is not the sample standard deviation, it is smaller. 
+\subsection{Confidence Intervals}
+Central Limit Theorem (for finite populations) tells if $N, n$ and $N-n$ are large, then  
+\[\frac{\tilde{\mu}-\mu}{\sqrt{(1-f)\frac{\tilde{\sigma}^2}{n}}}\sim N(0,1)\]
+A large sample $100(1-\alpha)\%$ confidence interval for population average $\mu$ is 
+\[\hat{\mu}\pm c\times s.e.(\hat{\mu})=\hat{\mu}\pm c\sqrt{(1-f)\frac{\hat{\sigma}^2}{n}}\]
+where $c$ is chosen such that $P(Z\leq c)=1-\alpha/2$ or $P(Z>c)=\alpha/2$ for standard normal distribution $Z\sim N(0,1)$
+\subsubsection*{Estimating Total}
+\begin{itemize}
+    \item $\tau=N\mu$
+    \item $E(\tilde{\tau})=\tau$
+    \item $Var(\tilde{\tau})=N^2Var(\tilde{\mu})$, $SD(\tilde{\tau})N\times SD(\tilde{\mu})$
+    \item $100(1-\alpha)\%$ CI for $\tau$ is \[\hat{\tau}\pm c\times s.e.(\hat{\tau}) = N(\hat{\mu}\pm c\times s.e.(\hat{\mu}))\]
+\end{itemize}
+\subsubsection*{Estimating a Proportion: Standard Error}
+We know if $y_i\in\{0,1\}$, the standard deviation is 
+\[\sigma=\sqrt{\frac{N}{N-1}\pi(1-\pi)}\approx\sqrt{\pi(1-\pi)}\]
+which results in 
+\[s.e.(\hat{\pi})=\sqrt{1-\frac{n}{N}}\frac{\hat{\sigma}}{\sqrt{n}}\approx \sqrt{1-\frac{n}{N}}\frac{\sqrt{\hat{\pi}(1-\hat{\pi})}}{\sqrt{n}}\]
+$100(1-\alpha)\%$ confidence interval for proportion $\pi$ is 
+\[\hat{\pi}\pm c\times s.e.(\hat{\pi}) = \hat{\pi}\pm c\sqrt{1-\frac{n}{N}}\frac{\sqrt{\hat{\pi}(1-\hat{\pi})}}{\sqrt{n}}\]
+in which $P(Z\leq c)=1-\alpha/2$
+\subsection{Margin of Error}
+We want a confidence interval of length $2L$, or \[\hat{\mu}\pm L\]
+\[L=c\sqrt{(1-\frac{n}{N})\frac{\hat{\sigma^2}}{n}}\]
+Then we can write $n$ as \[n=(\frac{1}{N}+\frac{L^2}{c^2\hat{\sigma}^2})^{-1}\approx \frac{c^2\hat{\sigma}^2}{L^2}\]
+with approximation hold when $N$ is large 
+\subsection{Pilot Study}
+To determine sample size, we need the $s.e.$ of estimate, which requires $\hat{\sigma}$ \\
+Pilot Study: a small porportion of the sample is collected to estimate the nuisance parameters (such as $\sigma$ in the estimation of $\mu$). This relatively small sample is called 'pilot' \\
+pilot sample + additional sample = n
+
+\section{Ratio and Regression Estimation with SRS}
+\subsection{Ratio Estimation}
+\[\theta=\frac{\tau_Y}{\tau_X}=\frac{N\mu_Y}{N\mu_X}=\frac{\mu_Y}{\mu_X}\] is the ration of means \\
+Note that 
+\[E(\frac{\tilde{\mu}_Y}{\tilde{\mu}_X}) \neq \frac{E(\tilde{\mu}_Y)}{\tilde{\mu}_X}\]
+We have \[\tilde{\theta}=\frac{\tilde{\mu}_Y}{\tilde{\mu}_X}\approx\frac{\mu_Y}{\mu_X}+\frac{1}{\mu_X}(\tilde{\mu}_Y-\mu_Y)-\frac{\mu_Y}{\mu_X^2}(\tilde{\mu}_X-\mu_X)\]
+With \[E(\tilde{\theta})\approx\frac{\mu_Y}{\mu_X}=\theta\]
+\[Var(\tilde{\theta})=\frac{1}{\mu^2_X}Var(\tilde{\mu}_Y-\theta\tilde{\mu}_X)\]
+\subsubsection{Residual / Redefined Estimator}
+We define residual as $\tilde{\mu}_Y-\theta\tilde{\mu}_X$, and 
+\[\tilde{\mu}_Y-\theta\tilde{\mu}_X=\tilde{\mu}_r\]
+\subsubsection{Properties of $\tilde{\mu}_r$}
+\begin{itemize}
+    \item $E[\tilde{\mu}_r]=\mu_r$
+    \item $Var(\tilde{\mu}_r) = (1-\frac{n}{N})\frac{\sigma^2_r}{n}$ where $\sigma^2_r=\frac{1}{N-1}\sum_{i\in U}[y_i-\theta x_i-(\mu_Y-\theta\mu_X)]^2$
+\end{itemize}
+\subsubsection{Ratio Estimation Confidence Interval}
+If we assume a large enough sample, $\tilde{\theta}$ is approximately Gaussian, and corresponding 
+$100(1-\alpha)\%$ confidence interval for ratio $\theta$ can be constructed as 
+\[\hat{\theta}\pm c\times S.E.(\hat{\theta})\]
+where standard error is 
+\[s.e.(\hat{\theta})=\sqrt{\hat{Var}(\tilde{\theta})} = \frac{1}{|\hat{\mu}_X|}\sqrt{(1-\frac{n}{N})\frac{\hat{\sigma}^2_r}{n}}\]
+\subsection{Ratio Estimation of the Mean}
+Suppose the relationship between $X$ and $Y$ is 
+\[\text{response}=\text{signal}+\text{noise}\]
+\[y_i=\theta x_i+R_i\]
+\subsubsection{Ratio Estimation of the Mean}
+If $X$ and $Y$ are correlated, knowing things about $X$ could help improve estimateion of the mean of $Y$ 
+\subsubsection{Ratio Estimate of $\mu_Y$}
+\[\hat{\mu}_{ratio}=\hat{\theta}\mu_X=(\frac{\hat{\mu}_Y}{\hat{\mu}_X})\mu_X = \hat{\mu}_Y[\frac{\mu_X}{\hat{\mu}}]\]
+We also have 
+\[E(\tilde{\mu}_{ratio}) \approx \mu_y\]
+\[Var(\tilde{\mu}_{ratio}) \approx (1-\frac{n}{N})\frac{\sigma^2_r}{n}\]
+with $\sigma^2_r = \frac{1}{n-1}\sum_{i\in S}(y_i-\hat{\theta}x_i)^2$
+\subsubsection{Confidence Interval}
+\[\hat{\mu}_{ratio}\pm c\times s.e.(\hat{\mu}_{ratio})\]
+where \[s.e.(\hat{\mu}_{ratio})=\sqrt{Var(\tilde{\mu}_{ratio})}\]
+\subsection{Regression Estimation}
+We define the regression estimate of $\mu_Y$ 
+\[\hat{\mu}_{reg}=\hat{\alpha}+\hat{\beta}\mu_X = \hat{\mu}_y+\hat{\beta}(\mu_x-\hat{\mu}_x)\]
+where \[\hat{\alpha}=\overline{y}-\hat{\beta}\overline{x}\quad\hat{\beta} = \frac{\sum_{i\in s}(x_i-\overline{x})y_i}{\sum_{i\in s}(x_i-\overline{x})^2}\]
+\subsubsection{Expectation and Variance}
+\begin{itemize}
+    \item $E(\tilde{\mu}_{reg})\approx\mu_Y$
+    \item $Var(\tilde{\mu}_{reg})=(1-\frac{n}{N})\frac{\hat{\sigma}^2_{reg}}{n}$ where $\sigma^2_{reg}=\frac{1}{n-1}\sum_{i\in S}[y_i-\hat{\alpha}-\hat{\beta}x_i]^2$
+\end{itemize}
+\subsubsection{Confidence Interval}
+\[\hat{\mu}_{reg}\pm c\times s.e.(\hat{\mu}_{reg})\]
+where \[s.e.(\hat{\mu}_{reg})=\sqrt{\frac{1}{n}(1-\frac{n}{N})\frac{\sum_{i\in S}(y_i-\overline{y}-\hat{\beta}(x_i-\overline{x}))^2}{n-1}}\]
+
+\section{Stratified Sample}
+Divide population into $H$ mutualy exclusive and non-empty strata, each statum has size $N_h$ \\
+$N=N_1+N_2+\cdots+N_h$ is the number of units in the population \\
+Variate of interest will be $y$, and write 
+\begin{itemize}
+    \item $y_{hj}$: the observed value for $j$th element in the $h$th stratum
+    \item $\mu_h=\ds\frac{1}{N_h}\sum_{j=1}^{N_h}y_{hj}$: the mean for stratum $h$ (population level)
+    \item $\mu = \ds\dfrac{1}{N}\sum_{h=1}^{H}\sum_{j=1}^{N_h}y_{hj}$: the overall population mean
+    \item $\sigma^2_h=\ds\frac{1}{N_h-1}\sum_{j=1}^{N_h}(y_{hj}-\mu_h)^2$: variance for statrum $h$
+    \item $\sigma^2=\ds\frac{1}{N-1}\sum_{h=1}^{H}\sum_{j=1}^{N_h}(y_{hj}-\mu)^2$: population variance
+\end{itemize}
+\subsubsection{Population Mean and Stratum Weight}
+We can also write the population mean as 
+\[\mu=\frac{1}{N}\sum_{h=1}^{H}\sum_{j=1}^{N_h}y_{hj} = \frac{1}{N}\sum_{h=1}^{H}N_h\frac{\sum_{j=1}^{N_h}y_{hj}}{N_h} = \sum_{h=1}^{H}\frac{N_h}{N}\mu_h = \sum_{h=1}^{H}W_h\mu_h\]
+where $W_h=\ds\frac{N_h}{N}$ is the stratum weight
+\subsection{Estimation}
+For a particular stratum $h$, $h=1,\cdots,H$ 
+\begin{itemize}
+    \item $\hat{\mu}_h = \overline{y}_h = \frac{1}{n_h}\sum_{j\in s_h}y_{hj}$: sample stratum mean 
+    \item $\hat{\sigma}^2_h = \frac{1}{n_h-1}\sum_{j\in s_h}(y_{hj}-\hat{\mu}_h)^2$: sample stratum variance
+\end{itemize}
+Suppose SRSWOR sampling used within each stratum, then 
+\begin{itemize}
+    \item $E(\tilde{\mu}_h)=\mu_h$
+    \item $Var(\tilde{\mu}_h)=(1-\frac{n_h}{N_h})\frac{\sigma^2_h}{n_h}$
+\end{itemize}
+The estimate of population average is 
+\[\hat{\mu}_s=\sum_{h=1}^{H}W_h\hat{\mu}_h = \sum_{h=1}^{H}\frac{N_H}{N}\hat{\mu}_h\]
+with corresponding estimator $\tilde{\mu}_s$
+\begin{itemize}
+    \item $E[\tilde{\mu}_s(y)]=\mu$
+    \item $Var(\tilde{\mu}_s) = \ds\sum_{h=1}^{H}W_h^2(1-\frac{n_h}{N_h})\frac{\sigma_h^2}{n_h}$ where $\sigma_h^2 = \ds\frac{1}{n_h-1}\sum_{j\in s_h}(y_{hj}-\mu_h)^2$
+\end{itemize}
+\subsection{Confidence Interval for Mean $\mu$}
+A $100(1-\alpha)\%$ confidence interval for $\mu$ based on a random stratified sample is 
+\[\hat{\mu}_s\pm c\times SE(\hat{\mu}_s)\]
+\begin{itemize}
+    \item $\hat{\mu}_s=\sum_{h=1}^{H}W_h\hat{\mu}_h$
+    \item $SE(\hat{\mu}_s)=\sqrt{\ds\sum_{h=1}^{H}W_h^2(1-\frac{n_h}{N_h})\frac{\hat{\sigma}_h^2}{n_h}}$
+    \item $P(Z\leq c)=1-\frac{\alpha}{2}$, use $Z$ over $T$ when $\sigma$ is known 
+\end{itemize}
+\subsection{Proportional Allocation}
+We select the same proportion of units from each stratum, $n_h=\ds\frac{n}{N}N_h$ \\
+Then we have $W_h=\frac{N_h}{N}=\frac{n_h}{n}=w_h$, the variance of the stratified estimator is 
+\[Var(\tilde{\mu}_s)=\frac{1}{n}(1-\frac{n}{N})\sum_{h=1}^{H}W_h\sigma^2_h\]
+\subsubsection{Sample Size Determination}
+We have \[L=c\sqrt{\frac{1}{n}(1-\frac{n}{N})\sum_{h=1}^{H}W_h\hat{\sigma}^2_h}\]
+where $W_h=\frac{N_h}{N} = \frac{n_h}{n}$, use $\frac{N_h}{N}$ here to keep only one $n$  
+\subsection{Post Stratification}
+The post-stratified population average estimate is 
+\[\hat{\mu}_{post} = W_1\hat{\mu}_1+\cdots+W_H\hat{\mu}_H\]
+where $\hat\mu_h = \frac{1}{n_h}\sum_{j\in s_h}y_{hj}$ is the stratum $h$ sample average 
+\subsubsection{Conditional Expectation and Variance}
+Condition on the fact that $\tilde{n}_1=n_1, \cdots, \tilde{n}_H=n_H$ \\
+Then we have 
+\[E(\tilde{\mu}_{post}|\tilde{n}_1=n_1, \cdots, \tilde{n}_H=n_H) = \mu\]
+\[Var(\tilde{\mu}_{post}|\tilde{n}_1=n_1, \cdots, \tilde{n}_H=n_H) = \sum_{h=1}^{H}W_h^2(1-\frac{n_h}{N_h})\frac{\sigma^2_h}{n_h}\]
+\subsubsection{Unconditional Expectation and Variance}
+\[E[\tilde{\mu}_{post}] = E[E(\tilde{\mu}_{post}|\tilde{n}_1=n_1, \cdots, \tilde{n}_H=n_H)]\approx \mu\]
+\[Var(\tilde{\mu}_{post}) = \sum_{h=1}^{H}W_h^2(\frac{1}{n_h}-\frac{1}{N_h})\sigma^2_h\]
+\subsection{Cluster Sampling}
+\subsubsection{Equal Size}
+\begin{itemize}
+    \item $N$ is number of clusters 
+    \item number of units within each cluster is $M$
+    \item population size is $NM=T$
+    \item $y_{ij}$ is the response from unit $j$ in cluster $i$
+    \item cluster average is $\mu_i=\overline{y}_i = \frac{1}{M}\sum_{j=1}^{M}y_{ij}$
+    \item population average is \[\mu = \frac{1}{T}\sum_{i=1}^{N}\sum_{j=1}^{M}y_{ij} = \frac{1}{N}\sum_{i=1}^{N}\overline{y}_i\]
+\end{itemize}
+The point estimate for population average is 
+\[\hat\mu = \frac{1}{nM}\sum_{i\in s}\sum_{j=1}^{M}y_{ij} = \frac{1}{n}\sum_{i\in s}\overline{y}_i\]
+\[E[\tilde{\mu}]=\mu_z = \frac{1}{N}\sum_{i=1}^{N}\overline{y}_i = \mu\]
+\[Var(\tilde{\mu}) = (1-\frac{n}{N})\frac{\sigma_z^2}{n}\]
+where \[\sigma^2_z = \frac{1}{N-1}\sum_{i=1}^{N}(\overline{y}_i - \mu)^2\]
+\subsubsection{Unequal Size}
+\begin{itemize}
+    \item $N$ is number of clusters 
+    \item number of units within each cluster is $M_i$
+    \item population size is $T=\sum_{i=1}^{N}M_i$
+    \item $y_{ij}$ is response from unit $j$ in cluster $i$
+    \item cluster average is $\mu_i=\overline{y}_i = \frac{1}{M_i}\sum_{j=1}^{M_i}y_{ij}$
+    \item cluster total is $t_i = \sum_{j=1}^{M_i}y_{ij}$
+    \item population average is \[\mu = \frac{1}{T}\sum_{i=1}^{N}\sum_{j=1}^{M_i}y_{ij} = \frac{\mu_T}{\mu_M}\]
+\end{itemize}
+\[Var(\hat\mu) = \frac{1}{\hat\mu^2_M}(1-\frac{n}{N})\frac{\hat\sigma^2_u}{n}\]
+where \[\hat\sigma^2_u = \frac{1}{n-1}\sum_{i\in s}(t_i - \hat\mu M_i)^2\]
+\subsection{Non-Response}
+Response rate is 
+\[RR = \frac{\text{number of complete interviews with reporting units}}{\text{number of eligible reporting units in the sample}}\]
+We have \\
+\begin{tabular}{c|c|c}
+    \textbf{Component} & \textbf{Notation} & \textbf{Number of} \\ \hline
+Eligible responders & I & Complete interviews \\ 
+ & P & Partial interviews \\ \hline
+Eligible non-responders & R & Refusals or break-offs \\ 
+ & NC & Non-contacts \\ 
+ & O & Other eligible non-respondents \\ \hline
+Non-responders with unknown eligibility & UH & Unknown household occupancy \\ 
+ & UO & Others with unknown eligibility \\ \hline
+\end{tabular}
+We care most about about RR1 and RR6
+\begin{itemize}
+    \item RR1: $\ds\frac{I}{I+P+R+NC+O+UH+UO}$
+    \item RR6: $\ds\frac{I+P}{I+P+R+NC+O}$
+\end{itemize}
+\subsubsection{Estimation}
+\begin{itemize}
+    \item $N_R$: numbere of respondents 
+    \item $N_M$: number of non-respondents
+    \item $\mu_R$: mean of respondents
+    \item $\mu_M$: mean of non-respondents
+\end{itemize}
+\[\mu = W_R\mu_R + W_M\mu_M = \frac{N_R}{N}\mu_R = \frac{N_M}{N}\mu_M\]
+
+\section{Fundamental of Experimental Plans}
+\subsection{The Fundamental Principles}
+\subsubsection{Observational Study}
+An observational study is one in which data are collected about a population or process without any attempt to change the value of one or more variates for the sampled units 
+\subsubsection{Experimental Study}
+In experimental study we deliberately change one or more of the process input to investigate the effect of the change on the process output 
+\subsubsection*{Difference}
+Observational plans provide insight about the effect of changes in varying inputs, but con't conlude causality \\
+In experimental plans, people who conduct the experiment change one or more input variates on the sample units before the response variate is measured 
+\subsubsection{Terminology}
+\begin{itemize}
+    \item Factor: a single explanatory variate (input) that will be changed or set on each unit 
+    \begin{itemize}
+        \item prescribed treatment 
+        \item additional therapy
+    \end{itemize}
+    Can be 
+    \begin{itemize}
+        \item Quantitative: occlusion dose in hours
+        \item Qualitative: type of therapy 
+    \end{itemize}
+    \item Factor levels: the set of values assigned to any factor in the plan 
+    \begin{itemize}
+        \item low or high does (2 levels)
+        \item glasses, drops, none (3 levels)
+    \end{itemize}
+    \item Treatment: combination of levels of factors that can be applied to a unit 
+    \item Experimental unit: object or individual that we apply treatment to 
+    \item Response variate: outcome or observation in the study. Can be continuous 
+\end{itemize}
+\subsubsection{Fundamental Principles}
+\begin{itemize}
+    \item Replication: applying each treatment to more than one experimental unit 
+    \item Random assignment (random allocation): process of assigning treatments to experimental unit using a probabilistic mechanism
+    \item Blocking: groups in which one or more explanatory variates are held fixed while different treatments are applied to the units within the group 
+\end{itemize}
+\subsubsection{Single Treatment}
+If we want to use the model
+\[Y_i = \mu+R_i\quad i=1,2,\cdots,20\]
+with $R_i\sim N(0,\sigma^2)$, and all $R_i$ are mutually independent 
+We know the estimate for the residual variance $\sigma^2$ is 
+\[\hat{\sigma}^2 = \frac{1}{n-1}\sum_{i=1}^{n}(y_i-\hat\mu)^2 = \frac{1}{n-1}\sum_{i=1}^{n}(y_i-\overline{y})^2\]
+The corresponding estimators have the following properties 
+\[\tilde{\mu}\sim N(\mu, \frac{\sigma^2}{n})\quad \frac{\tilde{\sigma}^2(n-1)}{\sigma^2}\sim\chi^2_{n-1}\]
+The pivotal quantity is 
+\[\frac{\frac{\tilde{\mu}-\mu}{\sqrt{\sigma^2/n}}}{\sqrt{\frac{\tilde{\sigma}^2(n-1)}{\sigma}/(n-1)}} = \frac{\tilde{\mu}-\mu}{\sqrt{\frac{\tilde{\sigma}^2}{n}}}\sim t_{n-1}\]
+The $100(1-\alpha)\%$ confidence interval is computed by 
+\[\hat\mu\pm c\times s.e.(\hat\mu)\]
+where $c$ is chosen such that $P(|T_{n-1}|\leq c)=1-\alpha$, and $s.e.(\hat\mu) = \hat\sigma / \sqrt{n}$
+\subsection{Comparative Experimental Plans without Blocking}
+\subsubsection{A Model for Comparing Two Treatments}
+\[Y_{ij}=\mu+\tau_i+R_{ij}\quad i=1,2\quad j=1,2,\cdots,n\]
+where
+\begin{itemize}
+    \item $Y_{ij}$ is response for the jth unit that received treatment $i$
+    \item $R_{ij}\overset{\text{iid}}{\sim} N(0,\sigma^2)$ is the experimental variability (error), with equal variance across groups 
+\end{itemize}
+Also apply constraint $n_1\tau_1+n_2\tau_2=0$ so that 
+\begin{itemize}
+    \item $\mu$ is the mean response across our two treatment groups 
+    \item $\tau_1,\tau_2$ represent treatment effect, increase or decrease from the mean response due to treatment 
+\end{itemize}
+\subsubsection{Notation}
+\begin{itemize}
+    \item $\ds Y_{i+} = \sum_{j=1}^{n_i}Y_{ij}$
+    \item $\ds\overline{Y}_{i+} = \frac{1}{n_i}Y_{i+}$
+    \item $\ds Y_{++} = \sum_{i=1}^{2}\sum_{j=1}^{n_i}Y_{ij}$
+    \item $\ds\overline{Y}_{++} = \frac{1}{n_1+n_2}Y_{++} = (\frac{n_1}{n_1+n_2})\overline{Y}_{1+} + (\frac{n_2}{n_1+n_2})\overline{Y}_{2+}$
+\end{itemize}
+where \[E\left[\overline{Y}_{++}\right] = \mu\]
+\begin{itemize}
+    \item $E[\overline{Y}_{i+}] = \mu+\tau_i$
+    \item $E[\overline{Y}_{1+} - \overline{Y}_{2+}] = \tau_1-\tau_2 = \theta$
+\end{itemize}
+$\tilde{\theta} = \overline{Y}_{1+} - \overline{Y}_{2+}$ is the unbiased estimator for $\theta$ \\
+We want to minimize $\mu,\tau_1,\tau_2$ from 
+\[\sum_{i=1}^{2}\sum_{j=1}^{n_i}(y_{ij}-\mu-\tau_i)^2\]
+such that $\sum_{i=1}^{2}n_i\tau_i=0$ \\
+We get 
+\begin{itemize}
+    \item $\hat\mu = \overline{y}_{++}$
+    \item $\hat\tau_i = \overline{y}_{i+}-\overline{y}_{++}$
+    \item $\hat\tau_1 - \hat\tau_2 = \overline{y}_{1+}-\overline{y}_{2+}$
+\end{itemize}
+\subsubsection*{Variance Estimation}
+The sample variance within treatment $i$ is 
+\[\hat\sigma_i^2 = \frac{1}{n_i - 1}\sum_{j=1}^{n_i}(y_{ij}-\hat\mu-\hat\tau_i)^2 = \frac{1}{n_i-1}\sum_{j=1}^{n_i}(y_{ij}-\overline{y}_{i+})^2\]
+The pooled overall sample variance is 
+\[\hat\sigma^2 = \frac{1}{n_1+n_2-2}\sum_{i=1}^{2}\sum_{j=1}^{n_i}(y_{ij}-\hat\mu-\hat\tau_i)^2 = \frac{(n_1-1)\hat\sigma_1^2 + (n_2-1)\hat\sigma_2^2}{n_1+n_2-2}\] 
+\subsubsection{Confidence Interval and Hypothesis Test}
+Given the model for comparative studies without blocking 
+\[Y_{ij}=\mu+\tau_i+R_{ij}\quad R_{ij}\overset{iid}{\sim}N(0,\sigma^2)\quad i=1,2\quad j=1,\cdots,n_i\]
+subject to $\sum_{i=1}^{2}n_i\tau_i=0$, we have $\overline{Y}_{i+}\sim N(\mu+\tau_i,\sigma^2/n_i)$
+\subsubsection*{Estimators}
+\begin{itemize}
+    \item $\overline{Y}_{i+}\sim N(\mu+\tau_i,\sigma^2/n_i)$, so 
+    \[\tilde{\theta}=\tilde{\tau}_1-\tilde{\tau}_2 = \overline{Y}_{1+}-\overline{Y}_{2+}\sim N(\tau_1-\tau_2, \sigma^2(\frac{1}{n_1}+\frac{1}{n_2}))\] 
+    \item Variance: $\ds\frac{(n_i-1)\tilde{\sigma}_i^2}{\sigma^2}\sim \chi^2_{n_i-1}$, and so 
+    \[\frac{(n_1+n_2-2)\hat{\sigma}^2}{\sigma^2}\sim\chi^2_{n_1+n_2-2}\]
+\end{itemize}
+\subsubsection*{Confidence Interval for $\theta = \tau_1-\tau_2$}
+Putting all together to get 
+\[\frac{\tilde{\theta}-\theta}{\tilde{\sigma}\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}} = \frac{(\tilde{\tau}_1-\tilde{\tau}_2)-(\tau_1-\tau_2)}{\tilde{\sigma}\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}} \sim t_{n_1+n_2-2}\]
+Thus the $100(1-\alpha)\%$ confidence interval for $\theta$ is
+\[\hat\tau_1-\hat\tau_2\pm c\times s.e.(\hat\tau_1-\hat\tau_2)\]
+where $c$ is chosen such that $P(|T_{n_1+n_2-2}|\leq c)=1-\alpha$, and $s.e.(\hat\tau_1-\hat\tau_2) = \hat\sigma\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}$
+\[\hat\sigma = \sqrt{\frac{(n_1-1)\hat\sigma_1^2+(n_2-1)\hat\sigma_2^2}{n_1+n_2-2}}\]
+\subsubsection*{Hypothesis Test for $\theta=\tau_1-\tau_2$}
+To test $H_0:\theta=\theta_0$, calculate observed test statistic (or discrepancy measure)
+\[t_{obs} = \frac{(\hat\tau_1-\hat\tau_2)-\theta_0}{\hat\sigma\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}}\]
+There is evidence against $H_0:\theta=\theta_0$ if p-value is small 
+\subsection{Comparative Experimental Plans with Blocking}
+\subsubsection{Model}
+\[Y_{ij}=\mu+\tau_i+\beta_j+R_{ij}\quad i=1,2\quad j=1,2,\cdots,b\quad R_{ij}\overset{iid}{\sim}N(0,\sigma^2)\]
+subject to $\ds\sum_{i=1}^{2}\tau_i=0$ and $\ds\sum_{j=1}^{b}\beta_j=0$
+\begin{itemize}
+    \item $\mu$: overall average improvement in visual acuity
+    \item $\tau_i$: treatment effect for treatment $i$
+    \item $\beta_j$: block effect for block $j$
+    \item $n=2b$: sample size 
+\end{itemize}
+\subsubsection{Estimation}
+Want to minimize $\mu,\tau_i,\beta_j,\lambda_1,\lambda_2$ for 
+\[\sum_{i=1}^{2}\sum_{j=1}^{b}(y_{ij}-\mu-\tau_i-\beta_j)^2 + \lambda_1\sum_{i=1}^{2}\tau_i + \lambda_2\sum_{j=1}^{b}\beta_j\]
+This gives 
+\begin{itemize}
+    \item $\hat\mu=\overline{y}_{++}$ for overall mean 
+    \item $\hat\tau_i=\overline{y}_{i+}-\overline{y}_{++}$ for treatment effect
+    \item $\hat\beta_j=\overline{y}_{+j}-\overline{y}_{++}$ for block effect
+\end{itemize}
+We are interested in estimating the difference between treatment effects 
+\[\hat\theta = \hat\tau_1-\hat\tau_2 = \overline{y}_{1+}-\overline{y}_{2+}\]
+The estimated variance is 
+\begin{align*}
+    \hat\sigma^2 &= \frac{1}{b-1}\sum_{i=1}^{2} \sum_{j=1}^{b}(y_{ij}-\hat\mu-\hat\tau_i-\hat\beta_j)^2 \\
+    &= \frac{1}{b-1}\sum_{i=1}^{2}\sum_{j=1}^{b}(y_{ij}-\overline{y}_{i+}-\overline{y}_{+j}+\overline{y}_{++})^2
+\end{align*}
+\subsubsection{Degrees of Freedom for Two Treatments with Blocking}
+The degree of freedom is 
+\[sample\ size - number\ of\ parameters\ estimated + number\ of\ constraints\]
+\subsubsection{Confidence Interval and Hypothesis Test}
+Estimators for $\tau_i$ is 
+\[\overline{Y}_{i+}\sim N(\mu+\tau_i, \sigma^2/n)\]
+Then 
+\[\tilde{\theta}=\tilde{\theta}_1-\tilde{\theta}_2=\overline{D}\sim N(\tau_1-\tau_2, \frac{2\sigma^2}{b})\]
+Since $\tilde{\sigma}^2\sim\chi^2_{b-1}$, we have
+\[\frac{\tilde{\theta}-\theta}{\tilde{\sigma}\sqrt{2/b}}\sim t_{b-1}\]
+The $(1-\alpha)\times 100\%$ confidence interval for $\theta=\tau_1-\tau_2$ is 
+\[\hat\tau_1 - \hat\tau_2\pm c\times s.e.(\hat\tau_1-\hat\tau_2)\]
+where $c$ is chosen such that $P(|T_{b-1}|\leq c)=1-\alpha$, and $s.e.(\hat\tau_1-\hat\tau_2)=\hat\sigma\sqrt{2/b}$
+
+\section{Experiemntal Plans for More Than Two Treatments}
+\subsection{Completely Randomized Designs}
+\subsubsection{Balanced Design}
+The design is balanced if the same number of units receive each treatment \\
+Assuming a balanced plan, we observe a response $y_{ij}$ for the $j^{th}$ unit receiving the $i^{th}$ treatment, and the model is
+\[Y_{ij}=\mu+\tau_i+R_{ij}\quad i=1,2,\cdots,t\quad j=1,2,\cdots,n\quad R_{ij}\overset{iid}{sim}N(0,\sigma^2)\]
+where
+\begin{itemize}
+    \item $r$: number of replicates for each tretment 
+    \item $t$: number of treatments
+    \item $\mu$: mean response across all treatments 
+    \item $\tau_i$: treatment effect for treatment $i$
+    \item The balanced design constraint is $\sum_{i=1}^{t}n_i\tau_i=0$
+\end{itemize}
+We have 
+\[E(\overline{Y}_{++}) = E(\tilde{\mu}) = \mu\]
+\[E(\overline{Y}_{i+}) = \mu+\tau_i\Rightarrow\tau_i = E(\overline{Y}_{i+})=E(\overline{Y}_{i+}-\overline{Y}_{++})\]
+\subsubsection{Parameter Estimation}
+Using the Lagrange multiplier method and solve the system of $t+2$ equations, we get 
+\begin{itemize}
+    \item $\hat\mu=\overline{y}_{++}$: overall average 
+    \item $\hat\tau_i=\overline{y}_{i+}-\overline{y}_{++}$: treatment effect
+    \item $\hat\tau_i-\hat\tau_h = \overline{y}_{i+}-\overline{y}_{h+}$: difference in treatment effect
+\end{itemize}
+The estimate of the error variance $\sigma^2$ is 
+\[\hat\sigma^2 = \frac{1}{rt-(1+t)+1}\sum_{i,j}(y_{ij}-\hat\mu-\hat\tau_i)^2 = \frac{1}{rt-t}\sum_{i,j}(y_{ij}-\overline{y}_{i+})^2\]
+The degree of freedom in the denominator is $rt-t$
+\[total\ sample\ size - number\ of\ parameters\ estimated + number\ of\ constraints\]
+\subsubsection{Dsitributions of the Estimators}
+\begin{itemize}
+    \item $Y_{ij}=\mu+\tau_i+R_{ij}$, $R_{ij}\overset{iid}{\sim}N(0,\sigma^2)$
+    \item $\tilde{\tau}_i=\overline{Y}_{i+}-\overline{Y}_{++}$, $\tilde{\tau}_i-\tilde{\tau}_h = \overline{Y}_{i+}-\overline{Y}_{h+}$
+    \item $\overline{Y}_{i+}\sim N(\mu+\tau_i, \sigma^2/n)$
+    \item Then, $\overline{Y}_{i+}-\overline{Y}_{h+}\sim N(\tau_i-\tau_h, \sigma^2(1/r+1/r))$
+    \item $Z=\dfrac{\tilde{\tau}_i-\tilde{\tau}_h-(\tau_i-\tau_h)}{\sqrt{\sigma^2(1/r+1/r)}}\sim N(0,1)$
+    \item $U=\dfrac{t(r-1)\tilde{\sigma}^2}{\sigma^2}\sim \chi^2_{t(r-1)}$, independent of $Z$ 
+    \item Therefore, \[\dfrac{Z}{\sqrt{U/(t(r-1))}} = \dfrac{\tilde{\tau}_i-\tilde{\tau}_h-(\tau_i-\tau_h)}{\sqrt{\sigma^2(1/r+1/r)}}\sim t_{t(r-1)}\]
+\end{itemize}
+\subsubsection{Contrast}
+For this course, we need the following condition to be satisfied
+\[\theta=\sum_{i=1}^{t}a_i\tau_i=0\quad\sum_{i=1}^{t}a_i=0\]
+\subsubsection*{Estimate and Estimator}
+\begin{itemize}
+    \item Parameter: $\theta=\sum_{i=1}^{t}a_i\tau_i$
+    \item Estimate: $\hat\theta=\sum_{i=1}^{t}a_i\hat\tau_i = \sum_{i=1}^{t}a_i\overline{y}_{i+}$
+    \item Estimator: $\tilde{\theta}=\sum_{i=1}^{t}a_i\tilde{\tau}_i = \sum_{i=1}^{t}a_i\overline{Y}_{i+}$
+\end{itemize}
+We have 
+\[\tilde{\theta}\sim N(\theta, \sigma^2\sum_{i=1}^{t}a_i^2(1/r))\]
+\subsubsection{Confidence Interval and Hypothesis Test}
+\[\tilde{\theta}\sim N(\theta, \sigma^2\sum_{i=1}^{t}a_i^2(1/r))\Rightarrow Z=\frac{\tilde{\theta}-\theta}{\sqrt{\sigma^2\sum_{i=1}^{t}a_i^2(1/r)}}\sim N(0,1)\]
+It turns that that 
+\[\frac{Z}{\sqrt{U/(t(r-1))}} = \frac{\tilde{\theta}-\theta}{\sqrt{\sigma^2\sum_{i=1}^{t}a_i^2(1/r)}}\sim t_{t(r-1)}\]
+A $100(1-\alpha)\%$ confidence interval for $\theta$ is
+\[\hat\theta\pm c\times s.e.(\hat\theta)\]
+where $c$ is chosen such that $P(T_{t(r-1)}\leq c)=1-\alpha/2$, and $s.e.(\hat\theta)=\hat\sigma\sqrt{\sum_{i=1}^{t}a_i^2(1/r)}$ \\
+Similarly, the observed test statistic for $H_0:\theta=\theta_0$ is
+\[t_{obs} = \frac{\hat\theta-\theta_0}{\hat\sigma\sqrt{\sum_{i=1}^{t}a_i^2(1/r)}}\]
+\subsection{Unbalanced Design}
+\subsubsection{Model}
+\[Y_{ij}=\mu+\tau_i+R_{ij}\quad i=1,2,\cdots,t\quad j=1,2,\cdots,n_i\quad R_{ij}\overset{iid}{\sim}N(0,\sigma^2)\]
+where
+\begin{itemize}
+    \item constraint: $\sum_{i=1}^{t}n_i\tau_i=0$
+    \item $\mu = E[\overline{Y}_{++}] = \dfrac{\sum_{i=1}^{t}r_iE[\overline{Y}_{i+}]}{\sum_{i=1}^{t}r_i}$, a weighted average of treatment means 
+    \item $\mu+\tau_i=$ average response for treatment $i$
+\end{itemize}
+\subsubsection{Parameter Estimation}
+\begin{itemize}
+    \item Estimates: $\hat\mu=\overline{y}_{++}$, $\hat\tau_i=\overline{y}_{i+}-\overline{y}_{++}$
+    \item Estimators: $\tilde{\mu}=\overline{Y}_{++}$, $\tilde{\tau}_i=\overline{Y}_{i+}-\overline{Y}_{++}$
+    \item Variance: \[\hat\sigma^2 = \dfrac{\sum_{i=1}^{t}\sum_{j=1}^{r_i}(y_{ij}-\overline{y}_{i+})^2}{\sum_{i}(r_i-1)}\]    
+\end{itemize}
+\subsubsection{Anova Table}
+\begin{tabular}{c|c|c|c|c|c}
+    \textbf{Source} & \textbf{SS} & \textbf{df} & \textbf{MS} & \textbf{F} \\ \hline
+    Treatment & $\sum_{i=1}^{t}r_i(\overline{y}_{i+}-\overline{y}_{++})^2$ & $t-1$ & $\dfrac{SS_{treatment}}{t-1}$ & $\dfrac{MS_{treatment}}{MS_{error}}$ \\ 
+    Residuals & $\sum_{i=1}^{t}\sum_{j=1}^{r_i}(y_{ij}-\overline{y}_{i+})^2$ & $\sum_{i=1}^{t}(r_i-1)$ & $\dfrac{SS_{error}}{\sum_{i=1}^{t}(r_i-1)}$ & \\ \hline
+    Total & $\sum_{i=1}^{t}\sum_{j=1}^{r_i}(y_{ij}-\overline{y}_{++})^2$ & $\sum_{i=1}^{t}r_i-1$ & &
+\end{tabular}
+$\ $\newline 
+As from the ANOVA table, we have 
+\[F = \frac{MS_T}{MS_R} = \frac{\sum_i r_i(\overline{Y}_{i+}-\overline{Y}_{++})^2/(t-1)}{\sum_i\sum_j(y_{ij}-\overline{Y}_{i+})^2/\sum_i(r_i-1)}\sim F_{t-1,\sum_i(r_i-1)}\]
+\subsubsection{Contrasts}
+Each treatment average has the distribution 
+\[\overline{Y}_{i+}\sim N(\mu+\tau_i, \sigma^2/r_i)\]
+So for a contrast in unequal sample size we have 
+\[tilde{\sigma}\sim N(\theta, \sigma^2\sum_{i=1}^{t}a_i^2/r_i)\]
+Hence a $100(1-\alpha)\%$ confidence interval for $\theta$ is
+\[\hat\theta\pm t*\hat\sigma\sqrt{\sum_{i=1}^{t}a_i^2/r_i}\]
+where $t*$ is chosen such that $P(T_{t-1}\leq t*)=1-\alpha/2$
+\subsection{Randomized Block Designs}
+\subsubsection{Model}
+\[Y_{ij}=\mu+\tau_i+\beta_j+R_{ij}\quad i=1,2,\cdots,t\quad j=1,2,\cdots,b\quad R_{ij}\overset{iid}{\sim}N(0,\sigma^2)\]
+where
+\begin{itemize}
+    \item $\sum_{i=1}^{t}\tau_i=\sum_{j=1}^{b}\beta_j=0$
+    \item $\mu$: overall mean response
+    \item $\tau_i$: treatment effect for treatment $i$
+    \item $\beta_j$: block effect for block $j$
+\end{itemize}
+\subsubsection{Estimation}
+Least squares from the model gives us 
+\[\hat\mu=\overline{y}_{++}\quad \hat\tau_i=\overline{y}_{i+}-\overline{y}_{++}\quad \hat\beta_j=\overline{y}_{+j}-\overline{y}_{++}\]
+where 
+\[\overline{y}_{++}=\frac{1}{tb}\sum_{i=1}^{t}\sum_{j=1}^{b}y_{ij}\quad \overline{y}_{i+}=\frac{1}{b}\sum_{j=1}^{b}y_{ij}\quad \overline{y}_{+j}=\frac{1}{t}\sum_{i=1}^{t}y_{ij}\]
+The variance estimate is 
+\[\hat\sigma^2 = \frac{1}{(t-1)(b-1)}\sum_{i=1}^{t}\sum_{j=1}^{b}(y_{ij}-\hat\mu-\hat\tau_i-\hat\beta_j)^2\]
+\subsubsection{ANOVA Table}
+\begin{tabular}{c|c|c|c|c}
+    \textbf{Source} & \textbf{SS} & \textbf{df} & \textbf{MS} & \textbf{F} \\ \hline
+    Treatment & $\sum_{i=1}^{t}b(\overline{y}_{i+}-\overline{y}_{++})^2$ & $t-1$ & $\dfrac{SS_{treatment}}{t-1}$ & $\dfrac{MS_{T}}{MS_{R}}$ \\ 
+    Blocks & $\sum_{j=1}^{b}t(\overline{y}_{+j}-\overline{y}_{++})^2$ & $b-1$ & $\dfrac{SS_{blocks}}{b-1}$ & \\ 
+    Residuals & $\sum_{i=1}^{t}\sum_{j=1}^{b}(y_{ij}-\overline{y}_{i+}-\overline{y}_{+j}+\overline{y}_{++})^2$ & $(t-1)(b-1)$ & $\dfrac{SS_{error}}{(t-1)(b-1)}$ & \\ \hline
+    Total & $\sum_{i=1}^{t}\sum_{j=1}^{b}(y_{ij}-\overline{y}_{++})^2$ & $tb-1$ & &
+\end{tabular}
+\subsubsection{Contrasts}
+\[\tilde{\theta}=\sum_i a_i\overline{Y}_{i+}\sim N(\theta, \sigma^2\sum_i a_i^2/b)\]
+Then 
+\[(\tilde{\theta}-\theta)/\sqrt{\hat\sigma_r^2\sum_i a_i^2/b}\sim t_{(t-1)(b-1)}\]    
+\begin{itemize}
+    \item Confidence interval for $\theta$: $\hat\theta\pm t*\hat\sigma\sqrt{\sum_i a_i^2/b}$
+    \item Obversed test statistic for $H_0:\theta=\theta_0$: $t_{obs}=(\hat\theta-\theta_0)/\hat\sigma\sqrt{\sum_i a_i^2/b}$
+\end{itemize}
+\subsubsection{Notes}
+Use blocking design makes it easier to detect a treatment effect if there truly is one to detect in the first place
+
+\section{Factorial Treatment Structure and Interaction}
+Interaction occurs if the effect of one factor on the response depends on the level of a second factor 
+\subsection{Two Factors at Two Levels}
+\subsubsection{Model}
+To express interaction explicitly we write the model as 
+\[Y_{ijk}=\mu+\alpha_i+\lambda_j+\gamma_{ij}+R_{ijk}\quad i=1,2\quad j=1,2\quad k=1,2,\cdots,r\]
+where
+\begin{itemize}
+    \item $\mu$: mean response across all treatments 
+    \item $\alpha_i$: effect of factor A at level $i$
+    \item $\lambda_j$: effect of factor B at level $j$
+    \item $\gamma_{ij}$: interaction effect of factor A at level $i$ and factor B at level $j$
+\end{itemize}
+\subsubsection*{Constraints}
+\begin{itemize}
+    \item For the main effects we have $\alpha_1+\alpha_2=0$ and $\lambda_1+\lambda_2=0$
+    \item Then for the interaction effects we have 
+    \[\sum_i\gamma_{ij}=0\quad \sum_j\gamma_{ij}=0\]
+\end{itemize}
+\subsection{Two Factors with More Than Two Levels}
+\subsubsection{General Interaction Model}
+\[Y_{ijkl}=\mu+\alpha_i+\lambda_j+\gamma_{ij}+R_{ijk}\]
+where
+\begin{itemize}
+    \item $\mu$: overall mean response
+    \item $\alpha_i$: effect of factor A at level $i$
+    \item $\lambda_j$: effect of factor B at level $j$
+    \item $\gamma_{ij}$: interaction effect of factor A at level $i$ and factor B at level $j$
+\end{itemize}
+\subsubsection{Interaction and Blocking Model}
+\[Y_{ijkl}=\mu+\alpha_i+\lambda_j+\gamma_{ij}+\beta_k+R_{ijk}\]
+where 
+\begin{itemize}
+    \item $\mu$: overall mean response
+    \item $\alpha_i$: effect of factor A at level $i$
+    \item $\lambda_j$: effect of factor B at level $j$
+    \item $\gamma_{ij}$: interaction effect of factor A at level $i$ and factor B at level $j$
+    \item $\beta_k$: effect of block $k$
+\end{itemize}
+The estimates we got are 
+\begin{itemize}
+    \item $\hat\mu=\overline{y}_{+++}$
+    \item $\hat\alpha_i=\overline{y}_{i++}-\overline{y}_{+++}$
+    \item $\hat\lambda_j=\overline{y}_{+j+}-\overline{y}_{+++}$
+    \item $\hat\gamma_{ij}=\overline{y}_{ij+}-\overline{y}_{i++}-\overline{y}_{+j+}+\overline{y}_{+++}$
+    \item $\hat\beta_k=\overline{y}_{++k}-\overline{y}_{+++}$
+\end{itemize}
+$\ $\newline 
+\subsubsection{ANOVA Table}
+\begin{figure*}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{anova for two factor block.png}
+\end{figure*}
+$\ $\newline 
+The test statistic is the mean square ration between the test and error 
+
+\end{document}

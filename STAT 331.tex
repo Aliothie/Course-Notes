@@ -1,0 +1,753 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm,enumerate,nicefrac,fancyhdr,hyperref,graphicx,adjustbox}
+\hypersetup{colorlinks=true,urlcolor=blue,citecolor=blue,linkcolor=blue}
+\usepackage[left=2.6cm, right=2.6cm, top=1.5cm, includehead, includefoot]{geometry}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[d]{esvect}
+
+%% commands
+%% useful macros [add to them as needed]
+% sets
+\newcommand{\C}{{\mathbb{C}}} 
+\newcommand{\N}{{\mathbb{N}}}
+\newcommand{\Q}{{\mathbb{Q}}}
+\newcommand{\R}{{\mathbb{R}}}
+\newcommand{\Z}{{\mathbb{Z}}}
+\newcommand{\F}{{\mathbb{F}}}
+
+% bases
+\newcommand{\mA}{\mathcal{A}}
+\newcommand{\mB}{\mathcal{B}}
+\newcommand{\mC}{\mathcal{C}}
+\newcommand{\mD}{\mathcal{D}}
+\newcommand{\mE}{\mathcal{E}}
+\newcommand{\mL}{\mathcal{L}}
+\newcommand{\mM}{\mathcal{M}}
+\newcommand{\mO}{\mathcal{O}}
+\newcommand{\mP}{\mathcal{P}}
+\newcommand{\mS}{\mathcal{S}}
+\newcommand{\mT}{\mathcal{T}}
+
+% linear algebra
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\adj}{\operatorname{adj}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\spn}{\operatorname{Span}}
+\newcommand{\proj}{\operatorname{proj}}
+\newcommand{\prp}{\operatorname{perp}}
+\newcommand{\refl}{\operatorname{refl}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\nul}{\operatorname{Null}}
+\newcommand{\nully}{\operatorname{nullity}}
+\newcommand{\range}{\operatorname{Range}}
+\renewcommand{\ker}{\operatorname{Ker}}
+\newcommand{\col}{\operatorname{Col}}
+\newcommand{\row}{\operatorname{Row}}
+\newcommand{\cof}{\operatorname{cof}}
+\newcommand{\Num}{\operatorname{Num}}
+\newcommand{\Id}{\operatorname{Id}}
+\newcommand{\ipb}{\langle \thinspace, \rangle}
+\newcommand{\ip}[2]{\left\langle #1, #2\right\rangle} % inner products
+\newcommand{\M}[2]{M_{#1\times #2}(\F)}
+\newcommand{\RREF}{\operatorname{RREF}}
+\newcommand{\cv}[1]{\begin{bmatrix} #1 \end{bmatrix}}
+\newenvironment{amatrix}[1]{\left[\begin{array}{@{}*{\numexpr#1-1}{c}|c@{}}}{\end{array}\right]}
+\newcommand{\am}[2]{\begin{amatrix}{#1} #2 \end{amatrix}}
+
+% vectors
+\newcommand{\vzero}{\vv{0}}
+\newcommand{\va}{\vv{a}}
+\newcommand{\vb}{\vv{b}}
+\newcommand{\vc}{\vv{c}}
+\newcommand{\vd}{\vv{d}}
+\newcommand{\ve}{\vv{e}}
+\newcommand{\vf}{\vv{f}}
+\newcommand{\vg}{\vv{g}}
+\newcommand{\vh}{\vv{h}}
+\newcommand{\vl}{\vv{\ell}}
+\newcommand{\vm}{\vv{m}}
+\newcommand{\vn}{\vv{n}}
+\newcommand{\vp}{\vv{p}}
+\newcommand{\vq}{\vv{q}}
+\newcommand{\vr}{\vv{r}}
+\newcommand{\vs}{\vv{s}}
+\newcommand{\vt}{\vv{t}}
+\newcommand{\vu}{\vv{u}}
+\newcommand{\vvv}{{\vv{v}}}
+\newcommand{\vw}{\vv{w}}
+\newcommand{\vx}{\vv{x}}
+\newcommand{\vy}{\vv{y}}
+\newcommand{\vz}{\vv{z}}
+
+% display
+\newcommand{\ds}{\displaystyle}
+\newcommand{\qand}{\quad\text{and}}
+\newcommand{\qandq}{\quad\text{and}\quad}
+\newcommand{\hint}{\textbf{Hint: }}
+\newcommand{\tri}{\triangle}
+
+% misc
+\newcommand{\area}{\operatorname{area}}
+\newcommand{\vol}{\operatorname{vol}}
+\newcommand{\red}[1]{{\color{red} #1}}
+\newcommand{\rc}{\red{\checkmark}}
+
+\title{STAT 331 Notes}
+\author{Thomas Liu}
+\begin{document}
+\maketitle
+\tableofcontents
+
+\newpage 
+\section{Introduction to Regression}
+\subsection{Regreession Analysis}
+A statistical methodology that models the functional relationship between response variable $y$ and one or 
+more explanatory variables $x_1, x_2,\cdots, x_p$
+\[y=f(x_1,x_2,\cdots,x_p)+\epsilon\]
+\begin{itemize}
+    \item $y$: dependent / response variable
+    \item $x_1,\cdots,x_p$: covariates, explanatory / independent variables, predictors
+    \item $\epsilon$: random error term
+\end{itemize}
+In this course, we focus on simplest form of regression: linear models 
+\begin{align*}
+    y &= f(x_1,\cdots,x_p)+\epsilon \\
+      &= \beta_0+\beta_1x_1+\cdots+\beta_px_p+\epsilon
+\end{align*}
+$\beta$'s are the regression parameters (coefficients) \\
+We check if the model is linear by checking the derivative with respect to $\beta$
+\subsubsection{Sample v.s. Population}
+\begin{itemize}
+    \item sample: collection of units (people, animals, cities, fields) that is actually measured or surveyed in study
+    \item population: large group of units we are interested in, which sample was selected 
+\end{itemize}
+
+\section{Simple Linear Regression}
+\subsubsection{Population Model}
+\[y=\beta_0+\beta_1x+\epsilon\]
+\begin{itemize}
+    \item $y$ is response 
+    \item $\beta_0,\beta_1$ are regression coefficients 
+    \item $x$ is predictor 
+    \item $\beta_0+\beta_1x$ is systematic component
+    \item $\epsilon$ is random error
+\end{itemize}
+\subsubsection{Observe Sample}
+Suppose we have $n$ pairs of observations $(x_i,y_i), i=1,2,\cdots$, then 
+\[y_i=\beta_0+\beta_1x_i+\epsilon_i\]
+\begin{itemize}
+    \item $x_i$'s: fixed, known
+    \item $\beta$'s: fixed, unknown
+    \item $\epsilon_i$'s: random, unknown
+    \item $y_i$'s: random, known 
+\end{itemize}
+We usually make the following assumption
+\begin{itemize}
+    \item $E(\epsilon_i) = 0$
+    \item $\epsilon_1,\cdots,\epsilon_n$ are statistically independent
+    \item $Var(\epsilon_i)=\sigma^2$, $Var(y_i)=\sigma^2$
+    \item $\epsilon_i$ is normally distributed $\rightarrow$ $\epsilon_i\sim N(0,\sigma^2)$, which means $y_i\sim N(\beta_0+\beta_1x_i, sigma^2)$
+\end{itemize}
+Assumption $i), ii), iii)$ are called Gauss-Markov assumptions 
+\subsection{Lease Square Estimation (LSE)}
+Given $(x_i,y_i), i=1,\cdots,n$, estimate $(\beta_0,\beta_1)$ as $(\hat{\beta_0}, \hat{\beta_1})$ such that value of 
+\[r_i=y_i-\hat{\beta_0}-\hat{\beta_1}x_i=y_i-\hat{y_i}\]
+\begin{itemize}
+    \item $r_i$ is residual
+    \item $\hat{y_i}$ is fitted value 
+\end{itemize}
+want $r_i$ to be small \\
+Define
+\[s(\beta_0,\beta_1)=\sum_{i=1}^{n}(y_i-\hat{\beta_0}-\hat{\beta_1x_i})^2=\sum_{i=1}^{n}r_i^2\]
+Want to minimize $s(\beta_0,\beta_1)$, so we have two normal equations
+\begin{itemize}
+    \item $\hat{\beta_0}=\overline{y}-\hat{\beta_1}\overline{x}$
+    \item $\ds\hat{\beta_1} = \dfrac{\ds\sum_{i=1}^{n}(x_i-\overline{x})(y_i-\overline{y})}{\ds\sum_{i=1}^{n}(x_i-\overline{x})^2} = \dfrac{S_{xy}}{S_{xx}}$
+\end{itemize}
+\subsubsection{Person Correlation Coefficient}
+\[P_{X,Y} = \frac{Cov(X,Y)}{\sqrt{Var(X)Var(Y)}}\]
+\subsubsection{Properties of $\hat{\beta_0}$ and $\hat{\beta_1}$}
+\begin{itemize}
+    \item LSE are unbiased, which means $E(\hat{\beta_0})=\beta_0$ and $E(\hat{\beta_1})=\beta_1$
+    \item $Var(\hat{\beta_0})=\sigma^2(\frac{1}{n}+\dfrac{\overline{x}^2}{S_{xx}})$, $Var(\hat{\beta_1})=\dfrac{\sigma^2}{S_{xx}}$
+    \item $Cov(\hat{\beta_0}, \hat{\beta_1})=-\sigma^2\dfrac{\overline{x}}{S_{xx}}$
+\end{itemize}
+\subsubsection{Properties of $c_i$}
+Let $c_i$ be $\dfrac{x_i-\overline{x}}{S_{xx}}$
+\begin{itemize}
+    \item $\sum_{i=1}^{n}c_i=0$
+    \item $\sum_{i=1}^{n}c_ix_i=1$
+    \item $\sum_{i=1}^{n}c_i^2=\dfrac{1}{S_{xx}}$
+\end{itemize}
+\subsubsection{Properties of $r_i$}
+Under least square fit
+\begin{itemize}
+    \item $\sum_{i=1}^{n}r_i=0$
+    \item $\sum_{i=1}^{n}r_ix_i=0$
+    \item $\sum_{i=1}^{n}r_i\hat{y}=0$
+    \item The point $(\overline{x},\overline{y})$ is always on the fitted regression line 
+\end{itemize}
+\subsection{The Estimation of $\sigma^2$}
+Notice that 
+\begin{align*}
+    \begin{cases}
+        \epsilon_i = y_i-(\beta_0+\beta_1x_i) \\
+        r_i = y_i - (\hat{\beta_0}+\hat{\beta_1}x_i)
+    \end{cases}
+\end{align*}
+recall $\epsilon_i\sim N(0,\sigma^2)$ \\
+If $\epsilon_i$'s are known, we can estimate $\sigma^2$ as $\dfrac{1}{n}\sum_{i=1}^{n}\epsilon_i$ \\
+However, $E(\dfrac{1}{n}\sum_{i=1}^{n}r_i^2)=\sigma^2$ \\
+We define $s^2=\dfrac{1}{n-2}\sum_{i=1}^{n}r_i^2$, then $E(s^2)=\sigma^2$. Note ($n-2$) because we estimate both $\beta_0,\beta_1$ \\
+Recall if $y_i\sim N(\mu,\sigma^2)$, sample variance estimator is 
+\[\hat{\sigma}^2=\frac{1}{n-1}\sum_{i=1}^{n}(y_i-\overline{y})^2\]
+and \[E(\hat{\sigma}^2) = \sigma^2\]
+\subsection{Confidence Interval and Hypothesis Testing}
+\subsubsection{Confidence Interval}
+Under the assumption that $\epsilon_i$ are independent and normally distributed, we have 
+\[\hat{\beta}_1\sim N(\beta_1,\frac{\sigma^2}{S_{xx}})\]
+If $\sigma^2$ is known, \[\frac{\hat{\beta}_1-\beta_1}{\sqrt{\frac{\sigma^2}{S_{xx}}}}\sim N(0,1)\]
+As we may not know $\sigma^2$, replace $\sigma^2$ with $s^2$
+\[\frac{\hat{\beta}_1-\beta_1}{\sqrt{\frac{s^2}{S_{xx}}}}\sim t_{n-2}\]
+And $100(1-\alpha)\%$ confidence interval for $\beta_1$ is 
+\[P_r(-t_{n-2,\alpha/2})<\frac{\hat{\beta}_1-\beta_1}{\sqrt{\frac{\sigma^2}{S_{xx}}}}<t_{n-2,\alpha/2}\]
+or \[P_r(\hat{\beta_1}-t_{n-2,\alpha/2}se(\hat{\beta_1})<\beta_1<\hat{\beta_1}+t_{n-2,\alpha/2}se(\hat{\beta_1}))=1-\alpha\]
+where $se(\hat{\beta}_1) = \sqrt{\dfrac{s^2}{S_{xx}}}$
+\subsubsection{Hypothesis Testing}
+We have $H_0: \beta_1=\beta_1^*$ vs $H_a:\beta_1\neq\beta_1^*$
+Under $H_0$, \[t=\frac{\hat{\beta}_1-\beta_1^*}{se(\hat{\beta}_1)}\sim t_{n-2}\]
+If $|t|=|\dfrac{\hat{\beta}_1-\beta_1^*}{se(\hat{\beta}_1)}|>=t_{n-2,\alpha/2}$, we reject $H_0$ at the significance level $\alpha$ \\
+Alternatively, we compute the p-value 
+\[p=P(|T|\geq|t|)\quad T\sim t_{n-2}\]
+and rejct $H_0$ if $p\leq\alpha$
+\subsection{Inference of $\mu_0=\beta_0+\beta_1x_0$ for some Predictor value $x_0$}
+To estimate $\mu_0$, compute $\hat{\mu}_0=\hat{\beta}_0+\hat{\beta}_1x_0$ \\
+We get $\hat{\mu}_0=\sum_{i=1}^{n}d_iy_i$ where $d_i = \dfrac{1}{n}+\dfrac{(x_0+\overline{x})(x_i-\overline{x})}{S_{xx}}$
+\begin{itemize}
+    \item $E(\hat{\mu_0})=\mu_0$
+    \item $Var(\hat{\mu_0})=[\dfrac{1}{n}+\dfrac{(x_0-\overline{x})^2}{S_{xx}}]\sigma^2$
+\end{itemize}
+\subsection{Prediction of Future Value}
+Q: What's the prediction of $y$ given that $x=x_p$? \\
+We use the existing data point for the model, and use $\hat{y}_p=\hat{\beta}_0+\hat{\beta}_1x_p$ to predict 
+\subsubsection*{Some Result for $\hat{y}_p$}
+\begin{itemize}
+    \item $E(y_p-\hat{y}_p)=0$
+    \item $Var(y_p-\hat{y}_p)=[1+\dfrac{1}{n}+\dfrac{(x_p-\overline{x})^2}{S_{xx}}]\sigma^2 = Var(\hat{\mu}_p)+Var(\epsilon_p)$
+    \item $\dfrac{y_p-\hat{y}_p}{se(y_p-\hat{y}_p)}\sim t_{n-2}$ where $se(y_p-\hat{y}_p)=\sqrt{[1+\dfrac{1}{n}+\dfrac{(x_p-\overline{x})^2}{S_{xx}}]s^2}$
+\end{itemize}
+The $100(1-\alpha)\%$ prediction interval for $y_p$ is $\hat{y}_p\pm t_{n-2,\frac{\alpha}{2}}se(y_p-\hat{y}_p)$
+\subsection{Analysis of Variance (ANOVA) for Testing $H_0:\beta_1=0$}
+The total variation of $y_i$'s is measured by the total sum of squaress (SST)
+\begin{align*}
+    SST&=\sum_{i=1}^{n}(y_i-\overline{y})^2 \\
+       &=\sum_{i=1}^{n}r_i^2 + \sum_{i=1}^{n}(\hat{y}_i-\overline{y})^2 \\
+       &= SSE + SSR 
+\end{align*}
+If $H_0: \beta_1=0$ is true ($y_i=\beta_0+\epsilon_i$), SSR should be relatively small with respect to SSE \\
+\subsubsection{Properties under $H_0:\beta_1=0$}
+\begin{itemize}
+    \item $SSR/\sigma^2\sim\chi^2_1$
+    \item $SST/\sigma^2\sim\chi^2_{n-1}$
+    \item $SSE/\sigma^2\sim\chi^2_{n-2}$, and is independent of $SSR$
+\end{itemize}
+\subsection{F-Statistic}
+\[F=\frac{\frac{SSR}{\sigma^2}/1}{\frac{SSE}{\sigma^2}/(n-2)}=\frac{SSR}{SSE/(n-2)}=\frac{MSR}{MSE}\sim F(1,n-2)\]
+Where $MSR$ stands for mean square of regression, $MSE$ stands for mean square of error \\
+To test $H_0:\beta_1=0$ vs $H_1:\beta_1\neq1$, we reject $H_0$ at level $\alpha$ if 
+\[F>F_\alpha(1,n-2)\]
+where $\alpha$ represents the upper $\alpha$ quantile \\
+Recall that $\ds\frac{\hat{\beta}_1-\beta_1^*}{se(\hat{\beta}_1)}\sim t_{n-2}$ can test $H_0:\beta_1=\beta_1^*$, where $\beta_1^*$ is some value we are interested \\
+In Simple Linear Regression, testing $H_0:\beta_1=0$ using t-test and F-test are equivalent
+\subsection{ANOVA Table}
+\begin{tabular}{c|c|c|c|c}
+    Source of Variation & Sum of Squares & Degree of Freedom & Mean Square & F-Statistic \\ \hline
+    Regression & SSR & 1 & MSR=$\frac{SSR}{1}$ & $\frac{MSR}{MSE}$ \\
+    Residual & SSE & n-2 & MSE=$\frac{SSE}{n-2}$ & \\
+    Total & SST & n-1 & &
+\end{tabular}
+\subsection{Cochram's Theorem}
+Suppose $U_i\overset{iid}{\sim}N(0,1)$ for $i=1,2,\cdots,n$, and $\sum_{i=1}^{n}U_i^2=Q_1+Q_2$ \\
+Let $d_1$ and $d_2$ be the degree of freedom of $Q_1$ and $Q_2$, which are the number of linearly 
+independent linear combination of $y_i$'s in $Q_1$ and $Q_2$ \\
+If $d_1+d_2=n$, $Q_1$ and $Q_2$ are independent, and $Q_1\sim\chi^2_{d_1}$ and $Q_2\sim\chi^2_{d_2}$
+\subsection{Coefficient of Determination}
+\[R^2=\frac{SSR}{SST}=\sum_{i=1}^{n}(y_i-\overline{y})^2\]
+In SLR, \[R^2=\frac{\hat{\beta}_1S_{xx}}{S_{yy}} = \frac{S^2_{xy}}{S_{xx}S_{yy}}\]
+And \[r = \frac{S_{xy}}{\sqrt{S_{xx}S_{yy}}}\]
+Thus, $R^2=r^2$
+
+\section{Random Vector and Linear Regression}
+\subsection*{Notation}
+\begin{itemize}
+    \item Capital letter for vector / matrix: $A, X$
+    \item lower case for scalar: $a, c$
+    \item lower direction vector / matrix: $\va, \vc$
+    \item vector is column vector: $\vc=\cv{c_1\\\vdots\\c_n}$
+\end{itemize}
+\subsection*{Definition}
+Suppose $Y=\cv{y_1,\cdots,y_n}^T$ is $n\times 1$ vector of random variable with $E(y_i)=\mu_i$, $Var(y_i)=\sigma_i^2$, $Cov(y_i,y_j)=\sigma_{ij}$ \\
+Then \[E(Y)=\cv{E(y_1),\cdots,E(y_n)}^T=\cv{\mu_1,\cdots,\mu_n}^T\]
+And 
+\begin{align*}
+    Var(Y) &= E([Y-E(Y)][Y-E(Y)]^T) \\
+           &= \cv{Var(y_1) &Cov(y_1,y_2) &\cdots &Cov(y_1,y_n) \\ Cov(y_2,y_1) &Var(y_2) &\cdots &Cov(y_2,y_n) \\ \vdots &\vdots &\ddots &\vdots \\ Cov(y_n,y_1) &Cov(y_n,y_2) &\cdots &Var(y_n)} \\
+           &= (\sigma_{ij})_{n\times n}
+\end{align*}
+If $y_1,\cdots,y_n$ are independent ($Cov(y_i,y_j)=0$, $Var(y_i)=\sigma^2$), then $Var(Y)=\sigma^2I$
+\subsection*{Basic Properties}
+Suppose $A=(a_{ij})_{m\times n}$, $\vb=\cv{b_1,\cdots,b_m}^T$ and $\vc=\cv{c_1,\cdots,c_n}^T$ are matrix and vector of constants
+\begin{itemize}
+    \item $E(AY+\vb)=AE(Y)+\vb$
+    \item $Var(Y+\vc)=Var(Y)$
+    \item $Var(AY)=AVar(Y)A^T$
+    \item $Var(AY+\vb)=AVar(Y)A^T$
+\end{itemize}
+\subsection*{Differentiation over Linear and Quadratic Forms, scalr w.r.t. vector}
+\begin{itemize}
+    \item $f=f(Y)=f(y_1,\cdots,y_n)$, then $\dfrac{df}{dY}=(\dfrac{df}{dy_1},\cdots,\dfrac{df}{dy_n})$
+    \item $f=\vc^TY=\sum_{i=1}^{n}c_iy_i$, then $\dfrac{df}{dY}=\vc^T$
+\end{itemize}
+\subsection*{Matrix Result}
+\begin{itemize}
+    \item Trace \[trace(A_{m\times m})=\sum_{i=1}^{m}a_{ii}\] \[trace(BC)=trace(CB)\]
+    \item Rank \[rank(A_{m\times n})=\text{max num of linearly independent columns / rows}\]
+    \item vectors are linearly independent iff \[c_1Y_1+\cdots+c_nY_n=0\rightarrow c_1=\cdots=c_n=0\] is the only solution 
+    \item orthogonality
+    \begin{itemize}
+        \item two vectors $X$ and $Y$ are orthogonal if $Y^TX=0$
+        \item a square matrix is orthogonal iff $A^TA=AA^T=I_{n\times n}$
+    \end{itemize}
+    \item Eigenvalue and Eigenvector of square matrix 
+    \begin{itemize}
+        \item non-zero vector $\vvv_i$ is eigenvector of $A_{m\times m}$ if \[A\vvv_i=\lambda_i\vvv_i\]
+    \end{itemize}
+    \item Idempotent Matrix $A_{m\times m}$ is idempotent if $A^2=A$
+    \begin{itemize}
+        \item if $A$ is idempotent then all its eigenvalues are 0 or 1
+        \item if $A$ is idempotent and symmetric, there exists orthogonal matrix $P$ such that $A=P\Lambda P^T$ where $\Lambda$ is a zero matrix but with the diagonal fill with $rank(A)$ 1's, $tr(A)=rank(A)=tr(\Lambda)=$ number of eigenvalues being $1$
+    \end{itemize}
+\end{itemize}
+\subsection{Multivariate Normal Distribution}
+The random vector $Y=\cv{y_1&\cdots&y_n}^T$ follow a multivariate normal distribution with pdf 
+\[f(Y)=[\frac{1}{\overline{\mu}}]^{n/2}|\Sigma|^{-1/2}exp\{-\frac{1}{2}(Y-\vec{\mu})^T\Sigma^T(Y-\vec{\mu})\}\]
+where $\vec{\mu}=E(Y)$, $\Sigma=Var(Y)=(\sigma_{ij})_{n\times n}$ and $|\Sigma|$ is the determinant of $\Sigma$ \\
+Denote it as $Y\sim MVN(\vec{\mu}, \Sigma)$
+\subsubsection{Properties}
+\begin{itemize}
+    \item $y_1,\cdots,y_n$ are independent iff $\Sigma$ is diagonal 
+    \item marginal normality: $y_i\sim N(\mu_i,\sigma_{ii})$
+    \item if $Y\sim MVN(\vec{\mu},\Sigma)$, and $Z=AY$, then $Z\sim MVN(A\vec{\mu}, A\Sigma A^T)$
+    \item if $Y\sim MVN(\vec{0},\sigma^2I)$, then $\frac{Y^TY}{\sigma^2}\sim \chi^2_n$
+    \item Let $U=AY$, $W=BY$, $Y\sim MVN(\vec{\mu},\Sigma)$, $U$ and $W$ are independent iff $A\Sigma B^T=\vec{0}$, and $Cov(AY,BY)=ACov(Y,Y)B^T=A\Sigma B^T$
+\end{itemize}
+\subsection{Multiple Linear Regression (MLR)}
+\[y_i=\beta_0+\beta_1x_{i1}+\cdots+\beta_px_{ip}+\epsilon_i\]
+where 
+\begin{itemize}
+    \item $x_{i1},\cdots,x_{ip}$ are fixed and known predictor variable 
+    \item $\beta_0,\cdots,\beta_p$ are fixed but unkown regression parameters 
+    \item $\epsilon_i$ is random and unkown error 
+    \item $y_i$ is random and observable response 
+\end{itemize}
+We make the assumptions that 
+\begin{itemize}
+    \item $E(\epsilon_i)=0$
+    \item $Var(\epsilon_i)=\sigma^2$
+    \item $\epsilon_i$ are independent
+    \item $\epsilon_1,\cdots,\epsilon_n\sim N(0,\sigma^2)\rightarrow y_i\sim N(\beta_0+\beta_1x_{i1}+\cdots+\beta_px_{ip}, \sigma^2)$
+\end{itemize}
+$\beta_j$: the average increase (or decrease) in response when the $j$th predictor $x_j$ increase (or decrease) by 1 unit while holding all other predictors fixed/constant \\
+$H_0:\beta_j=0$ means $x_j$ is NOT linearly related to $y$, given all other predictors in the model fixed 
+\subsubsection{Matrix Form Representation}
+\begin{align*}
+    \cv{y_1\\y_2\\\vdots\\y_n} = \cv{1&x_{11}&\cdots&x_{1p} \\ 1&x_{21}&\cdots&x_{2p} \\ \vdots&\vdots&\ddots&\vdots \\ 1&x_{n1}&\cdots&x_{np}}\cv{\beta_0\\\beta_1\\\vdots\\\beta_p}+\cv{\epsilon_1\\\epsilon_2\\\vdots\\\epsilon_n} \\
+\end{align*}
+$Y=X\vec{\beta}+\vec{\epsilon}$ where $\vec{\epsilon}\sim MVN(\vec{0},\sigma^2I)$ and $Y\sim MVN(X\vec{\beta},\sigma^2I)$
+\subsection{LSE of $\vec{\beta}$}
+We have \[S(\vec{\beta})=\sum_{i=1}^{n}(y_i-\beta_0-\beta_1x_{i1}-\cdots-\beta_px_{ip})^2 = Y^TY-2Y^TX\vec{\beta}+\vec{\beta}^TX^TX\vec{\beta}\]
+Derive and minimize to get \[\hat{\vec{\beta}}=(X^TX)^{-1}X^TY\]
+\subsubsection{Properties of $\hat{\vec{\beta}}$}
+\begin{itemize}
+    \item $\hat{\vec{\beta}}$ is unbiased 
+    \item $Var(\hat{\vec{\beta}})=\sigma^2(X^TX)^{-1}$
+\end{itemize}
+\subsection{Results of MLR}
+\begin{itemize}
+    \item fitted values: $\hat{Y} = X\vec{\hat{\beta}} = X(X^TX)^{-1}X^TY = HY$, H is idempotent and symmetric 
+    \item residuals: $\vec{r} = Y-\hat{Y}=Y-HY=(I-H)Y$
+    \begin{itemize}
+        \item matrix $I-H$ is idenpotent and symmetric 
+        \item $\sum_{i=1}^{n}r_i=0$
+        \item $X^T\vec{r}=\vec{0}$
+        \item $\hat{Y}^T\vec{r}=\vec{0}$
+        \item $E(\vec{r})=\vec{0}$
+        \item $Var(\vec{r})=\sigma^2(I-H)$
+        \item estimation of $\sigma^2$: \[\hat{\sigma}^2=\frac{\sum r_i}{n-p-1}\]
+    \end{itemize}
+    \item inference of a single $\beta$ \[\frac{\hat{\beta_i}-\beta_i}{\sqrt{\hat{\sigma}^2\nu_{ii}}}\]
+    where $\nu_{ii}$ is the ith diagonal element of $(X^TX)^{-1}$ \\
+    If $Z\sim N(0,1)$, $W\sim \chi^2_{\nu}$, $Z$ and $W$ are independent, then \[\frac{Z}{\sqrt{W/\nu}}\sim t_\nu\]
+\end{itemize}
+\subsubsection{Results of $\vec{\hat{\beta}}$}
+Assume $Y\sim MVN(X\vec{\beta}, \sigma^2I)$, then 
+\begin{itemize}
+    \item $\vec{\hat{\beta}}\sim MVN(\vec{\beta}, \sigma^2(X^TX)^{-1})$
+    \item $\vec{\hat{\beta}}$ and $\hat{\sigma}^2$ are independent 
+    \item $\frac{(n-p-1)\hat{\sigma}^2}{\sigma^2}\sim\chi^2_{n-p-1}$
+\end{itemize}
+\subsubsection{Confidence Interval}
+Recall $\vec{\hat{\beta}}\sim MVN(\vec{\beta}, \sigma^2(X^TX)^{-1})$, then $\hat{\beta}_1\sim N(\beta_i, \sigma^2\nu_{ii})$, where $\nu_{ii}$ are the ith diagonal element of $(X^X)^{-1}$
+\[\frac{\frac{\hat{\beta}_i-\beta_i}{\sqrt{\sigma^2\nu_{ii}}}}{\sqrt{\frac{(n-p-1)\hat{\sigma}^2/\sigma^2}{n-p-1}}}\sim t_{n-p-1}\]
+Then \[\frac{\hat{\beta}_i-\beta_i}{\sqrt{\hat{\sigma}^2_i\nu{_ii}}}\sim t_{n-p-1}\]
+The denominator is the $s.e.(\hat{\beta}_i)$
+\subsection{Linear Combination of $\beta_i$'s}
+Let $\vec{a}=(a_0,a_1,\cdots,a_p)^T$ be a $(p+1)$ dimension vector of constants. We are interested in 
+\[\theta=\vec{a}^T\\vec{\beta}=\sum_{i=0}^{p}a_i\beta_i\]
+We estimate $\theta$ as $\hat{\theta}=\vec{a}^T\hat{\vec{\beta}}$ \\
+Recell that $\hat{\vec{\beta}}\sim MVN(\vec{\beta}, \sigma^2(X^TX)^{-1})$, then $\hat{\theta}=\vec{a}^T\hat{\vec{\beta}}\sim N(\theta, \sigma^2\vec{a}^T(X^TX)^{-1}\vec{a})$
+\[\frac{\hat{\theta}-\theta}{\sqrt{\sigma^2\vec{a}^T(X^TX)^{-1}\vec{a}}}\sim N(0,1)\]
+\[\frac{\hat{\theta}-\theta}{\sqrt{\hat{\sigma}^2\vec{a}^T(X^TX)^{-1}\vec{a}}}\sim t_{n-p-1}\]
+\subsection{Prediction of $y$}
+Let $\va_p = (1,x_1,\cdots,x_p)^T$, $y_p=\va_p\vec{\beta}+\epsilon_p$
+\[Var(y_p-\hat{y}_p)=\sigma^2[1-\va_p^T(X^TX)^{-1}X^T\va_p]\]
+Then 
+\[\frac{y_p-\hat{y}_p}{\sqrt{\hat{\sigma}^2[1-\va_p^T(X^TX)^{-1}X^T\va_p]}}\sim t_{n-p-1}\]
+A $100(1-\alpha)\%$ prediction interval for $y_p$ is
+\[\hat{y}_p\pm t_{n-p-1,\alpha/2}\sqrt{\hat{\sigma}^2[1-\va_p^T(X^TX)^{-1}X^T\va_p]}\]
+\subsection{Analysis of Variance (ANOVA)}
+The sum of square of residuals (error) is 
+\[SSE(\hat{\beta})=\sum_{i=1}^{n}r_i^2=\vec{r}^T\vr = (Y-X\hat{\beta})^T(Y-X\hat{\beta})\]
+Test $H_0^*:\beta_1=\beta_2=\cdots=\beta_p=0$ \\
+Under $H_0^*$, the full model reduces to \[y_i=\beta_0+\epsilon_i\]
+The LSE under reduced model is \[\hat{\beta}_0=\overline{y}\]
+\[SSE(\hat{\beta}_0) = \sum_{i=1}^{n}(y_i-\overline{y})^2 = SST\]
+The difference is 
+\begin{align*}
+    SSE(\hat{\beta}_0) - SSE(\hat{\beta}) &= SST - SSE \\
+    &= SSR \\
+    &= \vec{\hat{\beta}}^TX^TX\vec{\hat{\beta}}-\overline{y}^T\overline{y}
+\end{align*}
+Under $H_0^*: \beta_1=\beta_2=\cdots=\beta_p=0$
+\[\frac{SSR}{\hat{\sigma}^2}\sim \chi^2_p\]
+The F-test Statistics
+\[F=\frac{SSR/p}{SSE/n-p-1} = \frac{MSR}{MSE} \sim F_{p,n-p-1}\]
+We reject $H_0^*$ at level $\alpha$ if 
+\[F>F_{\alpha,(p,n-p-1)}\]
+\subsubsection{ANOVA Table}
+\begin{tabular}{c|c|c|c|c}
+    Source of Variation & Sum of Squares & df & Mean Square & F-Statistic \\ \hline
+    Regression & SSR=$\vec{\hat{\beta}}^TX^TX\vec{\hat{\beta}}$ & p & MSR=$\frac{SSR}{p}$ & $\frac{MSR}{MSE}$ \\
+    Residual & SSE=$(Y-X\vec{\hat{\beta}})^T(Y-X\vec{\hat{\beta}})$ & n-p-1 & MSE=$\frac{SSE}{n-p-1}$ & \\
+    Total & SST=$\sum(y_i-\overline{y})^2$ & n-1 & &
+\end{tabular}
+\subsubsection{Total Coefficients of Determination}
+\[R^2=\frac{SSR}{SSE}\quad 0\leq R^2\leq1\]
+\subsection{Geometric Interpolation of LSE}
+\subsubsection{Column Space of X}
+$C(X)$ is all vectors that can be constructed as a linear combination of columns of $X$ \\
+$C(X)$ spans a $p+1$ dimensional subspace inside the $n$ dimensional space 
+\[\text{LSE minimize }\sum r_i^2\iff \text{minimize the length of residual vector}\]
+$\hat{Y}=HY$ is the perpendicular projection of $Y$ onto $C(X)$
+\[\vr\perp C(X)\quad \vr\perp x_i, \forall i=0,\cdots,p\]
+\subsection{Test Linear Constraints}
+Suppose we have $l$ linear constraints, $A$ is a $l\times(p+1)$ matrix 
+\subsubsection{Additional Sum of Squares Principle}
+Recall $C(X) = \{\beta_0\vl + \beta_1\vx_1 + \cdots+ \beta_0\vx_p\}$ \\
+Define $C_A(X) = \{\beta_0\vl + \beta_1\vx_1 + \cdots+ \beta_0\vx_p|A\vec{\beta}=\vec{0}\}$ as subspace of $C(X)$ subject to the 
+restriction $A\vec{\beta}=\vec{0}$ \\
+Let $\hat{Y}$ be the orthogonal projection of $Y$ onto $C_A(X)$, and $\hat{Y}_A$ be the orthogonal projection of $Y$ onto $C_A(X)$ \\
+If $H_0:A\vec{\beta}=\vec{0}$ is true, we expect $\hat{Y}$ and $\hat{Y}_A$ to be close. The squared distance
+\[||\hat{Y}-\hat{Y}_A||^2 = (\hat{Y}-\hat{Y}_A)^T(\hat{Y}-\hat{Y}_A) = SSE_A-SSE\]
+is the additional sum of squares 
+\subsubsection*{Theory}
+Under $H_0:A\vec{\beta}=\vec{0}$ where $A$ is $l\times(p+1)$ matrix, we have
+\begin{itemize}
+    \item \[\frac{||\hat{Y}-\hat{Y}_A||^2}{\sigma^2}\sim \chi^2_p\]
+    \item $||\hat{Y}-\hat{Y}_A||^2$ is independent of $\hat{\sigma}^2 = \dfrac{(Y-\hat{Y})^T(Y-\hat{Y})}{n-p-1}$ \\
+    F-statistic \[F=\frac{||\hat{Y}-\hat{Y}_A||^2/l}{\hat{\sigma}^2}\sim F_{l,n-p-1}\]
+\end{itemize}
+We reject $H_0$ at level $\alpha$ if $F>F_{\alpha,(l,n-p-1)}$, or $p-value = P(F_{l,n-p-1}>F)$
+\subsubsection{Summary}
+To test $H_0:A\vec{\beta}=0$
+\begin{itemize}
+    \item fit full model without restriction 
+    \item compute $SSE$
+    \item fit restricted model with $A\vec{\beta}=0$
+    \item compute $SSE_A$
+    \item compute $F=\dfrac{(SSE_A-SSE)/l}{SSE/(n-p-1)}$
+\end{itemize}
+
+\section{Regression Model Specification}
+In MLR, $Y=X\beta+\epsilon$, $E(Y)=X\beta$
+\subsection{Special Cases}
+\subsubsection{Piecewise Constants}
+Naive Model 
+\begin{align*}
+    \begin{cases}
+        y = \beta_0 &\text{if } x\leq a \\
+        y = \beta_1 &\text{if } x>a
+    \end{cases}
+\end{align*}
+We can rewrite it in linear way 
+\begin{align*}
+    y = \beta_0I(x<a) + \beta_1I(x\geq a)
+\end{align*}
+where \[X = \cv{I(x_1<a) &I(x_1\geq a) \\\vdots &\vdots \\I(x_n<a) &I(x_n\geq a)}\quad \beta = \cv{\beta_0 \\\beta_1}\]
+Or we can write it as 
+\[y = \beta_0 + \beta_2I(x\geq a)\]
+where $\beta_2 = \beta_1 - \beta_0$
+\subsubsection{Piecewise Linear}
+\[y = \beta_0I(x<a) + \beta_1x_1I(x<a) + \beta_2I(x\geq a) + \beta_3x_1I(x\geq a)\]
+where 
+\[X = \cv{I(x_1<a) &x_1I(x_1<a) &I(x_1\geq a) &x_1I(x_1\geq a) \\\vdots &\vdots &\vdots &\vdots \\I(x_n<a) &x_nI(x_n<a) &I(x_n\geq a) &x_nI(x_n\geq a)}\quad \beta = \cv{\beta_0\\\beta_1\\\beta_2\\\beta_3}\]
+\subsubsection{Piecewise Linear but Continuous}
+We have 
+\begin{align*}
+    \begin{cases}
+        y = \beta_0+\beta_1 x &\text{if } x<a \\
+        y = \beta_0+\beta_1 x + \beta_3(x-a) &\text{if } x\geq a
+    \end{cases}
+\end{align*}
+\subsubsection{One Sample Problem}
+We have $y_i = \beta_0 + \epsilon_i$ with $E(y_i) = \beta_0$ \\
+$E(Y) = X\beta$ with $X = \cv{1\\\vdots\\1}_{n\times 1}$ and $\beta = \beta_0$
+\subsubsection{Two Sample Problem}
+\subsubsection*{Cell Means Model}
+$y_{ij} = \mu_i+\epsilon_{ij}$, $i=1,2$, $j=1,\cdots,n$
+\[E\left[\cv{y_{11}\\\vdots\\y_{1n}\\--\\y_{21}\\\vdots\\y_{2n}}\right] = \cv{1\\--\\0}\mu_1 + \cv{0\\--\\1}\mu_2 = \cv{1&0\\0&1}\cv{\mu_1\\\mu_2}\]
+Then 
+\[X^TX = \cv{(1_{n_1\times 1})^T &\vec{0}^T \\ \vec{0}^T &(1_{n_2\times 1})^T}_{2\times n}\cv{1_{n_1\times 1}&0 \\0&1_{n_2\times 1}}_{n\times 2} = \cv{n_1&0\\0&n_2}\]
+\[X^TY = \cv{(1_{n_1\times 1})^T &\vec{0}^T \\ \vec{0}^T &(1_{n_2\times 1})^T}_{2\times n}\cv{y_{11}\\\vdots\\y_{1n_1}\\y_{21}\\\vdots\\y_{2n_2}} = \cv{\sum_{j=1}^{n_1}y_{ij} \\\sum_{j=1}^{n_2}y_{2j}}\]
+\[\hat\beta = (X^TX)^{-1}X^TY = \cv{\frac{1}{n_1} &0 \\0 &\frac{1}{n_2}}\cv{\sum_{j=1}^{n_1}y_{ij} \\\sum_{j=1}^{n_2}y_{2j}} = \cv{\overline{y_{1+}} \\\overline{y_{2+}}}\]
+where $\hat\mu_1 = \overline{y_{1+}}$ and $\hat\mu_2 = \overline{y_{2+}}$
+\subsubsection*{Effects Model}
+$E(y_i) = \beta_0 + \beta_1x_i$ where $x_i = I[\text{observation i is in group 2}]$
+\[E\left[\cv{y_{11}\\\vdots\\y_{1n_1}\\y_{21}\\\vdots\\y_{2n_2}}\right] = \cv{1_{n_1\times 1} &0_{n_1\times 1}\\1_{n_2\times 1} &1_{n_2\times 1}}\cv{\beta_0 \\\beta_1}\]
+\[X^TX = \cv{n &n_2\\n_2 &n_2}\quad X^TY = \cv{\sum_{j=1}^{n_1}y_{ij} \\ \sum_{j=1}^{n_2}y_{2j}}\]
+Then \[\hat\beta = \frac{1}{n_1}\cv{1 &-1\\ -1 &\frac{n}{n_2}}\cv{\sum_{j=1}^{n_1}y_{ij} \\ \sum_{j=1}^{n_2}y_{2j}} = \cv{\overline{y_{1+}} \\ \overline{y_{2+}} - \overline{y_{1+}}}\]
+\subsubsection{K-sample Problem}
+\subsubsection*{Cell Means Model}
+$y_{ij} = \mu_i + \epsilon_{ij}$, $i=1,\cdots,k$
+\[E\left[\cv{y_{11}\\\vdots\\y_{1n_1}\\\vdots\\y_{k1}\\\vdots\\y_{kn_k}}\right] = \cv{1_{n_1\times}&0_{n_1\times}&\cdots&0_{n_1\times}\\0_{n_2\times}&1_{n_2\times}&\cdots&0_{n_2\times}\\\vdots&\vdots&\ddots&\vdots\\0_{n_k\times}&0_{n_k\times}&\cdots&1_{n_k\times}}\cv{\mu_1\\\mu_2\\\vdots\\\mu_k}\]
+\[X^TX = \cv{n_1 &&& \\ &n_2&& \\&&\ddots& \\&&&n_k}\]
+\[\hat\beta = (X^TX)^{-1}XY = \cv{\overline{y_{1+}}\\\vdots\\\overline{y_{k+}}}\]
+where $\overline{y_{i+}} = \frac{1}{n_1}\sum_{j=1}^{n_i}y_{ij}$
+\[\hat Y = X\hat\beta = \cv{\overline{y_{1+}}\\\vdots\\\overline{y_{1+}} \\\vdots\\\overline{y_{k+}}\\\vdots\\\overline{y_{k+}}}\]
+\subsubsection*{Effects Model}
+$E(y_i) = \beta_1 + \beta_2x_{i2} + \cdots+\beta_kx_{ij}$ where $x_{ij} = I[\text{obs i in group j}]$
+\[E(Y) = \cv{\vec{1}& \vx_2&\cdots &\vx_k}\cv{\beta_1\\\beta_2\\\vdots\\\beta_k}\] where $\vx_i = \cv{x_{i1}\\x_{i2}\\\vdots\\ x_{ij}}$
+It can be shown that 
+\[\hat\beta = (X^TX)^{-1}X^TY = \cv{\overline{y_{1+}} \\\overline{y_{2+}} - \overline{y_{1+}} \\\vdots \\\overline{y_{k+}} - \overline{y_{1+}}}\]
+\subsubsection{ANOVA Table}
+\begin{tabular}{l|c|c|c|c}
+    \textbf{Source} & \textbf{Sum of Squares} & \textbf{df} & \textbf{Mean Squares} & \textbf{F-statistic} \\ \hline
+    Regression & \( SSR = \sum_{i=1}^{k} (\hat{y}_i - \bar{y})^2 \) & \( k - 1 \) & \( MSR = \frac{SSR}{k - 1} \) & \( \frac{MSR}{MSE} \) \\
+    Residual & \( SSE = \sum_{i=1}^{n} (y_i - \hat{y}_i)^2 \) & \( n - k \) & \( MSE = \frac{SSE}{n - k} \) & \\
+    Total & \( SST = \sum_{i=1}^{n} (y_i - \bar{y})^2 \) & \( n - 1 \) & & 
+\end{tabular}
+
+\section{Model Checking}
+Recall that $y_i = \beta_0 + \beta_1x_{i1} + \cdots + \beta_px_{ip} + \epsilon_i$ \\
+We assume 
+\begin{itemize}
+    \item $E(\epsilon_i) = 0$
+    \item $Var(\epsilon_i) = \sigma^2$
+    \item $\epsilon_i$ are independent
+    \item $\epsilon_i\sim N(0,\sigma^2)$
+\end{itemize}
+We hope to use $r_i=y_i-\hat y_i$ to approximate $\epsilon_i=y_i-E(y_i)$ \\
+If $n>>p$, and model is correctly specified, then \[r_i\approx \epsilon_i\]
+Recall that 
+\[\vec{r} = (I-H)\vec{\epsilon}\]
+$H$ is idempotent and symmetric, then 
+\begin{itemize}
+    \item $h_{ii}=(H)_{ii} = (HH)_{ii} = \sum_{j=1}^{n}h_{ij}h_{ji}$
+    \item $0\leq h_{ii}(1-h_{ii})\leq \frac{1}{4}$
+    \item off-diagonal elements cannot be large 
+    \item $\sum h_{ii} = p+1$, the average of $h_{ii}$ value is $\frac{p+1}{n}$
+    \item if $n>>p$, all elements of $H$ is small \[\vec{r}\approx\vec{\epsilon}\]
+    \item if $n=p+1$, average of $h_{ii}$ is 1, then $\vec{r}=\vec{0}$
+\end{itemize}
+\subsection{Model Checking}
+\subsubsection{Studentized Residual}
+Standardized residual 
+\[r_i^s = \frac{r_i}{\hat\sigma}\quad i=1,\cdots,n\] 
+Studentized residual 
+\[d_i = \frac{r_i}{\hat\sigma\sqrt{1-h_{ii}}}\quad i=1,\cdots,n\]
+where $h_{ii}$ is the ith diagonal element of $H$. Under assumputions of random errors, $d_i\sim N(0,1)$
+\subsubsection{Residual Plots for Checking $E(\epsilon_i)=0$}
+The most important assumption for linear regression models is $E(\epsilon_i)=0$ \\
+The violation of this assumption can be 
+\begin{itemize}
+    \item effect of predictors on response variable is not in fact linear 
+    \item omission of some important predictors 
+\end{itemize}
+\subsubsection{Residuals vs $x_j$}
+If a linear effect on $y$, then we expect to see a random pattern, points fall into a horizontal band around $0$ \\
+\begin{figure*}[h!]
+    \centering
+    \includegraphics[width=0.5\textwidth]{linear effect.png}
+\end{figure*}
+$\ $\\
+If we see any obvious non-random pattern, it suggests the non-linearity \\
+\begin{figure*}[h!]
+    \centering
+    \includegraphics[width=0.5\textwidth]{non linearity.png}
+\end{figure*}
+$\ $\\
+\subsubsection{Residuals vs $\hat y$}
+If model is adequate $E(\epsilon_i)=0$, we have $Cov(\epsilon_i,\hat y_i)=0$ \\
+The residuals should lie within a horizontal band around zero, no special pattern 
+\begin{figure*}[h!]
+    \centering
+    \includegraphics[width=0.5\textwidth]{r vs y.png}
+\end{figure*}
+$\ $\\
+\subsubsection{Studentized Residuals vs $\hat y$}
+The studendized residuals should lie within a horizontal band around zero, no special pattern \\
+Approx $95\%$ of studentized residuals should lie within $(-2,2)$, and almost all of them should be within $(-3,3)$
+\begin{figure*}[h!]
+    \centering
+    \includegraphics[width=0.5\textwidth]{student r vs y.png}
+\end{figure*}
+$\ $\\
+\subsubsection{Residual Plots for Checking Variance $V(\epsilon_i)=\sigma^2$}
+The constant variance assumption is violated if there is a pattern 
+\begin{figure*}[h!]
+    \centering
+    \includegraphics[width=0.5\textwidth]{variance constant.png}
+\end{figure*}
+$\ $\\
+\newpage 
+\subsubsection{Durbin-Waston Test}
+The Durbin-Waston statistic tests $H_0:\rho=0$ vs $H_a:\rho\neq 0$
+\[d=\sum_{i=2}^{n}(r_i-r_{i-1})^2/\sum_{i=1}^{n}r_i^2\approx 2(1-\rho)\]
+\subsubsection{Q-Q Plot}
+\begin{figure*}[h!]
+    \centering
+    \includegraphics[width=0.5\textwidth]{qq plot.png}
+\end{figure*}
+$\ $\\
+\subsection{Leverage}
+Recall $H=X(X^TX)^{-1}X^T=(h_{ij})_{n\times n}$, and $\hat Y=HY$ 
+\[\hat y_{i} = \sum_{j=1}^{n}h_{ij}y_j = h_{ii}y_i + \sum_{j\neq i}h_{ij}y_j\]
+Leverage of the $i$th observed predictor is defined as $h_{ii}$ \\
+It reflects the distance between the $i$th observation $(x_{i1},\cdots,x_{ip})$ and the other observations \\
+The leverage $h_{ii}$ is small for cases $(x_{i1},\cdots,x_{ip})$ near the centroid $(\overline{x_1},\cdots,\overline{x_p})$ 
+that is determined by all cases. Large if $(x_{i1},\cdots,x_{ip})$ is far from the centroid \\
+Case $i$ is potentially influential if 
+\[h_{ii}>2\frac{p+1}{n}\]
+\subsection{Cook's Distance}
+It can be shown 
+\[D_i = \frac{h_{ii}d_i^2}{(1-h_{ii})(p+1)}\] 
+where $d_i$ is the studentized residual \\
+Cook's distance is an overall measure 
+\begin{itemize}
+    \item if $|h_{ii}|$ is large, but $d_i$ is small, then influence will be small 
+    \item if $|d_i|$ is large, but $h_{ii}$ is small, then influence will be small
+\end{itemize}
+A large value indicates that the observation has a large influence on the results \\
+Cook suggested that a Cook's Distance is significantly large when it is greater than $F_{0.5}(p+1,n-p+1)$
+\subsection{PRESS Residuals}
+\subsubsection*{prediction error}
+\[r_{(-i)} = y_i-x_i^T\hat\beta_{(-i)} = \frac{r_i}{1-h_{ii}}\] 
+PRESS residuals is 
+\[\sum_{i=1}^{n}r_{(-i)}^2 = \sum_{i=1}^{n}\frac{r_i^2}{(1-h_{ii})^2}\]
+
+\section{Model Selection}
+$R^2$ may only be appropriate for comparing two models with same number of predictors \\
+Adjusted $R^2$ is
+\[R^2_{adj} = 1-(1-R^2)\frac{n-1}{n-p-1}\]
+$n$ is sample size, $p$ is number of covariates 
+\subsection{Akaike's Information Criterion (AIC)}
+\[AIC = -2\log(L)+2(p+1)\]
+where $L$ is the likelihood of the model \\
+In general a smaller value of AIC is preferred 
+\subsection{Bayesian Information Criterion (BIC)}
+\[BIC = -2\log(L)+\log(n)(p+1)\]
+\subsection{Note}
+For $R^2$ and $R^2_{adj}$, the larger the better. For AIC and BIC, the smaller the better 
+\subsection{Backward Elimination with p-value}
+\begin{enumerate}
+    \item Start with all $p$ potential explanatory variables in the model \[y=\beta_0+\beta_1x_1+\cdots+\beta_px_p+\epsilon\]
+    \item For each explanatory variable, calculate the p-value for testing $H_0:\beta_j=0$
+    \item If largest p-value is greater than $\alpha$, remove the variable with the largest p-value
+    \item Repeat step 2 and 3 until all p-values are less than $\alpha$
+\end{enumerate}
+\subsection{Forward Selection with p-value}
+\begin{enumerate}
+    \item Fit $p$ simple linear models, each with only a single explanatory variable $v_j$. There are 
+    $p$ t-test statistics and p-values for testing $H_0:\beta_j=0$. The most significant predictors is the one 
+    with the smallest p-value, denote by $v_k$ \\
+    If the smallest p-value greater than $\alpha$, stop. Otherwise, set $x_1=v_k$ and fit the model 
+    \item Start from model \[y=\beta_0+\beta_1x_1+\epsilon\]
+    Enter the remains $p-1$ variables one at a time, and fit $p-1$ models
+    \[y=\beta_0+\beta_1x_1+\beta_2v_j+\epsilon\]
+    and let $p_k$ denote the smallest p-value, $v_k$ denote the most significant explanatory variable \\
+    If $p_k>\alpha$, stop. Otherwise, set $x_2=v_k$ and fit the model
+    \item Continue until no new explanatory variables can be added 
+\end{enumerate}
+\subsection{Variance Stablizing Transformation}
+Consider general model 
+\[y_i=\mu_i+\epsilon_i\]
+where $\mu_i=E(y_i)=f(x_i, \beta)$, the mean of response \\
+Suppose that 
+\[V(y_i) = V(\epsilon_i) = h^2(\mu_i)\sigma^2\] 
+for some function $h$\\
+Task: find a transformation $g(y_i)$ such that variance of $g(y_i)$ is constant
+We approximate $g(y_i)$ by a first order Taylor expansion around $\mu_i$
+\[g(y_i) \approx g(\mu_i) + g'(\mu_i)(y_i-\mu_i)\]
+Then
+\[V(g(y_i)) \approx g'(\mu_i)^2V(y_i) = g'(\mu_i)^2h^2(\mu_i)\sigma^2\]
+The common form of $h$ is power function \\
+Let $h^2(\mu_i) = \mu_i^{\alpha}$, want $g'(\mu_i) = \frac{1}{h(\mu_i)} = \mu_i^{-\alpha/2}$ \\
+Thus 
+\begin{align*}
+    g(y_i) &= 
+    \begin{cases}
+        y_i^{\alpha/2} &\alpha\neq 2 \\
+        \log(y_i) &\alpha=2
+    \end{cases}
+\end{align*}
+Special Case: 
+\begin{itemize}
+    \item $h^2(\mu_i)=\mu_i\Rightarrow Var(y_i)=\mu_i\sigma^2$, variance is proportional to mean, $\alpha=1$ and $g(y_i)=\sqrt{y_i}$
+    \item $h^2(\mu_i)=\mu_i^2\Rightarrow Var(y_i)=\mu_i^2\sigma^2$, variance is proportional to square of mean, $\alpha=2$ and $g(y_i)=\log(y_i)$
+\end{itemize}
+\subsection{Linear Dependency / Multicollinearity}
+\subsubsection{Perfect Multicollinearity}
+The columns of design matrix (predictors) $1,X_1,\cdots,X_p$ are linearly dependent, or have perfect multicollinearity
+if one column can be expressed as a linear combination of the other columns.
+\subsubsection{Multicollinearity}
+If there exists constants $c_0,c_1,\cdots,c_p$ not all zero such that $c_01+c_1X_1+\cdots+c_pX_p\approx0$, 
+but maybe not exactly linearly dependent, then we say the predictors have multicollinearity
+\begin{itemize}
+    \item If there is perfect multicollinearity, then $|X^TX|=0$ and $(X^TX)^{-1}$ does not exist, thus $\hat\beta$ does not exist 
+    \item If there is multicollinearity, then $|X^TX|\approx 0$ and $(X^TX)^{-1}$ is large. Consequently, the variances of the estimated regression coefficients $\hat\beta_0,\cdots,\hat\beta_p$ are large
+\end{itemize}
+If multicollinearity exists 
+\begin{itemize}
+    \item The variance of $\hat\beta$ is large 
+    \item Important predictors become insignificant in the model 
+    \item Hard to distinguish the effect of each predictor
+\end{itemize}
+\subsubsection{Detection of Multicollinearity}
+First check pairwise sample correlation coefficient 
+\[r_{lm} = \frac{\sum_{i=1}^{n}(x_{il}-\overline{x}_l)(x_{im}-\overline{x}_m)}{\sqrt{\sum_{i=1}^{n}(x_{il}-\overline{x}_l)^2\sum_{i=1}^{n}(x_{im}-\overline{x}_m)^2}}\]
+If $|r_{lm}|\approx 1$, then $X_l$ and $X_m$ are highly correlated, no need for both in the model 
+\subsection{Variance Inflation Factor}
+A formal check: VIF
+\begin{itemize}
+    \item $x_k$ is regressed on the the remaining $p-1$ x's:
+    \[x_{ij} = \beta_0+\beta_1x_{i1}+\cdots+\beta_{k-1}x_{i(k-1)}+\beta_{k+1}x_{i(k+1)}+\cdots+\beta_px_{ip}+\epsilon_i\]
+    \item The result 
+    \[R^2_k = \frac{SSR}{SST}\]
+    is a measure of how strongly $x_k$ is linearly related to the rest of $x$'s 
+    \[VIF_k = \frac{1}{1-R^2_k}\]
+    \item If $VIF_k>10$, strong evidence of multicollinearity
+    \item IF $VIF_k>5$, some evidence of multicollinearity
+    \item If $VIF_k<5$, dont worry 
+\end{itemize}
+
+\end{document}
